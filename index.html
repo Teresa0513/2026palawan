@@ -3,43 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 基高公司員工旅遊 | 巴拉望五日遊</title>
-
-    <!-- Favicon -->
+    <title>2026 基高員工旅遊 | 巴拉望五日秘境</title>
+    
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2913/2913990.png" type="image/x-icon">
-
-    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         :root {
-            --primary-navy: #003366; /* 基高公司專業色 */
+            --company-blue: #003366; /* 基高企業色 */
             --ocean-blue: #0077be;
             --accent-cyan: #00d2ff;
-            --glass-bg: rgba(255, 255, 255, 0.92);
+            --glass-white: rgba(255, 255, 255, 0.95);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Poppins', 'Noto Sans TC', sans-serif;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                        url('https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?auto=format&fit=crop&w=1920&q=80');
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            color: #2c3e50;
+            color: #333;
         }
 
         /* 導覽列 */
         nav {
-            background: rgba(0, 51, 102, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 0.8rem 5%;
+            background: var(--company-blue);
+            padding: 1rem 5%;
             position: fixed;
             width: 100%;
             top: 0;
@@ -48,96 +43,90 @@
             justify-content: space-between;
             align-items: center;
             color: white;
-            border-bottom: 2px solid var(--accent-cyan);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
-        .company-name { font-weight: 700; letter-spacing: 1px; font-size: 1.1rem; }
-
         header {
-            height: 85vh;
+            height: 70vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             color: white;
             text-align: center;
-            padding: 20px;
+            padding-top: 80px;
         }
 
-        .container { max-width: 1100px; margin: -60px auto 50px; padding: 0 20px; }
+        .container { max-width: 1100px; margin: -50px auto 50px; padding: 0 20px; }
 
         .glass-card {
-            background: var(--glass-bg);
+            background: var(--glass-white);
             border-radius: 20px;
             padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        h2 { color: var(--primary-navy); margin-bottom: 25px; border-left: 5px solid var(--ocean-blue); padding-left: 15px; }
+        h2 { color: var(--company-blue); margin-bottom: 25px; border-left: 5px solid var(--ocean-blue); padding-left: 15px; }
 
-        /* 航班資訊表格樣式 */
-        .flight-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
+        /* 航班表 */
+        .flight-table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; margin-top: 15px; }
+        .flight-table th { background: #eee; padding: 12px; font-size: 0.9rem; }
+        .flight-table td { padding: 12px; text-align: center; border-bottom: 1px solid #f0f0f0; font-size: 0.85rem; }
+
+        /* 行程導覽按鈕 */
+        .day-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
         }
-        .flight-table th { background: var(--primary-navy); color: white; padding: 12px; font-weight: 500; }
-        .flight-table td { padding: 12px; text-align: center; border-bottom: 1px solid #eee; font-size: 0.9rem; }
-        .flight-table tr:hover { background: #f1f7ff; }
-
-        /* 行程卡片 */
-        .day-card {
+        .day-btn {
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: 2px solid var(--ocean-blue);
             background: white;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border-left: 6px solid var(--ocean-blue);
+            color: var(--ocean-blue);
+            cursor: pointer;
+            font-weight: 600;
             transition: 0.3s;
+            text-decoration: none;
         }
-        .day-num { background: var(--ocean-blue); color: white; padding: 3px 12px; border-radius: 20px; font-size: 0.85rem; }
+        .day-btn:hover { background: var(--ocean-blue); color: white; }
 
-        /* 3x3 相簿 */
-        .photo-gallery {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .photo-item { height: 180px; overflow: hidden; border-radius: 10px; position: relative; }
-        .photo-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .photo-item:hover img { transform: scale(1.1); }
+        /* 行程卡片詳細內容 */
+        .itinerary-section { margin-bottom: 40px; border-bottom: 1px solid #ddd; padding-bottom: 40px; }
+        .itinerary-section:last-child { border: none; }
+        .day-tag { background: var(--ocean-blue); color: white; padding: 5px 15px; border-radius: 5px; font-weight: bold; display: inline-block; margin-bottom: 15px; }
+        .day-title { font-size: 1.5rem; color: #222; margin-bottom: 15px; }
+        .day-content { line-height: 1.8; color: #555; }
+        .meal-box { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 0.9rem; border: 1px dashed #ccc; }
 
-        /* 注意事項列表 */
-        .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .tip-item { background: #fff; padding: 15px; border-radius: 10px; border: 1px solid #e0e0e0; font-size: 0.9rem; position: relative; padding-left: 40px; }
-        .tip-item i { position: absolute; left: 15px; top: 18px; color: #e67e22; }
+        /* 注意事項 */
+        .note-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .note-item { background: #fff; padding: 15px; border-radius: 8px; border-left: 4px solid #f39c12; font-size: 0.85rem; }
 
         @media (max-width: 768px) {
-            .tips-grid, .photo-gallery { grid-template-columns: 1fr; }
-            .flight-table { font-size: 0.75rem; }
-            .flight-table th, .flight-table td { padding: 8px 4px; }
+            .note-grid { grid-template-columns: 1fr; }
             header h1 { font-size: 2.2rem; }
+            .flight-table { font-size: 0.7rem; }
         }
 
-        footer { text-align: center; padding: 60px 20px; color: white; background: rgba(0,0,0,0.2); }
+        footer { text-align: center; padding: 40px; color: white; background: var(--company-blue); }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="company-name">基高股份有限公司 Eagle Process Service Ltd.</div>
-        <div><i class="fa-solid fa-plane-departure"></i></div>
+        <div style="font-weight:700;">基高股份有限公司 Eagle Process Service Ltd.</div>
+        <div><i class="fa-solid fa-umbrella-beach"></i></div>
     </nav>
 
-    <header data-aos="zoom-out">
-        <p style="letter-spacing: 4px; font-weight: 300;">2026 STAFF ANNUAL TRIP</p>
-        <h1 style="font-size: 3.5rem; margin: 10px 0;">巴拉望 · 尋幽秘境五日遊</h1>
-        <p style="background: rgba(255,255,255,0.2); padding: 5px 20px; border-radius: 50px;">與鯨鯊共舞 ‧ 地底河流 ‧ 巴頓港秘境</p>
-        <div id="countdown" style="margin-top: 30px; font-size: 1.3rem; font-weight: 500;"></div>
+    <header>
+        <p style="letter-spacing: 5px;">2026 STAFF TRIP</p>
+        <h1 style="font-size: 3.5rem; margin: 10px 0;">巴拉望 · 巴頓秘境與海共舞五日</h1>
+        <div id="countdown" style="font-size: 1.5rem; background: rgba(0,0,0,0.3); padding: 10px 30px; border-radius: 50px; margin-top: 20px;"></div>
     </header>
 
     <div class="container">
@@ -149,108 +138,112 @@
                 <table class="flight-table">
                     <thead>
                         <tr>
-                            <th>出發日期</th>
+                            <th>日期</th>
                             <th>航空公司</th>
                             <th>航班</th>
                             <th>出發地</th>
                             <th>目的地</th>
-                            <th>出發時間</th>
-                            <th>抵達時間</th>
+                            <th>時間</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>2026/07/03</td>
-                            <td>菲律賓航空</td>
-                            <td>PR-891</td>
-                            <td>台北 TPE</td>
-                            <td>馬尼拉 MNL</td>
-                            <td>09:45</td>
-                            <td>12:20</td>
-                        </tr>
-                        <tr>
-                            <td>2026/07/03</td>
-                            <td>菲律賓航空</td>
-                            <td>PR-2787</td>
-                            <td>馬尼拉 MNL</td>
-                            <td>公主港 PPS</td>
-                            <td>16:35</td>
-                            <td>17:55</td>
-                        </tr>
-                        <tr>
-                            <td>2026/07/07</td>
-                            <td>菲律賓航空</td>
-                            <td>PR-2782</td>
-                            <td>公主港 PPS</td>
-                            <td>馬尼拉 MNL</td>
-                            <td>08:30</td>
-                            <td>09:50</td>
-                        </tr>
-                        <tr>
-                            <td>2026/07/07</td>
-                            <td>菲律賓航空</td>
-                            <td>PR-894</td>
-                            <td>馬尼拉 MNL</td>
-                            <td>台北 TPE</td>
-                            <td>12:35</td>
-                            <td>15:05</td>
-                        </tr>
+                        <tr><td>07/03</td><td>菲律賓航空</td><td>PR-891</td><td>台北 TPE</td><td>馬尼拉 MNL</td><td>09:45-12:20</td></tr>
+                        <tr><td>07/03</td><td>菲律賓航空</td><td>PR-2787</td><td>馬尼拉 MNL</td><td>公主港 PPS</td><td>16:35-17:55</td></tr>
+                        <tr><td>07/07</td><td>菲律賓航空</td><td>PR-2782</td><td>公主港 PPS</td><td>馬尼拉 MNL</td><td>08:30-09:50</td></tr>
+                        <tr><td>07/07</td><td>菲律賓航空</td><td>PR-894</td><td>馬尼拉 MNL</td><td>台北 TPE</td><td>12:35-15:05</td></tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
-        <!-- 行程內容 -->
+        <!-- 行程區塊 -->
         <section class="glass-card" data-aos="fade-up">
-            <h2><i class="fa-solid fa-map-marked-alt"></i> 行程亮點 Itinerary</h2>
-            <div class="day-card" data-aos="fade-left">
-                <span class="day-num">DAY 1</span>
-                <h3 style="margin-top:10px;">抵達巴拉望 - 生猛海鮮饗宴</h3>
-                <p>搭乘菲律賓航空經馬尼拉轉機前往公主港。晚餐安排【韓式生猛海鮮鍋】，特別提供每人一隻龍蝦(約200-300g)。晚上前往著名的 Tiki Bar 欣賞 Live Band。</p>
+            <h2><i class="fa-solid fa-route"></i> 詳細行程安排</h2>
+            
+            <!-- 行程按鈕導覽 -->
+            <div class="day-nav">
+                <a href="#day1" class="day-btn">Day 1</a>
+                <a href="#day2" class="day-btn">Day 2</a>
+                <a href="#day3" class="day-btn">Day 3</a>
+                <a href="#day4" class="day-btn">Day 4</a>
+                <a href="#day5" class="day-btn">Day 5</a>
             </div>
-            <div class="day-card" data-aos="fade-left" data-aos-delay="100">
-                <span class="day-num">DAY 2</span>
-                <h3 style="margin-top:10px;">與鯨鯊共舞 - Astoria 度假體驗</h3>
-                <p>清晨前往碼頭尋找海洋巨人「鯨鯊」。下午入住五星級 Astoria Palawan Resort，享受水上樂園與私人海灘。</p>
-            </div>
-            <div class="day-card" data-aos="fade-left" data-aos-delay="200">
-                <span class="day-num">DAY 3</span>
-                <h3 style="margin-top:10px;">巴頓港秘境跳島 - 珊瑚與海星</h3>
-                <p>前往巴頓港海洋公園，探索珊瑚保護區、尋找海龜。造訪 Paradise Island 與下沉式漂浮島 Lowly Island。</p>
-            </div>
-            <div class="day-card" data-aos="fade-left" data-aos-delay="300">
-                <span class="day-num">DAY 4</span>
-                <h3 style="margin-top:10px;">世界遺產地底河流 - 螢火蟲之夜</h3>
-                <p>參觀聯合國教科文組織認證的海底河流，體驗 Ugong Rock 滑索冒險。夜晚深入 Nagsagipi River 觀賞閃爍螢火蟲。</p>
-            </div>
-        </section>
 
-        <!-- 3x3 相簿 -->
-        <section class="glass-card" data-aos="fade-up">
-            <h2><i class="fa-solid fa-camera-retro"></i> 美景預覽 Gallery</h2>
-            <div class="photo-gallery">
-                <div class="photo-item"><img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=400&q=80"></div>
-                <div class="photo-item"><img src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?auto=format&fit=crop&w=400&q=80"></div>
-                <div class="photo-item"><img src="https://images.unsplash.com/photo-1505881502353-a1986add3732?auto=format&fit=crop&w=400&q=80"></div>
-                <div class="photo-item"><img src="https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=400&q=80"></div>
-                <div class="photo-item"><img src="https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?auto=format&fit=crop&w=400&q=80"></div>
-                <div class="photo-item"><img src="https://images.unsplash.com/photo-1467377791767-c929b5dc9a23?auto=format&fit=crop&w=400&q=80"></div>
-                <div class="photo-item"><img src="https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?auto=format&fit=crop&w=400&q=80"></div>
-                <div class="photo-item"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=80"></div>
-                <div class="photo-item"><img src="https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?auto=format&fit=crop&w=400&q=80"></div>
+            <!-- Day 1 -->
+            <div id="day1" class="itinerary-section">
+                <div class="day-tag">Day 1</div>
+                <div class="day-title">台北 ✈ 馬尼拉 ✈ 公主港 - 龍蝦海鮮饗宴</div>
+                <div class="day-content">
+                    今日於桃園國際機場集合，搭乘菲律賓航空飛往【巴拉望群島-公主港機場】。抵達後展開驚奇之旅，晚餐安排全公主港最澎湃的**韓式生猛海鮮鍋**（內含螃蟹、蝦、小卷、淡菜），特別贈送**每人一隻龍蝦(約200-300g)**。飯後前往著名的 **Tiki Bar** 欣賞現場搖滾演奏，一邊暢飲生力啤酒，徹底釋放工作壓力。
+                </div>
+                <div class="meal-box">
+                    🍽 早餐：自理 | 午餐：自理 | 晚餐：韓式生猛海鮮鍋 (贈龍蝦+海戰車)<br>
+                    🏨 住宿：Princesa Garden Island Resort 公主花園海島 SPA 度假村
+                </div>
+            </div>
+
+            <!-- Day 2 -->
+            <div id="day2" class="itinerary-section">
+                <div class="day-tag">Day 2</div>
+                <div class="day-title">公主港 - 與鯨鯊共舞 ‧ Astoria 水上樂園</div>
+                <div class="day-content">
+                    為了親睹海洋巨無霸，清晨 6 點出發前往 Baywalk 碼頭。在解說員說明安全守則後，抵達棲息區與**鯨鯊**近距離接觸（禁塗防曬油、禁開閃光燈）。下午前往 **Astoria Palawan Resort**，飯店坐落在 5 公頃的芒果園內，擁有私人海灘、戶外泳池及水上樂園，讓我們在海景露台餐廳享用午茶與精緻晚餐。
+                </div>
+                <div class="meal-box">
+                    🍽 早餐：飯店內 | 午餐：海島野宴 | 晚餐：飯店內自助餐<br>
+                    🏨 住宿：Astoria Palawan Resort 雅士巴拉望度假村
+                </div>
+            </div>
+
+            <!-- Day 3 -->
+            <div id="day3" class="itinerary-section">
+                <div class="day-tag">Day 3</div>
+                <div class="day-title">巴頓港 (Port Barton) 秘境跳島遊</div>
+                <div class="day-content">
+                    前往有「小愛妮島」之稱的**巴頓港**。這裡有未受破壞的自然風光，我們將造訪**珊瑚保護區**觀賞各式珊瑚與尼莫家族。隨後前往 **Paradise Island** 在樹影下發懶，並造訪僅在退潮出現的 **Lowly 島 (Luli Island)**，在淺灘上尋找成群的海星。
+                </div>
+                <div class="meal-box">
+                    🍽 早餐：飯店內 | 午餐：海島野宴 | 晚餐：飯店內自助餐<br>
+                    🏨 住宿：Astoria Palawan Resort 雅士巴拉望度假村
+                </div>
+            </div>
+
+            <!-- Day 4 -->
+            <div id="day4" class="itinerary-section">
+                <div class="day-tag">Day 4</div>
+                <div class="day-title">地底河流世界遺產 ‧ 空中飛人 ‧ 夜探螢火蟲</div>
+                <div class="day-content">
+                    造訪 UNESCO 世界自然遺產**【海底河流國家公園】**，搭乘划槳船進入 6 公里長的鐘乳石奇觀。午後挑戰 **Ugong Rock** 鐘乳石洞探險與 **Zip Line 高空滑索**。晚餐於 Kalui 藝術家餐廳後，前往河畔展開**夜探螢火蟲之旅**，感受樹林間如星光般的夢幻燈光秀。
+                </div>
+                <div class="meal-box">
+                    🍽 早餐：飯店內 | 午餐：沙邦菲式自助餐 | 晚餐：Kalui 藝術家餐廳<br>
+                    🏨 住宿：Princesa Garden Island Resort 公主花園海島 SPA 度假村
+                </div>
+            </div>
+
+            <!-- Day 5 -->
+            <div id="day5" class="itinerary-section">
+                <div class="day-tag">Day 5</div>
+                <div class="day-title">公主港市區巡禮 ✈ 台北 (溫暖的家)</div>
+                <div class="day-content">
+                    最後一天悠閒享用早餐，隨後展開市區觀光：前往 **Mitra's Ranch** 俯瞰本田灣美景、**Baker's Hill** 購買現烤麵包，並造訪充滿歷史感的 **聖母大教堂** 與 **Plaza Cuartel**。最後到特產中心購買香蕉乾、芒果乾等伴手禮，前往機場搭機，帶著滿滿的回憶返回台北。
+                </div>
+                <div class="meal-box">
+                    🍽 早餐：飯店內 | 午餐：市區自理 | 晚餐：飛機餐/自理<br>
+                    🏨 住宿：溫暖的家
+                </div>
             </div>
         </section>
 
         <!-- 注意事項 -->
         <section class="glass-card" data-aos="fade-up">
-            <h2><i class="fa-solid fa-clipboard-list"></i> 注意事項 Important Notes</h2>
-            <div class="tips-grid">
-                <div class="tip-item"><i class="fa-solid fa-check"></i> 鯨鯊注意事項：禁止塗抹防曬油、禁止觸摸尾部、禁止使用相機閃光燈。</div>
-                <div class="tip-item"><i class="fa-solid fa-check"></i> 裝備建議：建議穿著溯溪鞋或珊瑚鞋以防腳部割傷，勿著夾腳拖下水。</div>
-                <div class="tip-item"><i class="fa-solid fa-check"></i> 預約制度：聖保羅地底河流每日限額 900 名，請務必準時提供護照資料。</div>
-                <div class="tip-item"><i class="fa-solid fa-check"></i> 貼心服務：車上販售各式特產如香蕉乾、芒果乾、椰子油，方便同仁選購。</div>
-                <div class="tip-item"><i class="fa-solid fa-check"></i> 全程安排：本行程保證無購物站安排，純粹度假與冒險。</div>
-                <div class="tip-item"><i class="fa-solid fa-check"></i> 安全第一：浮潛時請保持身體水平浮於水面，避免踩踏破壞脆弱珊瑚。</div>
+            <h2><i class="fa-solid fa-circle-exclamation"></i> 行前注意事項</h2>
+            <div class="note-grid">
+                <div class="note-item">鯨鯊守則：嚴禁塗抹防曬油下水、禁止觸摸鯨鯊及尾部、禁止使用相機閃光燈。</div>
+                <div class="note-item">裝備建議：浮潛請務必攜帶溯溪鞋或珊瑚鞋，防範腳部遭珊瑚割傷。</div>
+                <div class="note-item">地底河流：每日限額 900 名，行程順序可能會依天候及入園許可證順序調整。</div>
+                <div class="note-item">環保規定：巴拉望注重生態環境，請勿將沙灘的貝殼或細沙帶離景點。</div>
+                <div class="note-item">通訊服務：導遊車上備有特產選購，包含椰子油、海綿及各式果乾。</div>
             </div>
         </section>
 
@@ -258,27 +251,33 @@
 
     <footer>
         <p>基高股份有限公司 Eagle Process Service Ltd.</p>
-        <p style="font-size: 0.9rem; margin-top: 10px; opacity: 0.8;">&copy; 2026 Staff Trip To Palawan. All Rights Reserved.</p>
+        <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.7;">© 2026 巴拉望員工旅遊 | 祝大家旅途愉快</p>
     </footer>
 
-    <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true });
+        AOS.init({ duration: 1000 });
 
-        // 倒計時 (設定 2026/07/03 出發)
+        // 正確的倒計時邏輯
+        // 出發時間：2026年7月3日 09:45 AM
         const targetDate = new Date('July 3, 2026 09:45:00').getTime();
+
         function updateCountdown() {
             const now = new Date().getTime();
             const diff = targetDate - now;
+
             if (diff <= 0) {
-                document.getElementById('countdown').innerHTML = "我們已經出發囉！";
+                document.getElementById('countdown').innerHTML = "出發啦！開始精彩旅程！";
                 return;
             }
+
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById('countdown').innerHTML = `距離基高員工旅遊還有 ${days} 天 ${hours} 小時`;
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('countdown').innerHTML = `距離基高員工旅遊還有 ${days} 天 ${hours} 小時 ${minutes} 分鐘`;
         }
+
         setInterval(updateCountdown, 1000);
         updateCountdown();
     </script>
