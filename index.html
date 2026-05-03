@@ -3,31 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Palawan 2026 | 夢幻海島冒險</title>
+    <title>巴拉望 - 巴頓秘境與海共舞五日 | Palawan 2026</title>
 
-    <!-- 1. Favicon (瀏覽器分頁小圖示) -->
-    <!-- 這裡使用一個椰子樹圖標作為範例 -->
+    <!-- Favicon -->
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2913/2913990.png" type="image/x-icon">
 
-    <!-- 引入字體與圖示 -->
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- 2. AOS 動畫庫 CSS -->
+    <!-- AOS Animation CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         :root {
             --primary-blue: #0077be;
             --accent-cyan: #00d2ff;
-            --glass-bg: rgba(255, 255, 255, 0.85);
+            --dark-blue: #004d7a;
+            --glass-bg: rgba(255, 255, 255, 0.9);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Poppins', 'Noto Sans TC', sans-serif;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
                         url('https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
@@ -58,6 +58,7 @@
             align-items: center;
             color: white;
             text-align: center;
+            padding: 20px;
         }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
@@ -66,183 +67,181 @@
             background: var(--glass-bg);
             backdrop-filter: blur(15px);
             border-radius: 25px;
-            padding: 50px;
+            padding: 40px;
             margin-bottom: 50px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         }
 
-        /* 3. 相簿區 CSS Grid */
+        h2 { color: var(--primary-blue); margin-bottom: 25px; border-bottom: 2px solid #e0f2f1; padding-bottom: 10px; }
+
+        /* 行程卡片 */
+        .day-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 8px solid var(--primary-blue);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+        .day-card:hover { transform: translateX(10px); }
+        .day-num { background: var(--primary-blue); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-bottom: 10px; display: inline-block; }
+        .day-card h3 { margin: 10px 0; color: #34495e; }
+        .meal-info { background: #f8f9fa; padding: 10px; border-radius: 10px; margin-top: 15px; font-size: 0.9rem; color: #666; }
+
+        /* 相簿 */
         .photo-gallery {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3欄佈局 */
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             margin-top: 30px;
         }
+        .photo-item { position: relative; height: 200px; overflow: hidden; border-radius: 15px; }
+        .photo-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .photo-item:hover img { transform: scale(1.1); }
+        .photo-caption { position: absolute; bottom: 0; background: rgba(0,0,0,0.6); color: white; width: 100%; padding: 5px; font-size: 0.8rem; text-align: center; }
 
-        .photo-item {
-            position: relative;
-            height: 250px;
-            overflow: hidden;
-            border-radius: 15px;
-            cursor: pointer;
-        }
+        /* 飯店區塊 */
+        .hotel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .hotel-box { background: #fff; padding: 20px; border-radius: 15px; text-align: center; }
+        .hotel-box img { width: 100%; border-radius: 10px; margin-bottom: 10px; }
 
-        .photo-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
+        /* 注意事項 */
+        .tips-list { list-style: none; }
+        .tips-list li { margin-bottom: 10px; padding-left: 25px; position: relative; }
+        .tips-list li::before { content: "✔"; position: absolute; left: 0; color: #27ae60; font-weight: bold; }
 
-        /* 懸停縮放效果 */
-        .photo-item:hover img {
-            transform: scale(1.1);
-        }
-
-        .photo-caption {
-            position: absolute;
-            bottom: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.7));
-            color: white;
-            width: 100%;
-            padding: 10px;
-            font-size: 0.9rem;
-            text-align: center;
-            opacity: 0;
-            transition: 0.3s;
-        }
-
-        .photo-item:hover .photo-caption {
-            opacity: 1;
-        }
-
-        /* 響應式：手機版變 1 欄，平板變 2 欄 */
-        @media (max-width: 900px) { .photo-gallery { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .photo-gallery { grid-template-columns: 1fr; } }
-
-        /* 行程樣式 */
-        .itinerary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .day-box {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            border-left: 6px solid var(--primary-blue);
+        @media (max-width: 768px) {
+            .photo-gallery, .hotel-grid { grid-template-columns: 1fr; }
+            header h1 { font-size: 2.5rem; }
         }
 
         footer { text-align: center; padding: 50px; color: white; }
-
     </style>
 </head>
 <body>
 
     <nav>
         <div style="font-weight: 700; letter-spacing: 2px;">PALAWAN 2026</div>
-        <div><i class="fa-solid fa-bars"></i></div>
+        <div><i class="fa-solid fa-umbrella-beach"></i></div>
     </nav>
 
-    <header data-aos="zoom-out" data-aos-duration="1500">
-        <p style="letter-spacing: 8px;">EXPLORE THE LAST FRONTIER</p>
-        <h1 style="font-size: 4.5rem; margin: 10px 0;">巴拉望・冒險啟程</h1>
-        <div id="countdown" style="font-size: 1.2rem; background: rgba(0,0,0,0.3); padding: 10px 25px; border-radius: 50px;">載入倒計時...</div>
+    <header data-aos="fade-in">
+        <p style="letter-spacing: 5px;">Port Barton 尋幽秘境與海共舞</p>
+        <h1 style="font-size: 3.5rem; margin: 15px 0;">巴拉望五日之邀</h1>
+        <p>贈送每人一隻龍蝦 (200-300g) | 地底河流驚奇之旅</p>
+        <div id="countdown" style="margin-top: 25px; font-size: 1.2rem; background: rgba(0,0,0,0.3); padding: 10px 30px; border-radius: 50px;"></div>
     </header>
 
     <div class="container">
         
-        <!-- 使用 AOS: data-aos="fade-up" 使卡片由下往上滑入 -->
+        <!-- 行程介紹 -->
         <section class="glass-card" data-aos="fade-up">
-            <h2 style="text-align: center; margin-bottom: 30px;"><i class="fa-solid fa-map-location-dot"></i> 景點預覽</h2>
+            <h2><i class="fa-solid fa-star"></i> 巴拉望：最後的天堂處女地</h2>
+            <p>巴拉望為全菲律賓人口密度最低、自然風貌保護得最原始的一個省。曾獲選《國家地理雜誌》「全球 20 個最佳旅遊景點」之一。無論是劉德華讚嘆的美，還是謝霆鋒求婚的浪漫，都留在這片藍色海域中。</p>
             
-            <!-- 相簿區 CSS Grid -->
             <div class="photo-gallery">
-                <!-- 第 1 張 -->
-                <div class="photo-item" data-aos="flip-left" data-aos-delay="100">
-                    <img src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?auto=format&fit=crop&w=600&q=80" alt="Kayangan Lake">
-                    <div class="photo-caption">凱央根湖 Kayangan Lake</div>
+                <div class="photo-item" data-aos="zoom-in" data-aos-delay="100"><img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=400&q=80"><div class="photo-caption">地底河流</div></div>
+                <div class="photo-item" data-aos="zoom-in" data-aos-delay="200"><img src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?auto=format&fit=crop&w=400&q=80"><div class="photo-caption">凱央根湖</div></div>
+                <div class="photo-item" data-aos="zoom-in" data-aos-delay="300"><img src="https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?auto=format&fit=crop&w=400&q=80"><div class="photo-caption">巴頓港</div></div>
+            </div>
+        </section>
+
+        <!-- 每日行程 -->
+        <section class="glass-card" data-aos="fade-up">
+            <h2><i class="fa-solid fa-calendar-check"></i> 五天精華行程</h2>
+
+            <!-- Day 1 -->
+            <div class="day-card" data-aos="fade-left">
+                <span class="day-num">Day 1</span>
+                <h3>桃園國際機場 ✈ 馬尼拉 ✈ 公主港 (PPS)</h3>
+                <p>抵達後展開驚奇之旅，晚餐特別安排【韓式生猛海鮮鍋】，內含螃蟹、蝦、小卷、淡菜，以及**每人一隻龍蝦**！晚上前往全公主港最棒的【Tiki Bar】欣賞 Live Band 演出。</p>
+                <div class="meal-info">晚：韓式生猛海鮮鍋 + 生力啤酒 | 宿：公主花園海島 SPA 度假村</div>
+            </div>
+
+            <!-- Day 2 -->
+            <div class="day-card" data-aos="fade-left">
+                <span class="day-num">Day 2</span>
+                <h3>公主港 - 與鯨鯊共舞一日遊</h3>
+                <p>清晨前往碼頭搭乘螃蟹船，尋找海洋中最大的魚類——【鯨鯊】。下午專車前往雅士度假酒店，入住擁有私人海灘的奢華空間。</p>
+                <p style="color: #e74c3c; font-size: 0.85rem; margin-top: 5px;">*註：鯨鯊出沒季節為 4-10 月，需視天候情況安排。</p>
+                <div class="meal-info">早：飯店內 | 午：海島野宴 | 晚：飯店內 | 宿：Astoria Palawan Resort</div>
+            </div>
+
+            <!-- Day 3 -->
+            <div class="day-card" data-aos="fade-left">
+                <span class="day-num">Day 3</span>
+                <h3>PORT BARTON 巴頓海洋公園秘境跳島</h3>
+                <p>前往有「小愛妮島」之稱的巴頓港。探索【珊瑚保護區】、尋找尼莫與海龜。並在【Paradise Island】與退潮才出現的【Lowly 島】享受絕美沙灘與海星。</p>
+                <div class="meal-info">早：飯店內 | 午：海島野宴 | 晚：飯店內 | 宿：Astoria Palawan Resort</div>
+            </div>
+
+            <!-- Day 4 -->
+            <div class="day-card" data-aos="fade-left">
+                <span class="day-num">Day 4</span>
+                <h3>地底河流驚奇 ✈ Ugong Rock 探險 ✈ 夜探螢火蟲</h3>
+                <p>造訪聯合國教科文組織遺產【海底河流國家公園】。下午挑戰【Ugong Rock 鐘乳石洞】攀爬與【Zip Line 飛人滑索】。晚餐後在 Nagsagipi River 觀賞閃爍浪漫的螢火蟲燈光秀。</p>
+                <div class="meal-info">早：飯店內 | 午：沙邦菲式自助餐 | 晚：Kalui 藝術家餐廳 | 宿：公主花園海島 SPA</div>
+            </div>
+
+            <!-- Day 5 -->
+            <div class="day-card" data-aos="fade-left">
+                <span class="day-num">Day 5</span>
+                <h3>公主港 ✈ 馬尼拉 ✈ 桃園國際機場</h3>
+                <p>享受悠閒早餐後，帶著滿滿的回憶與當地特產（香蕉乾、芒果乾、椰子油等），搭機返回溫暖的家。</p>
+                <div class="meal-info">早：飯店內 | 午：自理 | 晚：溫暖的家</div>
+            </div>
+        </section>
+
+        <!-- 飯店介紹 -->
+        <section class="glass-card" data-aos="fade-up">
+            <h2><i class="fa-solid fa-hotel"></i> 精選住宿飯店</h2>
+            <div class="hotel-grid">
+                <div class="hotel-box">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=400&q=80" alt="Princesa Garden">
+                    <h4>公主花園海島 SPA</h4>
+                    <p>近機場與購物中心，具備熱水浴缸、專用海灘與健身房。</p>
                 </div>
-                <!-- 第 2 張 -->
-                <div class="photo-item" data-aos="flip-left" data-aos-delay="200">
-                    <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=600&q=80" alt="Big Lagoon">
-                    <div class="photo-caption">大潟湖 Big Lagoon</div>
-                </div>
-                <!-- 第 3 張 -->
-                <div class="photo-item" data-aos="flip-left" data-aos-delay="300">
-                    <img src="https://images.unsplash.com/photo-1505881502353-a1986add3732?auto=format&fit=crop&w=600&q=80" alt="Island">
-                    <div class="photo-caption">蛇島 Snake Island</div>
-                </div>
-                <!-- 第 4 張 -->
-                <div class="photo-item" data-aos="flip-left" data-aos-delay="100">
-                    <img src="https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=600&q=80" alt="Underwater">
-                    <div class="photo-caption">愛妮島 珊瑚礁</div>
-                </div>
-                <!-- 第 5 張 -->
-                <div class="photo-item" data-aos="flip-left" data-aos-delay="200">
-                    <img src="https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?auto=format&fit=crop&w=600&q=80" alt="Beach">
-                    <div class="photo-caption">納克潘海灘 Nacpan Beach</div>
-                </div>
-                <!-- 第 6 張 -->
-                <div class="photo-item" data-aos="flip-left" data-aos-delay="300">
-                    <img src="https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?auto=format&fit=crop&w=600&q=80" alt="Resort">
-                    <div class="photo-caption">公主港 渡假村</div>
-                </div>
-                <!-- 第 7-9 張可自行替換圖片網址 -->
-                <div class="photo-item" data-aos="flip-left" data-aos-delay="100">
-                    <img src="https://images.unsplash.com/photo-1467377791767-c929b5dc9a23?auto=format&fit=crop&w=600&q=80" alt="Sunset">
-                    <div class="photo-caption">科隆島 日落</div>
-                </div>
-                <div class="photo-item" data-aos="flip-left" data-aos-delay="200">
-                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Boat">
-                    <div class="photo-caption">傳統螃蟹船 Bangka</div>
-                </div>
-                <div class="photo-item" data-aos="flip-left" data-aos-delay="300">
-                    <img src="https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?auto=format&fit=crop&w=600&q=80" alt="Clear Water">
-                    <div class="photo-caption">秘密潟湖 Secret Lagoon</div>
+                <div class="hotel-box">
+                    <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=400&q=80" alt="Astoria">
+                    <h4>雅士巴拉望度假村</h4>
+                    <p>佔地 5 公頃芒果園，設有私人海景餐廳與水上樂園。</p>
                 </div>
             </div>
         </section>
 
-        <section class="glass-card" data-aos="fade-right">
-            <h2><i class="fa-solid fa-route"></i> 每日行程</h2>
-            <div class="itinerary-grid">
-                <div class="day-box" data-aos="zoom-in" data-aos-delay="100">
-                    <h3>Day 1</h3>
-                    <p>抵達公主港，享受海鮮大餐。</p>
-                </div>
-                <div class="day-box" data-aos="zoom-in" data-aos-delay="200">
-                    <h3>Day 2</h3>
-                    <p>地下河流之旅，探索世界遺產。</p>
-                </div>
-                <div class="day-box" data-aos="zoom-in" data-aos-delay="300">
-                    <h3>Day 3</h3>
-                    <p>跳島一日遊，浮潛看海星。</p>
-                </div>
-            </div>
+        <!-- 注意事項 -->
+        <section class="glass-card" data-aos="fade-up">
+            <h2><i class="fa-solid fa-circle-exclamation"></i> 貼心提醒</h2>
+            <ul class="tips-list">
+                <li>鯨鯊守則：禁止塗防曬油、禁止觸摸或跟隨尾部、禁止閃光燈。</li>
+                <li>水上活動：建議攜帶溯溪鞋、珊瑚鞋以保護腳部，勿著夾腳拖下水。</li>
+                <li>地底河流：每日限額 900 名，請務必提前提供護照影本預約。</li>
+                <li>環保愛海洋：浮潛時請保持身體水平，避免膝蓋劃傷或踩踏珊瑚。</li>
+            </ul>
         </section>
 
     </div>
 
     <footer>
-        <p>&copy; 2026 Palawan Adventure | Teresa github io</p>
+        <p>&copy; 2026 Palawan Adventure | Port Barton & Whale Shark Tour</p>
+        <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.7;">全程無購物站安排，享受純粹海島度假</p>
     </footer>
 
-    <!-- 4. AOS 動畫庫 JS -->
+    <!-- AOS JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // 初始化 AOS 動畫
-        AOS.init({
-            duration: 1000, // 動畫持續時間 (1秒)
-            once: false,    // 是否只動畫一次 (false 代表每次滾動都會觸發)
-        });
+        AOS.init({ duration: 1200 });
 
-        // 倒計時邏輯
+        // 倒計時 (2026/06/01 為例)
         const targetDate = new Date('June 1, 2026 00:00:00').getTime();
         function updateCountdown() {
             const now = new Date().getTime();
             const diff = targetDate - now;
+            if (diff <= 0) {
+                document.getElementById('countdown').innerHTML = "冒險已經開始！";
+                return;
+            }
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             document.getElementById('countdown').innerHTML = `距離夢幻出發還有 ${days} 天`;
         }
