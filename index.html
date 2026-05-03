@@ -14,23 +14,33 @@
             --company-navy: #003366;
             --ocean-blue: #0077be;
             --accent-cyan: #00d2ff;
-            --warning-red: #e74c3c;
-            /* 讓白色卡片更透明一點，並增加磨砂玻璃感 */
-            --glass-white: rgba(255, 255, 255, 0.85); 
+            --glass-white: rgba(255, 255, 255, 0.82); 
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        /* --- 核心修正：解決 iPhone 背景消失與放大問題 --- */
         body {
             font-family: 'Poppins', 'Noto Sans TC', sans-serif;
-            /* 關鍵：透過背景位置調整，將重心（鯨鯊）從底部拉上來 */
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.4)), 
-                        url('bg.jpg'); 
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center 85%; /* 這裡設定為 85% 是為了把圖片下方的鯨鯊拉到視線範圍 */
             color: #333;
             line-height: 1.7;
+            background-color: #003366; /* 底部墊一個深藍色防止留白 */
+        }
+
+        /* 建立一個獨立的背景層，避免 iOS 的 fixed 臭蟲 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.4)), url('bg.jpg');
+            background-size: cover;
+            /* 關鍵：強制對準底部，確保鯨鯊一定會出現 */
+            background-position: center bottom; 
+            background-repeat: no-repeat;
         }
 
         nav {
@@ -48,14 +58,16 @@
         }
 
         header {
-            min-height: 85vh; /* 增加標頭高度，讓背景在進入正文前露出的面積更大 */
+            /* 讓標頭佔據 80% 螢幕高，把鯨鯊露出來 */
+            min-height: 80vh; 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             color: white;
             text-align: center;
-            padding: 120px 20px 40px;
+            padding: 100px 20px 0;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .download-btn {
@@ -71,66 +83,59 @@
             transition: 0.3s;
         }
 
-        .container { max-width: 1100px; margin: 0 auto 50px; padding: 0 15px; }
+        .container { 
+            max-width: 1100px; 
+            margin: 0 auto 50px; 
+            padding: 0 15px; 
+            position: relative;
+        }
 
         .glass-card {
             background: var(--glass-white);
-            /* 磨砂玻璃效果，讓背景圖可以隱約透出 */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            /* 磨砂玻璃效果 */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border-radius: 20px;
-            padding: 35px;
+            padding: 30px;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         h2 { color: var(--company-navy); margin-bottom: 20px; border-left: 6px solid var(--ocean-blue); padding-left: 15px; }
 
-        /* 航班表樣式 */
-        .flight-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .flight-table th { background: rgba(0, 51, 102, 0.05); padding: 15px; text-align: center; border-bottom: 2px solid #dee2e6; color: var(--company-navy); }
-        .flight-table td { padding: 15px; text-align: center; border-bottom: 1px solid #eee; font-size: 1rem; }
+        .flight-table { width: 100%; border-collapse: collapse; }
+        .flight-table td { padding: 12px; border-bottom: 1px solid rgba(0,0,0,0.05); }
 
         /* 行程 Tab */
         .tab-container { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; flex-wrap: wrap; }
-        .tab-btn { padding: 12px 20px; border-radius: 50px; border: 2px solid var(--ocean-blue); background: white; color: var(--ocean-blue); cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .tab-btn { padding: 10px 18px; border-radius: 50px; border: 2px solid var(--ocean-blue); background: white; color: var(--ocean-blue); cursor: pointer; font-weight: 600; }
         .tab-btn.active { background: var(--ocean-blue); color: white; }
 
         .day-content { display: none; animation: fadeIn 0.5s ease; }
         .day-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .day-title { font-size: 1.4rem; color: var(--company-navy); margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
-        .meal-info { background: rgba(0, 210, 255, 0.1); padding: 20px; border-radius: 15px; margin-top: 25px; border-left: 5px solid var(--accent-cyan); line-height: 1.8; }
-
-        .important-note { color: #d35400; font-size: 0.9rem; margin-top: 10px; font-style: italic; background: #fff9f0; padding: 10px; border-radius: 8px; }
+        .meal-info { background: rgba(0, 210, 255, 0.1); padding: 15px; border-radius: 15px; margin-top: 20px; border-left: 5px solid var(--accent-cyan); }
 
         footer { text-align: center; padding: 40px; color: white; background: var(--company-navy); }
 
-        /* --- 手機版 RWD 修正 --- */
+        /* --- 手機版 RWD --- */
         @media (max-width: 768px) {
-            body {
-                /* 手機版圖片會變得很窄長，將重心完全鎖定在底部 90% 的位置 */
-                background-position: center 90%; 
-                background-attachment: scroll; /* 行動裝置對 fixed 支援度差且會模糊，改用 scroll 較流暢 */
-            }
-            header { min-height: 60vh; }
-            header h1 { font-size: 2.2rem !important; }
-            .glass-card { padding: 20px; }
+            header { min-height: 75vh; } /* 手機版標頭高度 */
+            header h1 { font-size: 2rem !important; }
             
-            .flight-table thead { display: none; }
-            .flight-table tr { 
-                display: flex; flex-wrap: wrap; margin-bottom: 12px; border: 1px solid #e0e0e0; border-radius: 12px; padding: 12px; background: #fff;
+            body::before {
+                /* 手機版將背景位置稍微往上抬一點點，確保鯨鯊在卡片上方出現 */
+                background-position: center 95%; 
             }
-            .flight-table td { display: block; width: 100%; text-align: left; padding: 2px 0; border: none; }
-            .flight-table td[data-label="航班"] { font-weight: 700; color: var(--company-navy); font-size: 1.1rem; display: inline; width: auto; }
-            .flight-table td[data-label="航線"] { display: inline; width: auto; margin-left: 10px; color: var(--ocean-blue); font-weight: 600; }
-            .flight-table td[data-label="日期"] { font-size: 0.85rem; color: #666; margin-top: 5px; display: inline; width: auto; }
-            .flight-table td[data-label="日期"]::after { content: " | "; margin: 0 5px; }
-            .flight-table td[data-label="起降時間"] { font-size: 0.85rem; color: #666; display: inline; width: auto; }
+
+            .flight-table tr { 
+                display: block; margin-bottom: 10px; background: white; border-radius: 10px; padding: 10px;
+            }
+            .flight-table td { display: block; border: none; padding: 2px 5px; }
+            .flight-table td[data-label="航班"] { font-weight: 700; color: var(--company-navy); font-size: 1.1rem; }
             .flight-table td[data-label="航空公司"] { display: none; }
-            .tab-btn { flex: 1 1 30%; font-size: 0.85rem; padding: 10px 5px; }
         }
     </style>
 </head>
