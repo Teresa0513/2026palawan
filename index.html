@@ -19,9 +19,8 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
+        body {
             font-family: 'Poppins', 'Noto Sans TC', sans-serif;
-            /* 這裡換成你的檔案名稱 bg.jpg */
             background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), 
                         url('bg.jpg'); 
             background-size: cover;
@@ -53,7 +52,7 @@ body {
             align-items: center;
             color: white;
             text-align: center;
-            padding: 120px 20px 60px;
+            padding: 120px 20px 40px;
         }
 
         .download-btn {
@@ -66,7 +65,9 @@ body {
             border-radius: 50px;
             font-weight: 700;
             box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
+            transition: 0.3s;
         }
+        .download-btn:hover { transform: translateY(-3px); background: white; }
 
         .container { max-width: 1100px; margin: 0 auto 50px; padding: 0 15px; }
 
@@ -79,51 +80,86 @@ body {
         }
 
         h2 { color: var(--company-navy); margin-bottom: 20px; border-left: 6px solid var(--ocean-blue); padding-left: 15px; }
-        h3 { color: var(--ocean-blue); margin: 20px 0 10px; }
 
-        /* 驚喜亮點樣式 */
-        .highlight-box {
-            background: #fff5f5;
-            border: 2px dashed var(--warning-red);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            color: var(--warning-red);
-            font-weight: 700;
-            text-align: center;
-        }
-
-        /* 航班表格手機優化 */
+        /* 航班表基本樣式 */
         .flight-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .flight-table th { background: #f8f9fa; padding: 15px; text-align: center; border-bottom: 2px solid #dee2e6; }
+        .flight-table th { background: #f8f9fa; padding: 15px; text-align: center; border-bottom: 2px solid #dee2e6; color: var(--company-navy); }
         .flight-table td { padding: 15px; text-align: center; border-bottom: 1px solid #eee; font-size: 1rem; }
 
         /* 行程 Tab */
         .tab-container { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; flex-wrap: wrap; }
-        .tab-btn { padding: 12px 20px; border-radius: 50px; border: 2px solid var(--ocean-blue); background: white; color: var(--ocean-blue); cursor: pointer; font-weight: 600; }
+        .tab-btn { padding: 12px 20px; border-radius: 50px; border: 2px solid var(--ocean-blue); background: white; color: var(--ocean-blue); cursor: pointer; font-weight: 600; transition: 0.3s; }
         .tab-btn.active { background: var(--ocean-blue); color: white; }
 
         .day-content { display: none; animation: fadeIn 0.5s ease; }
         .day-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .day-title { font-size: 1.4rem; color: var(--company-navy); margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
-        .meal-info { background: #f0f7ff; padding: 20px; border-radius: 15px; margin-top: 25px; border-left: 5px solid var(--accent-cyan); }
+        .meal-info { background: #f0f7ff; padding: 20px; border-radius: 15px; margin-top: 25px; border-left: 5px solid var(--accent-cyan); line-height: 1.8; }
 
-        .important-note { color: #d35400; font-size: 0.9rem; margin-top: 10px; font-style: italic; }
+        .important-note { color: #d35400; font-size: 0.9rem; margin-top: 10px; font-style: italic; background: #fff9f0; padding: 10px; border-radius: 8px; }
 
         footer { text-align: center; padding: 40px; color: white; background: var(--company-navy); }
 
-        /* --- 手機版 RWD --- */
+        /* --- 手機版 RWD 優化 --- */
         @media (max-width: 768px) {
-            header h1 { font-size: 2rem !important; }
+            header h1 { font-size: 2.2rem !important; }
             .glass-card { padding: 20px; }
+            
+            /* 航班表極簡化優化 */
             .flight-table thead { display: none; }
-            .flight-table, .flight-table tbody, .flight-table tr, .flight-table td { display: block; width: 100%; }
-            .flight-table tr { margin-bottom: 15px; border: 1px solid #eee; border-radius: 10px; padding: 10px; background: #fff; }
-            .flight-table td { text-align: left; padding: 8px 5px 8px 100px; position: relative; border-bottom: 1px dashed #eee; font-size: 0.9rem; }
-            .flight-table td::before { content: attr(data-label); position: absolute; left: 10px; font-weight: 700; color: var(--ocean-blue); }
-            .tab-btn { flex: 1 1 30%; font-size: 0.8rem; padding: 10px 5px; }
+            .flight-table tr { 
+                display: flex; 
+                flex-wrap: wrap; 
+                margin-bottom: 12px; 
+                border: 1px solid #e0e0e0; 
+                border-radius: 12px; 
+                padding: 12px; 
+                background: #fff;
+            }
+            /* 將日期、航班、航線合併顯示 */
+            .flight-table td { 
+                display: block; 
+                width: 100%; 
+                text-align: left; 
+                padding: 2px 0; 
+                border: none; 
+            }
+            /* 第一行：航班與航線 */
+            .flight-table td[data-label="航班"] { 
+                font-weight: 700; 
+                color: var(--company-navy); 
+                font-size: 1.1rem;
+                display: inline;
+                width: auto;
+            }
+            .flight-table td[data-label="航線"] { 
+                display: inline;
+                width: auto;
+                margin-left: 10px;
+                color: var(--ocean-blue);
+                font-weight: 600;
+            }
+            /* 第二行：日期與時間 */
+            .flight-table td[data-label="日期"] { 
+                font-size: 0.85rem; 
+                color: #666; 
+                margin-top: 5px;
+                display: inline;
+                width: auto;
+            }
+            .flight-table td[data-label="日期"]::after { content: " | "; margin: 0 5px; }
+            .flight-table td[data-label="起降時間"] { 
+                font-size: 0.85rem; 
+                color: #666; 
+                display: inline;
+                width: auto;
+            }
+            /* 隱藏重複的航空公司名稱（因為航班號已有航空公司代碼） */
+            .flight-table td[data-label="航空公司"] { display: none; }
+
+            .tab-btn { flex: 1 1 30%; font-size: 0.85rem; padding: 10px 5px; }
         }
     </style>
 </head>
@@ -135,46 +171,57 @@ body {
     </nav>
 
     <header>
-        <div style="letter-spacing: 3px; font-weight: 300;">PORT BARTON 巴頓尋幽秘境與海共舞</div>
-        <h1 style="font-size: 3.5rem; margin: 15px 0; text-shadow: 0 4px 10px rgba(0,0,0,0.3);">巴拉望‧夢幻五日之旅</h1>
-        <div class="highlight-box">🎁 贈送每人一隻龍蝦 (200-300公克) & 地底河流驚奇之旅</div>
-        <div id="countdown" style="font-size: 1.2rem; background: rgba(0,0,0,0.3); padding: 10px 30px; border-radius: 50px;"></div>
-        <a href="#" class="download-btn"><i class="fa-solid fa-file-pdf"></i> 下載詳細行程 PDF</a>
+        <div style="letter-spacing: 3px; font-weight: 300; font-size: 1.1rem;">PORT BARTON 巴頓尋幽秘境與海共舞</div>
+        <h1 style="font-size: 3.5rem; margin: 15px 0; text-shadow: 0 4px 15px rgba(0,0,0,0.5);">巴拉望‧夢幻五日之旅</h1>
+        <div id="countdown" style="font-size: 1.2rem; background: rgba(0,0,0,0.4); padding: 12px 35px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2);"></div>
+        <a href="itinerary.pdf" download class="download-btn"><i class="fa-solid fa-file-pdf"></i> 下載詳細行程 PDF</a>
     </header>
 
     <div class="container">
         
-        <!-- 巴拉望介紹 -->
+        <!-- 航班資訊 (手機版已優化為緊湊模式) -->
         <section class="glass-card">
-            <h2><i class="fa-solid fa-star"></i> 最後的天堂處女地</h2>
-            <p>巴拉望是菲律賓人口密度最低、自然風貌保護最原始的省份。獲得多項國際肯定：</p>
-            <ul style="margin: 15px 20px; font-size: 0.95rem;">
-                <li>★ 2014 美國《Conde Nast Travel》票選全亞洲最美沙灘。</li>
-                <li>★ 2011 《國家地理雜誌》評選全球 20 個最佳旅遊景點。</li>
-                <li>★ 謝霆鋒曾於巴拉望 Pamalican 小島向張柏芝求婚。</li>
-                <li>★ 劉德華讚嘆它的美！梁朝偉喜歡它的寧靜！</li>
-            </ul>
-        </section>
-
-        <!-- 航班資訊 -->
-        <section class="glass-card">
-            <h2><i class="fa-solid fa-plane"></i> 航班參考資訊</h2>
+            <h2><i class="fa-solid fa-plane-departure"></i> 航班參考資訊</h2>
             <table class="flight-table">
                 <thead>
                     <tr><th>日期</th><th>航空公司</th><th>航班</th><th>航線</th><th>起降時間</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td data-label="日期">07/03</td><td data-label="航空公司">菲律賓航空</td><td data-label="航班">PR-891</td><td data-label="航線">台北 ➔ 馬尼拉</td><td data-label="時間">09:45 - 12:20</td></tr>
-                    <tr><td data-label="日期">07/03</td><td data-label="航空公司">菲律賓航空</td><td data-label="航班">PR-2787</td><td data-label="航線">馬尼拉 ➔ 公主港</td><td data-label="時間">16:35 - 17:55</td></tr>
-                    <tr><td data-label="日期">07/07</td><td data-label="航空公司">菲律賓航空</td><td data-label="航班">PR-2782</td><td data-label="航線">公主港 ➔ 馬尼拉</td><td data-label="時間">08:30 - 09:50</td></tr>
-                    <tr><td data-label="日期">07/07</td><td data-label="航空公司">菲律賓航空</td><td data-label="航班">PR-894</td><td data-label="航線">馬尼拉 ➔ 台北</td><td data-label="時間">12:35 - 15:05</td></tr>
+                    <tr>
+                        <td data-label="日期">07/03</td>
+                        <td data-label="航空公司">菲律賓航空</td>
+                        <td data-label="航班">PR-891</td>
+                        <td data-label="航線">台北 ➔ 馬尼拉</td>
+                        <td data-label="起降時間">09:45 - 12:20</td>
+                    </tr>
+                    <tr>
+                        <td data-label="日期">07/03</td>
+                        <td data-label="航空公司">菲律賓航空</td>
+                        <td data-label="航班">PR-2787</td>
+                        <td data-label="航線">馬尼拉 ➔ 公主港</td>
+                        <td data-label="起降時間">16:35 - 17:55</td>
+                    </tr>
+                    <tr>
+                        <td data-label="日期">07/07</td>
+                        <td data-label="航空公司">菲律賓航空</td>
+                        <td data-label="航班">PR-2782</td>
+                        <td data-label="航線">公主港 ➔ 馬尼拉</td>
+                        <td data-label="起降時間">08:30 - 09:50</td>
+                    </tr>
+                    <tr>
+                        <td data-label="日期">07/07</td>
+                        <td data-label="航空公司">菲律賓航空</td>
+                        <td data-label="航班">PR-894</td>
+                        <td data-label="航線">馬尼拉 ➔ 台北</td>
+                        <td data-label="起降時間">12:35 - 15:05</td>
+                    </tr>
                 </tbody>
             </table>
         </section>
 
         <!-- 每日行程 -->
         <section class="glass-card">
-            <h2><i class="fa-solid fa-map-location-dot"></i> 精彩行程安排</h2>
+            <h2><i class="fa-solid fa-map-marked-alt"></i> 精彩行程安排</h2>
             <div class="tab-container">
                 <button class="tab-btn active" onclick="showDay(1)">Day 1</button>
                 <button class="tab-btn" onclick="showDay(2)">Day 2</button>
@@ -183,39 +230,36 @@ body {
                 <button class="tab-btn" onclick="showDay(5)">Day 5</button>
             </div>
 
-            <!-- Day 1 -->
             <div id="day1" class="day-content active">
-                <div class="day-title">第一天：桃園 ✈ 巴拉望 ➔ Tiki Bar 搖滾之夜</div>
-                <p>今日集合於桃園機場，飛往「最後的天堂處女地」巴拉望公主港。抵達後展開驚奇之旅。</p>
-                <p style="margin-top:10px;"><strong>晚餐亮點：</strong> 韓式生猛海鮮鍋，內含螃蟹、蝦、小卷、淡菜，加碼**每人一隻龍蝦(約200g)**及海戰車。</p>
-                <p><strong>夜生活：</strong> 前往 Tiki Bar 欣賞現場搖滾演奏，含入場門票及一瓶生力啤酒，釋放所有壓力！</p>
+                <div class="day-title">桃園 ✈ 巴拉望 ➔ Tiki Bar 搖滾之夜</div>
+                <p>飛往菲律賓最後的處女地——巴拉望公主港。抵達後展開驚奇之旅。</p>
+                <p style="margin-top:15px;"><strong>晚餐盛宴：</strong> 韓式生猛海鮮鍋，包含螃蟹、蝦、小卷、淡菜，加碼**每人一隻龍蝦(約200g)**及海戰車。</p>
+                <p><strong>夜生活：</strong> 前往公主港最棒的 Tiki Bar 欣賞搖滾演奏，含門票及一瓶生力啤酒。</p>
                 <div class="meal-info">
                     🍴 早餐：自理 / 午餐：自理 / 晚餐：韓式生猛海鮮鍋(含龍蝦)<br>
                     🏨 住宿：Princesa Garden Island Resort 公主花園海島度假村
                 </div>
             </div>
 
-            <!-- Day 2 -->
             <div id="day2" class="day-content">
-                <div class="day-title">第二天：與鯨鯊共舞 ➔ 雅士度假村放鬆</div>
-                <p>早上 6 點出發前往 baywalk 碼頭，搭乘螃蟹船尋找海洋巨獸——鯨鯊。您可以戴上蛙鏡下水，體驗與全世界最大魚類近距離接觸的震撼。</p>
-                <p style="margin-top:10px;">下午入住佔地 5 公頃的 **Astoria Palawan**，享受私人海灘、水上樂園與壯麗的蘇祿海景。</p>
-                <p class="important-note">⚠️ 鯨鯊守則：禁止塗抹防曬油、禁止觸摸、禁止使用閃光燈、遠離尾部 4 公尺。</p>
+                <div class="day-title">與鯨鯊共舞 ➔ 雅士度假村放鬆</div>
+                <p>搭乘螃蟹船尋找海洋巨獸——鯨鯊。您可以戴上蛙鏡下水，與全世界最大魚類近距離接觸。</p>
+                <p style="margin-top:15px;">下午入住 **Astoria Palawan**，享受私人海灘、水上樂園與壯麗的蘇祿海全景。</p>
+                <div class="important-note">⚠️ 鯨鯊守則：禁止塗抹防曬油、禁止觸摸、禁止使用閃光燈、遠離尾部 4 公尺。</div>
                 <div class="meal-info">
                     🍴 早餐：飯店內 / 午餐：海島野宴 / 晚餐：飯店內晚餐<br>
                     🏨 住宿：Astoria Palawan Resort 雅士巴拉望度假村
                 </div>
             </div>
 
-            <!-- Day 3 -->
             <div id="day3" class="day-content">
-                <div class="day-title">第三天：巴頓港海洋公園跳島秘境</div>
-                <p>前往素有「小愛妮島」之稱的 **Port Barton** 探索未受破壞的自然風光：</p>
-                <ul style="margin-left:20px;">
-                    <li>【珊瑚保護區】尋找尼莫家族與海龜。</li>
-                    <li>【Paradise Island】在樹影下發懶放鬆。</li>
+                <div class="day-title">巴頓港海洋公園秘境跳島</div>
+                <p>探索「小愛妮島」之稱的 **Port Barton**：</p>
+                <ul style="margin: 15px 25px;">
+                    <li>【珊瑚保護區】尋找尼莫與海龜。</li>
+                    <li>【Paradise Island】在海灘樹影下發懶。</li>
                     <li>【Luli Island】退潮才現身的下沉式沙灘。</li>
-                    <li>【Exotic Island】異國風情無人小島，浮潛尋找彩色蝦。</li>
+                    <li>【Exotic Island】異國無人島，浮潛尋找彩色蝦。</li>
                 </ul>
                 <div class="meal-info">
                     🍴 早餐：飯店內 / 午餐：海島野宴 / 晚餐：飯店內晚餐<br>
@@ -223,37 +267,35 @@ body {
                 </div>
             </div>
 
-            <!-- Day 4 -->
             <div id="day4" class="day-content">
-                <div class="day-title">第四天：世界遺產地底河流 ➔ Zip Line ➔ 螢火蟲</div>
-                <p>探訪 UNESCO 世界自然遺產【地底河流】，搭乘人工划槳船觀賞壯麗鐘乳石。本公司特別提供**中文解說翻譯機** (二人一台)。</p>
-                <p style="margin-top:10px;">隨後挑戰 **Ugong Rock** 攀岩與 **Zip Line 高空滑索** (垂直下降 380 公尺)。晚上深入紅樹林，見證浪漫的螢火蟲燈光秀。</p>
-                <p class="important-note">⚠️ 地底河流每日限額 900 名入園，需提前提供護照影本預約。</p>
+                <div class="day-title">世界遺產地底河流 ➔ Zip Line ➔ 螢火蟲</div>
+                <p>探訪 UNESCO 世界自然遺產【地底河流】，搭乘人工划槳船觀賞壯麗鐘乳石。**本公司提供中文解說翻譯機**。</p>
+                <p style="margin-top:15px;">隨後挑戰 **Ugong Rock** 攀岩與 **Zip Line 高空滑索**。晚上深入紅樹林，見證螢火蟲閃爍的浪漫燈光秀。</p>
+                <div class="important-note">⚠️ 地底河流每日限額 900 名入園，需提前提供護照影本預約。</div>
                 <div class="meal-info">
                     🍴 早餐：飯店內 / 午餐：沙邦菲式自助餐 / 晚餐：Kalui 藝術家餐廳<br>
                     🏨 住宿：Princesa Garden Island Resort 公主花園海島度假村
                 </div>
             </div>
 
-            <!-- Day 5 -->
             <div id="day5" class="day-content">
-                <div class="day-title">第五天：巴拉望 ✈ 台北</div>
-                <p>享受豐盛早餐後，專車前往公主港機場，搭機經馬尼拉返回台灣，結束這場奇幻的五日旅程。</p>
-                <p style="margin-top:10px;"><strong>貼心服務：</strong> 全程無購物站，導遊車上提供特產選購（芒果乾、椰子油、椰子餅等）。</p>
+                <div class="day-title">巴拉望 ✈ 台北</div>
+                <p>享受豐盛早餐後，前往機場搭機經馬尼拉返回台灣，結束愉快的巴拉望行程。</p>
+                <p style="margin-top:15px;"><strong>貼心服務：</strong> 全程無購物站，導遊車上提供特產選購（芒果乾、椰子油等）。</p>
                 <div class="meal-info">
-                    🍴 早餐：飯店內 / 午餐：自理 / 晚餐：XXX<br>
+                    🍴 早餐：飯店內 / 午餐：自理 / 晚餐：機上餐點<br>
                     🏨 住宿：溫暖的家
                 </div>
             </div>
         </section>
 
-        <!-- 裝備建議 -->
+        <!-- 貼心提示 -->
         <section class="glass-card">
-            <h2><i class="fa-solid fa-toolbox"></i> 行前貼心提醒</h2>
-            <ul style="list-style: none;">
-                <li>✔ <strong>下水裝備：</strong> 建議穿著溯溪鞋或珊瑚鞋，防割傷（夾腳拖不建議下水）。</li>
-                <li>✔ <strong>防護：</strong> 浮潛時身體請盡量保持水平浮在水面，以免膝蓋遭珊瑚劃傷。</li>
-                <li>✔ <strong>氣候：</strong> 若遇雨季或颱風導致地底河流無法進入，將退費 300 元或更換行程。</li>
+            <h2><i class="fa-solid fa-heart"></i> 行前貼心提醒</h2>
+            <ul style="list-style: none; line-height: 2;">
+                <li>✔ <strong>下水建議：</strong> 穿著溯溪鞋或珊瑚鞋以防割傷，身體保持水平漂浮。</li>
+                <li>✔ <strong>環保規定：</strong> 嚴禁觸摸海洋生物，下水請勿塗抹防曬乳。</li>
+                <li>✔ <strong>不可抗力：</strong> 若因天候導致地底河流無法入園，將退費 300 元或更換行程。</li>
             </ul>
         </section>
 
@@ -261,7 +303,7 @@ body {
 
     <footer>
         <p>基高股份有限公司 Eagle Process Service Ltd.</p>
-        <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.7;">2026 巴拉望五日遊計畫行程</p>
+        <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.7;">2026.07.03 - 07.07 巴拉望員工旅遊計畫</p>
     </footer>
 
     <script>
@@ -278,13 +320,13 @@ body {
             const now = new Date().getTime();
             const diff = targetDate - now;
             if (diff <= 0) {
-                document.getElementById('countdown').innerHTML = "旅程開始！Enjoy!";
+                document.getElementById('countdown').innerHTML = "旅程已開啟！";
                 return;
             }
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            document.getElementById('countdown').innerHTML = `距離出發還有 ${d}天 ${h}時 ${m}分`;
+            document.getElementById('countdown').innerHTML = `距離出發還有 ${d}天 ${h}小時 ${m}分`;
         }
         setInterval(updateCountdown, 1000);
         updateCountdown();
