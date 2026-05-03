@@ -10,161 +10,129 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
 <style>
-    :root {
-        --company-navy: #003366;
-        --ocean-blue: #0077be;
-        --accent-cyan: #00d2ff;
-        --warning-red: #e74c3c;
-        --glass-white: rgba(255, 255, 255, 0.95);
-    }
+        :root {
+            --company-navy: #003366;
+            --ocean-blue: #0077be;
+            --accent-cyan: #00d2ff;
+            --warning-red: #e74c3c;
+            /* 讓白色卡片更透明一點，並增加磨砂玻璃感 */
+            --glass-white: rgba(255, 255, 255, 0.85); 
+        }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body {
-        font-family: 'Poppins', 'Noto Sans TC', sans-serif;
-        /* 背景改為淺色底，因為主圖移到 header 了 */
-        background-color: #f0f5f9; 
-        color: #333;
-        line-height: 1.7;
-    }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    nav {
-        background: var(--company-navy);
-        padding: 1rem 5%;
-        position: fixed;
-        width: 100%;
-        top: 0;
-        z-index: 1000;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: white;
-        box-shadow: 0 2px 15px rgba(0,0,0,0.3);
-    }
+        body {
+            font-family: 'Poppins', 'Noto Sans TC', sans-serif;
+            /* 關鍵：透過背景位置調整，將重心（鯨鯊）從底部拉上來 */
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.4)), 
+                        url('bg.jpg'); 
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center 85%; /* 這裡設定為 85% 是為了把圖片下方的鯨鯊拉到視線範圍 */
+            color: #333;
+            line-height: 1.7;
+        }
 
-    /* --- 重點修正：標頭背景優化 --- */
-    header {
-        min-height: 90vh; /* 增加高度讓圖跑出來 */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        text-align: center;
-        padding: 80px 20px;
-        /* 將背景圖放在 header，並鎖定鯨鯊可能出現的中下位置 */
-        background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5)), 
-                    url('bg.jpg'); 
-        background-size: cover;
-        background-position: center 75%; /* 關鍵：強制對齊圖片的中下方 */
-        background-repeat: no-repeat;
-    }
+        nav {
+            background: var(--company-navy);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+        }
 
-    .download-btn {
-        display: inline-block;
-        margin-top: 25px;
-        padding: 12px 35px;
-        background: var(--accent-cyan);
-        color: var(--company-navy);
-        text-decoration: none;
-        border-radius: 50px;
-        font-weight: 700;
-        box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
-        transition: 0.3s;
-    }
-    .download-btn:hover { transform: translateY(-3px); background: white; }
-
-    .container { max-width: 1100px; margin: -50px auto 50px; padding: 0 15px; position: relative; z-index: 10; }
-
-    .glass-card {
-        background: var(--glass-white);
-        border-radius: 20px;
-        padding: 35px;
-        margin-bottom: 30px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    }
-
-    h2 { color: var(--company-navy); margin-bottom: 20px; border-left: 6px solid var(--ocean-blue); padding-left: 15px; }
-
-    /* 航班表樣式 */
-    .flight-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    .flight-table th { background: #f8f9fa; padding: 15px; text-align: center; border-bottom: 2px solid #dee2e6; color: var(--company-navy); }
-    .flight-table td { padding: 15px; text-align: center; border-bottom: 1px solid #eee; font-size: 1rem; }
-
-    /* 行程 Tab */
-    .tab-container { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; flex-wrap: wrap; }
-    .tab-btn { padding: 12px 20px; border-radius: 50px; border: 2px solid var(--ocean-blue); background: white; color: var(--ocean-blue); cursor: pointer; font-weight: 600; transition: 0.3s; }
-    .tab-btn.active { background: var(--ocean-blue); color: white; }
-
-    .day-content { display: none; animation: fadeIn 0.5s ease; }
-    .day-content.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-    .day-title { font-size: 1.4rem; color: var(--company-navy); margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
-    .meal-info { background: #f0f7ff; padding: 20px; border-radius: 15px; margin-top: 25px; border-left: 5px solid var(--accent-cyan); line-height: 1.8; }
-
-    .important-note { color: #d35400; font-size: 0.9rem; margin-top: 10px; font-style: italic; background: #fff9f0; padding: 10px; border-radius: 8px; }
-
-    footer { text-align: center; padding: 40px; color: white; background: var(--company-navy); }
-
-    /* --- 手機版 RWD 優化 --- */
-    @media (max-width: 768px) {
         header {
-            min-height: 70vh; /* 手機版拉高比例 */
-            background-position: center bottom; /* 針對直式螢幕，強制顯示圖片最底部 */
+            min-height: 85vh; /* 增加標頭高度，讓背景在進入正文前露出的面積更大 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 120px 20px 40px;
         }
-        header h1 { font-size: 2.2rem !important; }
-        .glass-card { padding: 20px; }
-        
-        .flight-table thead { display: none; }
-        .flight-table tr { 
-            display: flex; 
-            flex-wrap: wrap; 
-            margin-bottom: 12px; 
-            border: 1px solid #e0e0e0; 
-            border-radius: 12px; 
-            padding: 12px; 
-            background: #fff;
+
+        .download-btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 35px;
+            background: var(--accent-cyan);
+            color: var(--company-navy);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
+            transition: 0.3s;
         }
-        .flight-table td { 
-            display: block; 
-            width: 100%; 
-            text-align: left; 
-            padding: 2px 0; 
-            border: none; 
+
+        .container { max-width: 1100px; margin: 0 auto 50px; padding: 0 15px; }
+
+        .glass-card {
+            background: var(--glass-white);
+            /* 磨砂玻璃效果，讓背景圖可以隱約透出 */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
         }
-        .flight-table td[data-label="航班"] { 
-            font-weight: 700; 
-            color: var(--company-navy); 
-            font-size: 1.1rem;
-            display: inline;
-            width: auto;
+
+        h2 { color: var(--company-navy); margin-bottom: 20px; border-left: 6px solid var(--ocean-blue); padding-left: 15px; }
+
+        /* 航班表樣式 */
+        .flight-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .flight-table th { background: rgba(0, 51, 102, 0.05); padding: 15px; text-align: center; border-bottom: 2px solid #dee2e6; color: var(--company-navy); }
+        .flight-table td { padding: 15px; text-align: center; border-bottom: 1px solid #eee; font-size: 1rem; }
+
+        /* 行程 Tab */
+        .tab-container { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; flex-wrap: wrap; }
+        .tab-btn { padding: 12px 20px; border-radius: 50px; border: 2px solid var(--ocean-blue); background: white; color: var(--ocean-blue); cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .tab-btn.active { background: var(--ocean-blue); color: white; }
+
+        .day-content { display: none; animation: fadeIn 0.5s ease; }
+        .day-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .day-title { font-size: 1.4rem; color: var(--company-navy); margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+        .meal-info { background: rgba(0, 210, 255, 0.1); padding: 20px; border-radius: 15px; margin-top: 25px; border-left: 5px solid var(--accent-cyan); line-height: 1.8; }
+
+        .important-note { color: #d35400; font-size: 0.9rem; margin-top: 10px; font-style: italic; background: #fff9f0; padding: 10px; border-radius: 8px; }
+
+        footer { text-align: center; padding: 40px; color: white; background: var(--company-navy); }
+
+        /* --- 手機版 RWD 修正 --- */
+        @media (max-width: 768px) {
+            body {
+                /* 手機版圖片會變得很窄長，將重心完全鎖定在底部 90% 的位置 */
+                background-position: center 90%; 
+                background-attachment: scroll; /* 行動裝置對 fixed 支援度差且會模糊，改用 scroll 較流暢 */
+            }
+            header { min-height: 60vh; }
+            header h1 { font-size: 2.2rem !important; }
+            .glass-card { padding: 20px; }
+            
+            .flight-table thead { display: none; }
+            .flight-table tr { 
+                display: flex; flex-wrap: wrap; margin-bottom: 12px; border: 1px solid #e0e0e0; border-radius: 12px; padding: 12px; background: #fff;
+            }
+            .flight-table td { display: block; width: 100%; text-align: left; padding: 2px 0; border: none; }
+            .flight-table td[data-label="航班"] { font-weight: 700; color: var(--company-navy); font-size: 1.1rem; display: inline; width: auto; }
+            .flight-table td[data-label="航線"] { display: inline; width: auto; margin-left: 10px; color: var(--ocean-blue); font-weight: 600; }
+            .flight-table td[data-label="日期"] { font-size: 0.85rem; color: #666; margin-top: 5px; display: inline; width: auto; }
+            .flight-table td[data-label="日期"]::after { content: " | "; margin: 0 5px; }
+            .flight-table td[data-label="起降時間"] { font-size: 0.85rem; color: #666; display: inline; width: auto; }
+            .flight-table td[data-label="航空公司"] { display: none; }
+            .tab-btn { flex: 1 1 30%; font-size: 0.85rem; padding: 10px 5px; }
         }
-        .flight-table td[data-label="航線"] { 
-            display: inline;
-            width: auto;
-            margin-left: 10px;
-            color: var(--ocean-blue);
-            font-weight: 600;
-        }
-        .flight-table td[data-label="日期"] { 
-            font-size: 0.85rem; 
-            color: #666; 
-            margin-top: 5px;
-            display: inline;
-            width: auto;
-        }
-        .flight-table td[data-label="日期"]::after { content: " | "; margin: 0 5px; }
-        .flight-table td[data-label="起降時間"] { 
-            font-size: 0.85rem; 
-            color: #666; 
-            display: inline;
-            width: auto;
-        }
-        .flight-table td[data-label="航空公司"] { display: none; }
-        .tab-btn { flex: 1 1 30%; font-size: 0.85rem; padding: 10px 5px; }
-    }
-</style>
+    </style>
 </head>
 <body>
 
