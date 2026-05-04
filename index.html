@@ -102,16 +102,58 @@
 
         h2 { color: var(--company-navy); margin-bottom: 20px; border-left: 6px solid var(--ocean-blue); padding-left: 15px; font-size: 1.4rem; }
 
-        /* --- 航班標籤 --- */
-        .flight-badge {
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
+       /* --- 航班區塊優化 --- */
+        .flight-group {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .flight-header {
+            display: flex;
+            align-items: center;
+            font-size: 0.85rem;
             font-weight: 700;
+            color: #666;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 5px;
+        }
+        .flight-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            font-size: 0.9rem;
+        }
+        .flight-route {
+            flex: 1;
+            font-weight: 600;
+            color: var(--company-navy);
+        }
+        .flight-no {
+            font-size: 0.75rem;
+            color: var(--ocean-blue);
+            background: rgba(0, 119, 190, 0.1);
+            padding: 1px 4px;
+            border-radius: 3px;
             margin-right: 8px;
-            color: white;
-            display: inline-block;
-            vertical-align: middle;
+        }
+        .flight-time {
+            font-family: monospace;
+            color: #444;
+            font-weight: 500;
+        }
+
+        /* 針對桌機版隱藏手機專用的 div，反之亦然 */
+        .mobile-only { display: none; }
+
+        @media (max-width: 768px) {
+            .desktop-only { display: none; }
+            .mobile-only { display: block; }
+            .glass-card { padding: 15px; } /* 縮小外層卡片邊距 */
+            h2 { margin-bottom: 12px; font-size: 1.2rem; }
         }
         .badge-outbound { background: var(--outbound-blue); }
         .badge-inbound { background: var(--inbound-orange); }
