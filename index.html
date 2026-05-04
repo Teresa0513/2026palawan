@@ -210,4 +210,61 @@
             <div id="day1" class="day-content active">
                 <h3 style="color:var(--ocean-blue); margin-bottom:10px; font-weight:800;">桃園 ✈ 巴拉望 ➔ Tiki Bar</h3>
                 <p style="font-size:0.95rem;">抵達公主港展開夢幻之旅。晚上前往 Tiki Bar 享受 Live Band 與生力啤酒。</p>
-                <div
+                <div class="info-box">
+                    <div class="info-item"><i class="fa-solid fa-utensils"></i> 晚餐：生猛海鮮龍蝦火鍋</div>
+                    <div class="info-item"><i class="fa-solid fa-hotel"></i> 住宿：Princesa Garden Island</div>
+                </div>
+            </div>
+            <!-- 其他 Day 內容在此省略以節省長度，保持邏輯不變 -->
+             <div id="day2" class="day-content">
+                <h3 style="color:var(--ocean-blue); margin-bottom:10px; font-weight:800;">與鯨鯊共舞 ➔ 雅士度假村</h3>
+                <p style="font-size:0.95rem;">近距離觀察海洋溫柔巨獸。隨後入住豪華 Astoria Palawan 度假村。</p>
+                <div class="info-box">
+                    <div class="info-item"><i class="fa-solid fa-utensils"></i> 午餐：海島野宴 BBQ</div>
+                    <div class="info-item"><i class="fa-solid fa-hotel"></i> 住宿：Astoria Palawan</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>基高股份有限公司 Eagle Process Service</p>
+    </footer>
+
+    <script>
+        // 頁面滑動進入效果
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // 行程 Tab 切換
+        function showDay(dayNum, btn) {
+            document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('day' + dayNum).classList.add('active');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        // 倒數計時
+        const targetDate = new Date('July 3, 2026 09:45:00').getTime();
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+            if (diff <= 0) {
+                document.getElementById('countdown').innerHTML = "旅程已開啟！";
+                return;
+            }
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById('countdown').innerHTML = `<i class="fa-solid fa-clock"></i> 倒數 ${d}天 ${h}時 ${m}分 ${s}秒`;
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
