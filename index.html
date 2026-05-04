@@ -28,7 +28,7 @@
             background-color: #003366;
         }
 
-        /* 修正 iPhone 背景 */
+/* 修正後的背景：還原亮度 */
         body::before {
             content: "";
             position: fixed;
@@ -37,7 +37,8 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.4)), url('bg.jpg');
+            /* 將 rgba 的最後一個數值從 0.3/0.4 調降至 0.1 */
+            background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('bg.jpg');
             background-size: cover;
             background-position: center bottom; 
             background-repeat: no-repeat;
@@ -57,7 +58,7 @@
             box-shadow: 0 2px 15px rgba(0,0,0,0.3);
         }
 
-        header {
+header {
             min-height: 70vh; 
             display: flex;
             flex-direction: column;
@@ -66,7 +67,18 @@
             color: white;
             text-align: center;
             padding: 100px 20px 40px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            /* 加深文字陰影，防止背景太亮時看不見字 */
+            text-shadow: 0 2px 15px rgba(0,0,0,0.8), 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        /* 倒數計時區塊也可以加深背景色，確保對比 */
+        #countdown {
+            font-size: 1rem; 
+            background: rgba(0,0,0,0.6); /* 從 0.4 調到 0.6 */
+            padding: 10px 25px; 
+            border-radius: 50px; 
+            border: 1px solid rgba(255,255,255,0.2); 
+            backdrop-filter: blur(5px);
         }
 
         .download-btn {
