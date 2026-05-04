@@ -6,229 +6,243 @@
     <title>2026 基高員工旅遊 | 巴拉望五日夢幻之旅</title>
     
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2913/2913990.png" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-   <style>
-    :root {
-        --company-navy: #003366;
-        --ocean-blue: #0077be;
-        --accent-cyan: #00d2ff;
-        --outbound-blue: #0077be;
-        --inbound-orange: #e67e22;
-        /* 提升卡片背景濃度，確保文字清晰 */
-        --glass-white: rgba(255, 255, 255, 0.95); 
-    }
+    <style>
+        :root {
+            --company-navy: #003366;
+            --ocean-blue: #0077be;
+            --accent-cyan: #00d2ff;
+            --outbound-blue: #0056b3;
+            --inbound-orange: #d35400;
+        }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    body {
-        font-family: 'Poppins', 'Noto Sans TC', sans-serif;
-        color: #333;
-        line-height: 1.6;
-        background-color: #003366;
-    }
+        body {
+            font-family: 'Noto Sans TC', 'Poppins', sans-serif;
+            color: #333;
+            line-height: 1.5;
+            background-color: #003366;
+        }
 
-    /* 背景圖還原亮度 */
-    body::before {
-        content: "";
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        z-index: -1;
-        background-image: url('bg.jpg');
-        background-size: cover;
-        background-position: center bottom;
-        background-repeat: no-repeat;
-    }
+        /* 背景圖：還原最清晰狀態 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image: url('bg.jpg');
+            background-size: cover;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+        }
 
-    nav {
-        background: var(--company-navy);
-        padding: 1rem 5%;
-        position: fixed;
-        width: 100%; top: 0; z-index: 1000;
-        display: flex; justify-content: space-between; align-items: center;
-        color: white;
-    }
+        nav {
+            background: var(--company-navy);
+            padding: 12px 5%;
+            position: fixed;
+            width: 100%; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
 
-    header {
-        min-height: 60vh;
-        display: flex; flex-direction: column; justify-content: center; align-items: center;
-        color: white; text-align: center; padding: 100px 20px 40px;
-        /* 文字加上強烈的黑邊陰影，確保在亮色背景下清晰 */
-        text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-    }
+        header {
+            min-height: 65vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: white; text-align: center; padding: 100px 20px 40px;
+        }
 
-    /* --- 修正：下載行程單按鈕 (去模糊) --- */
-    .download-btn {
-        display: inline-block;
-        margin-top: 20px;
-        padding: 10px 30px;
-        background: var(--accent-cyan);
-        color: var(--company-navy);
-        text-decoration: none;
-        border-radius: 50px;
-        font-weight: 800;
-        font-size: 1.1rem;
-        border: 2px solid white; /* 用邊框代替陰影更清晰 */
-        box-shadow: 0 4px 0px rgba(0,0,0,0.2); /* 改用硬陰影 */
-        transition: 0.2s;
-    }
+        header h1 {
+            font-size: 3rem; margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+            font-weight: 800;
+        }
 
-    #countdown {
-        font-size: 1.1rem;
-        background: rgba(0,0,0,0.7);
-        padding: 8px 25px;
-        border-radius: 50px;
-        border: 1px solid rgba(255,255,255,0.3);
-        margin-bottom: 10px;
-    }
+        #countdown {
+            font-size: 1.1rem;
+            background: rgba(0,0,0,0.7);
+            padding: 8px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.4);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
 
-    .container { max-width: 900px; margin: 0 auto 50px; padding: 0 15px; position: relative; }
+        /* --- 修正：下載按鈕 (完全去模糊，改用實線) --- */
+        .download-btn {
+            display: inline-block;
+            padding: 12px 35px;
+            background: var(--accent-cyan);
+            color: var(--company-navy);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            border: 2px solid #fff;
+            box-shadow: 0 4px 0px rgba(0,0,0,0.2); /* 實色投影 */
+            transition: transform 0.1s;
+        }
+        .download-btn:active { transform: translateY(2px); box-shadow: 0 2px 0px rgba(0,0,0,0.2); }
 
-    .glass-card {
-        background: var(--glass-white);
-        border-radius: 18px;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        border: 1px solid white;
-    }
+        .container { max-width: 800px; margin: 0 auto 50px; padding: 0 15px; }
 
-    h2 { color: var(--company-navy); margin-bottom: 15px; border-left: 6px solid var(--ocean-blue); padding-left: 12px; font-size: 1.3rem; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.98); /* 極高濃度白底，確保文字清楚 */
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 1px solid #ddd;
+        }
 
-    /* --- 修正：航班標籤與日期重疊問題 --- */
-    .flight-group {
-        background: #fdfdfd;
-        border-radius: 12px;
-        padding: 15px;
-        margin-bottom: 15px;
-        border: 1px solid #eee;
-    }
-    .flight-header {
-        display: flex;
-        align-items: center; /* 垂直置中 */
-        gap: 10px; /* 強制標籤與日期產生間距 */
-        font-size: 1rem;
-        font-weight: 700;
-        color: #444;
-        margin-bottom: 12px;
-        border-bottom: 2px solid #f0f0f0;
-        padding-bottom: 8px;
-    }
-    .flight-badge {
-        padding: 4px 10px;
-        border-radius: 6px;
-        font-size: 0.85rem;
-        color: white;
-        flex-shrink: 0; /* 防止標籤被擠壓變形 */
-    }
-    .badge-outbound { background: var(--outbound-blue); }
-    .badge-inbound { background: var(--inbound-orange); }
+        h2 { 
+            color: var(--company-navy); 
+            margin-bottom: 20px; 
+            border-left: 6px solid var(--ocean-blue); 
+            padding-left: 12px; 
+            font-size: 1.4rem; 
+            font-weight: 700;
+        }
 
-    .flight-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 6px 0;
-        font-size: 0.95rem;
-    }
-    .flight-no {
-        background: #e1f5fe;
-        color: #0277bd;
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-size: 0.8rem;
-        font-weight: 700;
-        margin-right: 8px;
-    }
-    .flight-route { flex: 1; font-weight: 700; color: #1a1a1a; }
-    .flight-time { font-family: 'Poppins'; font-weight: 500; color: #333; }
+        /* --- 修正：航班清單佈局 (移除重複表格) --- */
+        .flight-card {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .flight-day-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .badge {
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            color: white;
+            font-weight: 700;
+        }
+        .badge-out { background: var(--outbound-blue); }
+        .badge-in { background: var(--inbound-orange); }
 
-    /* Tab 按鈕 */
-    .tab-container { display: flex; justify-content: center; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
-    .tab-btn { 
-        padding: 8px 14px; border-radius: 50px; border: 2px solid var(--ocean-blue); 
-        background: white; color: var(--ocean-blue); cursor: pointer; font-weight: 700;
-    }
-    .tab-btn.active { background: var(--ocean-blue); color: white; }
+        .flight-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        .flight-row:last-child { border-bottom: none; }
 
-    .day-content { display: none; }
-    .day-content.active { display: block; animation: fadeIn 0.3s; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .flight-info-left { display: flex; align-items: center; gap: 10px; }
+        .flight-no {
+            font-size: 0.75rem;
+            background: #e1f5fe;
+            color: #0277bd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 800;
+        }
+        .flight-route { font-weight: 700; color: #1a1a1a; font-size: 1rem; }
+        .flight-time { font-family: 'Poppins', sans-serif; font-weight: 600; color: #444; }
 
-    .meal-info { background: #f0f7ff; padding: 12px; border-radius: 10px; margin-top: 15px; border-left: 5px solid var(--ocean-blue); font-size: 0.9rem; }
+        /* --- 行程 Tab --- */
+        .tab-container { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-btn { 
+            padding: 8px 16px; border-radius: 50px; border: 2px solid var(--ocean-blue); 
+            background: white; color: var(--ocean-blue); cursor: pointer; font-weight: 700;
+        }
+        .tab-btn.active { background: var(--ocean-blue); color: white; }
 
-    @media (max-width: 768px) {
-        header h1 { font-size: 2.2rem !important; }
-        .flight-item { font-size: 0.88rem; }
-        .desktop-only { display: none; }
-    }
-</style>
+        .day-content { display: none; }
+        .day-content.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .meal-info { background: #f0f7ff; padding: 15px; border-radius: 12px; margin-top: 15px; border-left: 5px solid var(--ocean-blue); font-size: 0.95rem; }
+
+        footer { text-align: center; padding: 40px; color: white; background: var(--company-navy); }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 2.2rem; }
+            .flight-route { font-size: 0.9rem; }
+            .flight-time { font-size: 0.85rem; }
+            .flight-info-left { gap: 5px; }
+        }
+    </style>
 </head>
 <body>
 
     <nav>
-        <div style="font-weight:700; font-size: 0.9rem;">基高股份有限公司 Eagle Process Service</div>
+        <div style="font-weight:700;">基高股份有限公司 Eagle Process Service</div>
         <div><i class="fa-solid fa-plane-up"></i></div>
     </nav>
 
     <header>
-        <div style="letter-spacing: 2px; font-weight: 300; font-size: 1rem; margin-bottom: 10px;">PORT BARTON 巴頓尋幽秘境</div>
-        <h1 style="font-size: 3.5rem; margin-bottom: 20px; text-shadow: 0 4px 15px rgba(0,0,0,0.5);">巴拉望‧夢幻五日</h1>
-        <div id="countdown" style="font-size: 1rem; background: rgba(0,0,0,0.4); padding: 10px 25px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px);"></div>
-        <a href="itinerary.pdf" download class="download-btn"><i class="fa-solid fa-file-pdf"></i> 下載行程單</a>
+        <div id="countdown">距離出發還有：載入中...</div>
+        <h1>巴拉望‧夢幻五日</h1>
+        <a href="itinerary.pdf" download class="download-btn">
+            <i class="fa-solid fa-file-pdf"></i> 下載行程單
+        </a>
     </header>
 
     <div class="container">
         
-       <!-- 航班資訊 -->
+        <!-- 航班資訊 (單一版本，手機桌機通用) -->
         <section class="glass-card">
             <h2><i class="fa-solid fa-plane-departure"></i> 航班資訊</h2>
             
-            <!-- 手機版精簡佈局 -->
-            <div class="mobile-only">
-                <!-- 去程群組 -->
-               <div class="flight-group">
-    <div class="flight-header">
-        <span class="flight-badge badge-outbound">去程</span>
-        <span>07/03 (五)</span>
-    </div>
-    <div class="flight-item">
-        <span class="flight-no">PR891</span>
-        <span class="flight-route">台北 ➔ 馬尼拉</span>
-        <span class="flight-time">09:45 - 12:20</span>
-    </div>
-    <div class="flight-item">
-        <span class="flight-no">PR2787</span>
-        <span class="flight-route">馬尼拉 ➔ 公主港</span>
-        <span class="flight-time">16:35 - 17:55</span>
-    </div>
-</div>
+            <!-- 去程群組 -->
+            <div class="flight-card">
+                <div class="flight-day-header">
+                    <span class="badge badge-out">去程</span> 07/03 (五)
+                </div>
+                <div class="flight-row">
+                    <div class="flight-info-left">
+                        <span class="flight-no">PR891</span>
+                        <span class="flight-route">台北 ➔ 馬尼拉</span>
+                    </div>
+                    <div class="flight-time">09:45 - 12:20</div>
+                </div>
+                <div class="flight-row">
+                    <div class="flight-info-left">
+                        <span class="flight-no">PR2787</span>
+                        <span class="flight-route">馬尼拉 ➔ 公主港</span>
+                    </div>
+                    <div class="flight-time">16:35 - 17:55</div>
+                </div>
+            </div>
 
-            <!-- 桌機版保留表格 (原本的表格結構) -->
-            <table class="flight-table desktop-only">
-                <thead>
-                    <tr><th>日期</th><th>航班</th><th>航線</th><th>起降時間</th></tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><span class="flight-badge badge-outbound">去程</span> 07/03</td>
-                        <td>PR-891</td><td>台北 ➔ 馬尼拉</td><td>09:45 - 12:20</td>
-                    </tr>
-                    <tr>
-                        <td><span class="flight-badge badge-outbound">去程</span> 07/03</td>
-                        <td>PR-2787</td><td>馬尼拉 ➔ 公主港</td><td>16:35 - 17:55</td>
-                    </tr>
-                    <tr>
-                        <td><span class="flight-badge badge-inbound">回程</span> 07/07</td>
-                        <td>PR-2782</td><td>公主港 ➔ 馬尼拉</td><td>08:30 - 09:50</td>
-                    </tr>
-                    <tr>
-                        <td><span class="flight-badge badge-inbound">回程</span> 07/07</td>
-                        <td>PR-894</td><td>馬尼拉 ➔ 台北</td><td>12:35 - 15:05</td>
-                    </tr>
-                </tbody>
-            </table>
+            <!-- 回程群組 -->
+            <div class="flight-card">
+                <div class="flight-day-header">
+                    <span class="badge badge-in">回程</span> 07/07 (二)
+                </div>
+                <div class="flight-row">
+                    <div class="flight-info-left">
+                        <span class="flight-no">PR2782</span>
+                        <span class="flight-route">公主港 ➔ 馬尼拉</span>
+                    </div>
+                    <div class="flight-time">08:30 - 09:50</div>
+                </div>
+                <div class="flight-row">
+                    <div class="flight-info-left">
+                        <span class="flight-no">PR894</span>
+                        <span class="flight-route">馬尼拉 ➔ 台北</span>
+                    </div>
+                    <div class="flight-time">12:35 - 15:05</div>
+                </div>
+            </div>
         </section>
 
         <!-- 每日行程 -->
@@ -243,9 +257,9 @@
             </div>
 
             <div id="day1" class="day-content active">
-                <div class="day-title"><i class="fa-solid fa-star"></i> 桃園 ✈ 巴拉望 ➔ Tiki Bar</div>
-                <p>抵達「菲律賓最後處女地」巴拉望公主港，展開精彩的海島假期。</p>
-                <p style="margin-top:10px;"><strong>晚餐盛宴：</strong> 韓式生猛海鮮鍋，加碼 <strong>每人一隻龍蝦</strong>。</p>
+                <h3 style="margin-bottom:10px; color:var(--ocean-blue);">桃園 ✈ 巴拉望 ➔ Tiki Bar</h3>
+                <p>飛往菲律賓最後的處女地——巴拉望公主港。抵達後展開驚奇之旅。</p>
+                <p style="margin-top:10px;"><strong>晚餐：</strong> 韓式生猛海鮮鍋 (加碼每人一隻龍蝦)。</p>
                 <div class="meal-info">
                     🍴 早餐：自理 / 午餐：自理 / 晚餐：海鮮鍋(含龍蝦)<br>
                     🏨 住宿：Princesa Garden Island Resort
@@ -253,17 +267,17 @@
             </div>
 
             <div id="day2" class="day-content">
-                <div class="day-title"><i class="fa-solid fa-fish-fins"></i> 與鯨鯊共舞 ➔ 雅士度假村</div>
-                <p>尋找海洋巨獸——鯨鯊。您可以下水與全世界最大魚類近距離接觸，感受震撼震撼。</p>
+                <h3 style="margin-bottom:10px; color:var(--ocean-blue);">與鯨鯊共舞 ➔ 雅士度假村</h3>
+                <p>搭乘螃蟹船尋找海洋巨獸——鯨鯊。您可以下水與全世界最大魚類近距離接觸。</p>
                 <div class="meal-info">
                     🍴 早餐：飯店內 / 午餐：海島野宴 / 晚餐：飯店內<br>
                     🏨 住宿：Astoria Palawan Resort
                 </div>
             </div>
-
+            
             <div id="day3" class="day-content">
-                <div class="day-title"><i class="fa-solid fa-umbrella-beach"></i> 巴頓港秘境跳島</div>
-                <p>探索「小愛妮島」Port Barton：包含珊瑚保護區、Luli下沉式沙灘、Exotic無人島。</p>
+                <h3 style="margin-bottom:10px; color:var(--ocean-blue);">巴頓港海洋公園秘境跳島</h3>
+                <p>探索「小愛妮島」Port Barton：珊瑚保護區尋找海龜、下沉式沙灘、異國無人島浮潛。</p>
                 <div class="meal-info">
                     🍴 早餐：飯店內 / 午餐：海島野宴 / 晚餐：飯店內<br>
                     🏨 住宿：Astoria Palawan Resort
@@ -271,8 +285,8 @@
             </div>
 
             <div id="day4" class="day-content">
-                <div class="day-title"><i class="fa-solid fa-mountain-sun"></i> 地底河流 ➔ Zip Line ➔ 螢火蟲</div>
-                <p>探訪世界自然遺產【地底河流】。隨後挑戰 Ugong Rock 攀岩與高空滑索，晚上觀賞浪漫螢火蟲。</p>
+                <h3 style="margin-bottom:10px; color:var(--ocean-blue);">世界遺產地底河流 ➔ Zip Line ➔ 螢火蟲</h3>
+                <p>探訪世界自然遺產【地底河流】。挑戰 Ugong Rock 攀岩與 Zip Line 高空滑索。晚上深入紅樹林賞螢。</p>
                 <div class="meal-info">
                     🍴 早餐：飯店內 / 午餐：菲式自助餐 / 晚餐：Kalui 藝術家餐廳<br>
                     🏨 住宿：Princesa Garden Island Resort
@@ -280,34 +294,27 @@
             </div>
 
             <div id="day5" class="day-content">
-                <div class="day-title"><i class="fa-solid fa-house-chimney"></i> 巴拉望 ✈ 台北</div>
-                <p>享受豐盛早餐後，帶著滿滿的回憶前往機場，經馬尼拉返回溫暖的家。</p>
+                <h3 style="margin-bottom:10px; color:var(--ocean-blue);">巴拉望 ✈ 台北</h3>
+                <p>享受豐盛早餐後，前往機場搭機經馬尼拉返回台灣，結束愉快的巴拉望行程。</p>
                 <div class="meal-info">
-                    🍴 早餐：飯店內 / 午餐：自理 / 晚餐：機上餐點<br>
-                    🏨 住宿：溫暖的家
+                    🍴 早餐：飯店內 / 午餐：自理 / 晚餐：機上餐點
                 </div>
             </div>
         </section>
 
-        <!-- 提醒 -->
         <section class="glass-card">
-            <h2><i class="fa-solid fa-circle-info"></i> 行前提醒</h2>
-            <ul style="list-style: none; line-height: 1.8; font-size: 0.9rem;">
-                <li>✔ <strong>下水：</strong> 建議穿著珊瑚鞋以防割傷。</li>
-                <li>✔ <strong>環保：</strong> 禁止塗抹一般防曬乳下水。</li>
-                <li>✔ <strong>文件：</strong> 請確保護照效期在六個月以上。</li>
-            </ul>
+            <h2><i class="fa-solid fa-heart"></i> 貼心提醒</h2>
+            <p style="font-size: 0.95rem;">• 下水請務必穿著溯溪鞋或珊瑚鞋，保護足部。</p>
+            <p style="font-size: 0.95rem;">• 鯨鯊行程中禁止塗抹任何防曬乳與乳液。</p>
         </section>
-
     </div>
 
     <footer>
         <p>基高股份有限公司 Eagle Process Service Ltd.</p>
-        <p style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">© 2026 巴拉望員工旅遊計畫</p>
+        <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.7;">2026 巴拉望五日夢幻之旅計畫</p>
     </footer>
 
     <script>
-        // 修正後的切換函數：移除 scrollTo，避免畫面跳動
         function showDay(dayNum, btn) {
             document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
             document.getElementById('day' + dayNum).classList.add('active');
