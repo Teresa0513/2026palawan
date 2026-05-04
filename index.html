@@ -9,236 +9,161 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <style>
-        :root {
-            --company-navy: #003366;
-            --ocean-blue: #0077be;
-            --accent-cyan: #00d2ff;
-            --outbound-blue: #0077be;
-            --inbound-orange: #e67e22;
-            --glass-white: rgba(255, 255, 255, 0.88); 
-        }
+   <style>
+    :root {
+        --company-navy: #003366;
+        --ocean-blue: #0077be;
+        --accent-cyan: #00d2ff;
+        --outbound-blue: #0077be;
+        --inbound-orange: #e67e22;
+        /* 提升卡片背景濃度，確保文字清晰 */
+        --glass-white: rgba(255, 255, 255, 0.95); 
+    }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: 'Poppins', 'Noto Sans TC', sans-serif;
-            color: #333;
-            line-height: 1.6;
-            background-color: #003366;
-        }
+    body {
+        font-family: 'Poppins', 'Noto Sans TC', sans-serif;
+        color: #333;
+        line-height: 1.6;
+        background-color: #003366;
+    }
 
-/* 修正後的背景：還原亮度 */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            /* 將 rgba 的最後一個數值從 0.3/0.4 調降至 0.1 */
-            background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('bg.jpg');
-            background-size: cover;
-            background-position: center bottom; 
-            background-repeat: no-repeat;
-        }
+    /* 背景圖還原亮度 */
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        z-index: -1;
+        background-image: url('bg.jpg');
+        background-size: cover;
+        background-position: center bottom;
+        background-repeat: no-repeat;
+    }
 
-        nav {
-            background: var(--company-navy);
-            padding: 1rem 5%;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.3);
-        }
+    nav {
+        background: var(--company-navy);
+        padding: 1rem 5%;
+        position: fixed;
+        width: 100%; top: 0; z-index: 1000;
+        display: flex; justify-content: space-between; align-items: center;
+        color: white;
+    }
 
-header {
-            min-height: 70vh; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            padding: 100px 20px 40px;
-            /* 加深文字陰影，防止背景太亮時看不見字 */
-            text-shadow: 0 2px 15px rgba(0,0,0,0.8), 0 0 5px rgba(0,0,0,0.5);
-        }
+    header {
+        min-height: 60vh;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        color: white; text-align: center; padding: 100px 20px 40px;
+        /* 文字加上強烈的黑邊陰影，確保在亮色背景下清晰 */
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+    }
 
-        /* 倒數計時區塊也可以加深背景色，確保對比 */
-        #countdown {
-            font-size: 1rem; 
-            background: rgba(0,0,0,0.6); /* 從 0.4 調到 0.6 */
-            padding: 10px 25px; 
-            border-radius: 50px; 
-            border: 1px solid rgba(255,255,255,0.2); 
-            backdrop-filter: blur(5px);
-        }
+    /* --- 修正：下載行程單按鈕 (去模糊) --- */
+    .download-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 30px;
+        background: var(--accent-cyan);
+        color: var(--company-navy);
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 800;
+        font-size: 1.1rem;
+        border: 2px solid white; /* 用邊框代替陰影更清晰 */
+        box-shadow: 0 4px 0px rgba(0,0,0,0.2); /* 改用硬陰影 */
+        transition: 0.2s;
+    }
 
-        .download-btn {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 12px 35px;
-            background: var(--accent-cyan);
-            color: var(--company-navy);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
-            transition: 0.3s;
-        }
+    #countdown {
+        font-size: 1.1rem;
+        background: rgba(0,0,0,0.7);
+        padding: 8px 25px;
+        border-radius: 50px;
+        border: 1px solid rgba(255,255,255,0.3);
+        margin-bottom: 10px;
+    }
 
-        .container { 
-            max-width: 900px; 
-            margin: 0 auto 50px; 
-            padding: 0 15px; 
-            position: relative;
-        }
+    .container { max-width: 900px; margin: 0 auto 50px; padding: 0 15px; position: relative; }
 
-        .glass-card {
-            background: var(--glass-white);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-            border: 1px solid rgba(255,255,255,0.3);
-        }
+    .glass-card {
+        background: var(--glass-white);
+        border-radius: 18px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        border: 1px solid white;
+    }
 
-        h2 { color: var(--company-navy); margin-bottom: 20px; border-left: 6px solid var(--ocean-blue); padding-left: 15px; font-size: 1.4rem; }
+    h2 { color: var(--company-navy); margin-bottom: 15px; border-left: 6px solid var(--ocean-blue); padding-left: 12px; font-size: 1.3rem; }
 
-       /* --- 航班區塊優化 --- */
-        .flight-group {
-            background: white;
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 10px;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-        .flight-header {
-            display: flex;
-            align-items: center;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #666;
-            margin-bottom: 8px;
-            border-bottom: 1px solid #f0f0f0;
-            padding-bottom: 5px;
-        }
-        .flight-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 4px 0;
-            font-size: 0.9rem;
-        }
-        .flight-route {
-            flex: 1;
-            font-weight: 600;
-            color: var(--company-navy);
-        }
-        .flight-no {
-            font-size: 0.75rem;
-            color: var(--ocean-blue);
-            background: rgba(0, 119, 190, 0.1);
-            padding: 1px 4px;
-            border-radius: 3px;
-            margin-right: 8px;
-        }
-        .flight-time {
-            font-family: monospace;
-            color: #444;
-            font-weight: 500;
-        }
+    /* --- 修正：航班標籤與日期重疊問題 --- */
+    .flight-group {
+        background: #fdfdfd;
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 15px;
+        border: 1px solid #eee;
+    }
+    .flight-header {
+        display: flex;
+        align-items: center; /* 垂直置中 */
+        gap: 10px; /* 強制標籤與日期產生間距 */
+        font-size: 1rem;
+        font-weight: 700;
+        color: #444;
+        margin-bottom: 12px;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 8px;
+    }
+    .flight-badge {
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        color: white;
+        flex-shrink: 0; /* 防止標籤被擠壓變形 */
+    }
+    .badge-outbound { background: var(--outbound-blue); }
+    .badge-inbound { background: var(--inbound-orange); }
 
-        /* 針對桌機版隱藏手機專用的 div，反之亦然 */
-        .mobile-only { display: none; }
+    .flight-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 0;
+        font-size: 0.95rem;
+    }
+    .flight-no {
+        background: #e1f5fe;
+        color: #0277bd;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin-right: 8px;
+    }
+    .flight-route { flex: 1; font-weight: 700; color: #1a1a1a; }
+    .flight-time { font-family: 'Poppins'; font-weight: 500; color: #333; }
 
-        @media (max-width: 768px) {
-            .desktop-only { display: none; }
-            .mobile-only { display: block; }
-            .glass-card { padding: 15px; } /* 縮小外層卡片邊距 */
-            h2 { margin-bottom: 12px; font-size: 1.2rem; }
-        }
-        .badge-outbound { background: var(--outbound-blue); }
-        .badge-inbound { background: var(--inbound-orange); }
+    /* Tab 按鈕 */
+    .tab-container { display: flex; justify-content: center; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+    .tab-btn { 
+        padding: 8px 14px; border-radius: 50px; border: 2px solid var(--ocean-blue); 
+        background: white; color: var(--ocean-blue); cursor: pointer; font-weight: 700;
+    }
+    .tab-btn.active { background: var(--ocean-blue); color: white; }
 
-        /* --- 航班表格 (電腦版) --- */
-        .flight-table { width: 100%; border-collapse: collapse; }
-        .flight-table th { text-align: left; padding: 12px; border-bottom: 2px solid var(--ocean-blue); color: var(--company-navy); }
-        .flight-table td { padding: 12px; border-bottom: 1px solid rgba(0,0,0,0.05); font-size: 0.95rem; }
+    .day-content { display: none; }
+    .day-content.active { display: block; animation: fadeIn 0.3s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- 每日行程 Tab --- */
-        .tab-container { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; flex-wrap: wrap; }
-        .tab-btn { 
-            padding: 8px 16px; 
-            border-radius: 50px; 
-            border: 2px solid var(--ocean-blue); 
-            background: white; 
-            color: var(--ocean-blue); 
-            cursor: pointer; 
-            font-weight: 600;
-            transition: 0.2s;
-        }
-        .tab-btn.active { background: var(--ocean-blue); color: white; transform: scale(1.05); }
+    .meal-info { background: #f0f7ff; padding: 12px; border-radius: 10px; margin-top: 15px; border-left: 5px solid var(--ocean-blue); font-size: 0.9rem; }
 
-        .day-content { display: none; animation: fadeIn 0.4s ease; }
-        .day-content.active { display: block; }
-        .day-title { font-size: 1.2rem; font-weight: 700; color: var(--ocean-blue); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-        .meal-info { background: rgba(0, 119, 190, 0.08); padding: 15px; border-radius: 12px; margin-top: 20px; border-left: 5px solid var(--ocean-blue); font-size: 0.9rem; }
-
-        footer { text-align: center; padding: 40px; color: white; background: var(--company-navy); }
-
-        /* --- 手機版 RWD 優化 --- */
-        @media (max-width: 768px) {
-            header { min-height: 60vh; }
-            header h1 { font-size: 2.2rem !important; }
-            
-            /* 航班區塊手機版：去回程標籤與時間合併一行 */
-            .flight-table thead { display: none; }
-            .flight-table tr { 
-                display: block; margin-bottom: 12px; background: white; 
-                border-radius: 12px; padding: 15px; border: 1px solid rgba(0,0,0,0.05);
-            }
-            .flight-table td { display: block; border: none; padding: 0; }
-            
-            /* 第一行：標籤與日期 */
-            .flight-table td[data-label="日期"] { 
-                font-size: 0.8rem; color: #666; margin-bottom: 8px;
-                border-bottom: 1px dashed #eee; padding-bottom: 5px;
-            }
-            
-            /* 第二行：航線(左) + 時間(右) --- 核心修改 --- */
-            .flight-table td[data-label="航線"] { 
-                display: flex; justify-content: space-between; align-items: center;
-                font-weight: 700; color: var(--company-navy); font-size: 1rem;
-            }
-            /* 透過屬性把時間塞到航線右邊 */
-            .flight-table td[data-label="航線"]::after {
-                content: attr(data-time);
-                font-size: 0.9rem; font-weight: 500; color: #444;
-            }
-
-            /* 第三行：航班編號 */
-            .flight-table td[data-label="航班"] { 
-                font-size: 0.85rem; color: var(--ocean-blue); margin-top: 4px; font-weight: 600;
-            }
-            
-            /* 隱藏重複顯示的欄位 */
-            .flight-table td[data-label="起降時間"],
-            .flight-table td[data-label="航空公司"] { display: none; }
-        }
-    </style>
+    @media (max-width: 768px) {
+        header h1 { font-size: 2.2rem !important; }
+        .flight-item { font-size: 0.88rem; }
+        .desktop-only { display: none; }
+    }
+</style>
 </head>
 <body>
 
@@ -263,39 +188,22 @@ header {
             <!-- 手機版精簡佈局 -->
             <div class="mobile-only">
                 <!-- 去程群組 -->
-                <div class="flight-group">
-                    <div class="flight-header">
-                        <span class="flight-badge badge-outbound">去程</span> 07/03 (五)
-                    </div>
-                    <div class="flight-item">
-                        <span class="flight-no">PR891</span>
-                        <span class="flight-route">台北 ➔ 馬尼拉</span>
-                        <span class="flight-time">09:45-12:20</span>
-                    </div>
-                    <div class="flight-item">
-                        <span class="flight-no">PR2787</span>
-                        <span class="flight-route">馬尼拉 ➔ 公主港</span>
-                        <span class="flight-time">16:35-17:55</span>
-                    </div>
-                </div>
-
-                <!-- 回程群組 -->
-                <div class="flight-group">
-                    <div class="flight-header">
-                        <span class="flight-badge badge-inbound">回程</span> 07/07 (二)
-                    </div>
-                    <div class="flight-item">
-                        <span class="flight-no">PR2782</span>
-                        <span class="flight-route">公主港 ➔ 馬尼拉</span>
-                        <span class="flight-time">08:30-09:50</span>
-                    </div>
-                    <div class="flight-item">
-                        <span class="flight-no">PR894</span>
-                        <span class="flight-route">馬尼拉 ➔ 台北</span>
-                        <span class="flight-time">12:35-15:05</span>
-                    </div>
-                </div>
-            </div>
+               <div class="flight-group">
+    <div class="flight-header">
+        <span class="flight-badge badge-outbound">去程</span>
+        <span>07/03 (五)</span>
+    </div>
+    <div class="flight-item">
+        <span class="flight-no">PR891</span>
+        <span class="flight-route">台北 ➔ 馬尼拉</span>
+        <span class="flight-time">09:45 - 12:20</span>
+    </div>
+    <div class="flight-item">
+        <span class="flight-no">PR2787</span>
+        <span class="flight-route">馬尼拉 ➔ 公主港</span>
+        <span class="flight-time">16:35 - 17:55</span>
+    </div>
+</div>
 
             <!-- 桌機版保留表格 (原本的表格結構) -->
             <table class="flight-table desktop-only">
