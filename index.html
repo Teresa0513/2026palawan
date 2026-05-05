@@ -96,20 +96,24 @@
         }
 
         /* 波浪 */
-        .wave-container { 
-            width: 100%; overflow: hidden; line-height: 0; 
-            margin-top: -100px; 
-        }
+    /* 移除波浪的上移 */
+.wave-container { 
+    width: 100%; 
+    overflow: hidden; 
+    line-height: 0; 
+    margin-top: 0; /* 原本是 -100px，改為 0 */
+}
+
         .wave-container svg { width: 150%; height: 60px; }
 
         /* 內容容器 */
-        .container { 
-            max-width: 850px; 
-            margin: -100px auto 60px; 
-            padding: 0 15px; 
-            position: relative; 
-            z-index: 10; 
-        }
+.container { 
+    max-width: 850px; 
+    margin: 20px auto 60px; /* 原本是 -100px，改為正的 20px 讓它往下移 */
+    padding: 0 15px; 
+    position: relative; 
+    z-index: 10; 
+}
 
         .glass-card {
             background: var(--glass-bg);
@@ -193,7 +197,7 @@
             header h1 { font-size: 2.3rem; }
             header h2 { font-size: 1.1rem; }
             
-            .container { margin-top: -120px; padding: 0 12px; }
+            .container { margin-top: 10px; padding: 0 12px; }
             .glass-card { padding: 20px 15px; }
             
 .flight-row { 
