@@ -186,45 +186,69 @@
 }
 
 /* 2. 負責身體細節動畫與翻轉的圖片本體 */
+/* 1. 負責全螢幕路徑移動 (左右穿梭) */
+.whale-move-path {
+    position: absolute;
+    width: 350px;
+    z-index: 1;
+    animation: swim-path 60s linear infinite;
+}
+
+/* 2. 負責生物感的扭動 (扭腰擺尾) */
+.whale-body-oscillation {
+    /* 這裡透過 skewY 產生身體彎曲的視覺感 */
+    animation: bio-swimming 4s ease-in-out infinite;
+    transform-origin: center center;
+}
+
+/* 3. 鯨鯊圖片本體：負責處理鏡像翻轉與半透明濾鏡 */
 .whale-shark {
-    width: 100%; /* 寬度跟隨父容器 */
-    opacity: 0.5;
-    filter: blur(1.5px) brightness(0.8);
-    /* 這裡負責 擺動、上下漂浮、以及水平翻轉 */
-    animation: body-wag 4s ease-in-out infinite, gentle-bob 6s ease-in-out infinite, flip-direction 50s linear infinite;
+    width: 100%;
+    opacity: 0.45;
+    filter: blur(1.2px) brightness(0.8) contrast(1.2);
+    /* 與路徑同步時間，負責在轉頭時翻轉圖片 */
+    animation: flip-direction 60s linear infinite;
 }
 
-/* 修正路徑動畫：只管位置 */
+/* --- 動畫細節 --- */
+
+/* 路徑：增加一點 y 軸的變化，讓它像是在潛水 */
 @keyframes swim-path {
-    0% { left: -400px; top: 20%; }
-    50% { left: 110%; top: 60%; }
-    100% { left: -400px; top: 20%; }
+    0% { left: -400px; top: 25%; }
+    45% { top: 45%; } /* 中途稍微往下潛 */
+    50% { left: 110%; top: 50%; }
+    95% { top: 30%; } /* 回程稍微往上浮 */
+    100% { left: -400px; top: 25%; }
 }
 
-/* 新增翻轉動畫：與路徑動畫時間同步 (50s) */
-/* 假設你的圖片原始方向是「向左」 */
+/* 生物扭動效果：模擬魚類游動時的 S 型擺動 */
+@keyframes bio-swimming {
+    0%, 100% { 
+        transform: rotate(0deg) skewY(0deg) scale(1); 
+    }
+    25% { 
+        transform: rotate(2deg) skewY(5deg) scale(1.02); /* 向上扭且稍微放大一點點(動力感) */
+    }
+    50% { 
+        transform: rotate(0deg) skewY(0deg) scale(1); 
+    }
+    75% { 
+        transform: rotate(-2deg) skewY(-5deg) scale(1.02); /* 向下扭 */
+    }
+}
+
+/* 方向翻轉邏輯：修正「倒退嚕」的問題 */
+/* 假設圖片原始方向是「頭朝左」 */
 @keyframes flip-direction {
-    0%, 48% { transform: scaleX(-1); }  /* 向右游時，水平翻轉 (變成向右) */
-    50%, 98% { transform: scaleX(1); }   /* 向左游時，恢復原始 (向左) */
-    100% { transform: scaleX(-1); }
+    /* 0% 到 49%：從左游向右，所以要翻轉成頭朝右 */
+    0%, 49.9% { transform: scaleX(-1); } 
+    /* 50% 到 99%：從右游向左，恢復原始頭朝左 */
+    50%, 99.9% { transform: scaleX(1); }
 }
 
-/* 修正擺動動畫：改用內容器或保持單純，這裡我們讓它只影響 skew */
-@keyframes body-wag {
-    0%, 100% { skewY: 0deg; }
-    25% { transform: skewY(5deg); }
-    75% { transform: skewY(-5deg); }
-}
-
-/* 修正上下漂浮 */
-@keyframes gentle-bob {
-    0%, 100% { margin-top: 0px; }
-    50% { margin-top: 30px; }
-}
-
-/* 手機版縮放容器 */
+/* 手機版縮放 */
 @media (max-width: 600px) {
-    .whale-path { width: 220px; }
+    .whale-move-path { width: 200px; }
 }
     </style>
 </head>
@@ -233,8 +257,10 @@
     <!-- 背景動畫元件 (必須在 body 內) -->
     <div id="bubble-container"></div>
 <div id="whale-animation-container">
-    <div class="whale-path">
-        <img src="whale.png" class="whale-shark" alt="Whale Shark">
+    <div class="whale-move-path">
+        <div class="whale-body-oscillation">
+            <img src="whale.png" class="whale-shark" alt="Whale Shark">
+        </div>
     </div>
 </div>
     
