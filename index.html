@@ -225,77 +225,65 @@ header {
             ul li { font-size: 1.05rem !important; margin-bottom: 12px; }
         }
 
-        /* 鯨鯊容器層級 */
+/* 鯨鯊容器 */
 .whale-shark-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* 位在背景圖之上，內容文字之下 */
-    pointer-events: none; /* 防止滑鼠點到它，不干擾網頁操作 */
+    z-index: 1; /* 放在背景圖之上，文字之下 */
+    pointer-events: none;
     overflow: hidden;
+    opacity: 0.25; /* 讓它淡淡的，像在深海裡 */
 }
 
 .whale-shark {
     position: absolute;
-    width: 250px; /* 鯨鯊大小 */
-    opacity: 0.3; /* 半透明，像在深海裡 */
-    filter: blur(1px) brightness(1.2); /* 輕微模糊增加景深感 */
+    width: 300px; /* 鯨鯊大小 */
+    filter: blur(1.5px) brightness(0.8); /* 稍微模糊與調暗，增加水下氛圍 */
+    
+    /* 同時執行三種動畫：游動路徑、身體扭動、上下浮動 */
     animation: 
-        swim-path 60s linear infinite, /* 游動路徑 */
-        tail-flick 3s ease-in-out infinite; /* 身體輕微擺動 */
+        swim-path 50s linear infinite, 
+        body-wag 4s ease-in-out infinite,
+        gentle-bob 6s ease-in-out infinite;
 }
 
-/* 模擬悠游的路徑 */
+/* 1. 游動路徑：從左到右，再轉身回來 */
 @keyframes swim-path {
-    0% {
-        top: 20%;
-        left: -300px;
-        transform: scaleX(1) rotate(5deg);
-    }
-    45% {
-        top: 50%;
-        left: 110%;
-        transform: scaleX(1) rotate(-5deg);
-    }
-    /* 到達右側後翻轉游回來 */
-    50% {
-        top: 50%;
-        left: 110%;
-        transform: scaleX(-1) rotate(-5deg);
-    }
-    95% {
-        top: 80%;
-        left: -300px;
-        transform: scaleX(-1) rotate(5deg);
-    }
-    100% {
-        top: 80%;
-        left: -300px;
-        transform: scaleX(1) rotate(5deg);
-    }
+    0% { left: -400px; top: 20%; transform: scaleX(1); }
+    48% { transform: scaleX(1); }
+    50% { left: 110%; top: 60%; transform: scaleX(-1); } /* 轉身 */
+    98% { transform: scaleX(-1); }
+    100% { left: -400px; top: 20%; transform: scaleX(1); }
 }
 
-/* 模擬魚類身體的上下輕微晃動 */
-@keyframes tail-flick {
-    0%, 100% { transform: translateY(0px) rotate(5deg); }
-    50% { transform: translateY(15px) rotate(-5deg); }
+/* 2. 身體扭動：這是最核心的技巧！
+   利用 skewY (垂直扭曲) 模擬魚尾擺動帶動全身的感覺 */
+@keyframes body-wag {
+    0%, 100% { transform: skewY(0deg) rotate(0deg); }
+    25% { transform: skewY(4deg) rotate(2deg); }
+    75% { transform: skewY(-4deg) rotate(-2deg); }
 }
 
-/* 手機版縮小鯨鯊，避免佔據太多空間 */
+/* 3. 輕微的上下浮動：模擬水流阻力 */
+@keyframes gentle-bob {
+    0%, 100% { margin-top: 0px; }
+    50% { margin-top: 30px; }
+}
+
+/* 手機版微調 */
 @media (max-width: 600px) {
-    .whale-shark {
-        width: 150px;
-        opacity: 0.2;
-    }
+    .whale-shark { width: 180px; }
 }
     </style>
 </head>
 <body>
 <!-- 鯨鯊動畫元件 -->
 <div class="whale-shark-container">
-    <img src="https://cdn-icons-png.flaticon.com/512/1997/1997380.png" class="whale-shark" alt="Whale Shark">
+    <!-- 我找了一個比較像鯨鯊的剪影圖，你可以之後換成你自己的去背圖 -->
+    <img src="https://img.icons8.com/ios-filled/500/FFFFFF/whale.png" class="whale-shark" alt="Whale Shark">
 </div>
     <nav>
         <div class="brand">EAGLE PROCESS 基高公司</div>
