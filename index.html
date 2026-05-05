@@ -627,10 +627,10 @@ function showDay(dayNum, btn) {
     // 1. 切換內容顯示
     document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
     document.getElementById('day' + dayNum).classList.add('active');
-    
-    // 2. 同步所有按鈕狀態（包含頂部與底部）
+
+    // 2. 同步所有按鈕狀態（讓上方和下方的按鈕同時變色）
     document.querySelectorAll('.tab-btn').forEach(b => {
-        // 檢查按鈕文字是否包含對應的 Day 數字
+        // 檢查按鈕文字是否包含對應的 Day 數字來確保同步
         if (b.innerText.trim() === 'Day ' + dayNum) {
             b.classList.add('active');
         } else {
@@ -638,22 +638,25 @@ function showDay(dayNum, btn) {
         }
     });
 
-    // 3. 獲取按鈕所在的容器位置
-    const sectionTitle = document.querySelector('.section-title');
+    // 3. 【核心修正】自動捲動回行程區塊的頂部
+    // 找到「行程安排」這個標題的位置
+    const itinerarySection = document.querySelector('.section-title i.fa-map-marked-alt').parentElement;
     
-    // 4. 判斷點擊的是否為底部按鈕 (如果點擊時視窗位置較深，則捲回頂部)
-    // 這樣使用者點擊底部 Day 2 時，畫面會自動跳回行程開頭，不用手動往上滑
-    const rect = btn.getBoundingClientRect();
-    if (rect.top > window.innerHeight * 0.8) { 
-        window.scrollTo({
-            top: sectionTitle.offsetTop - 80, // 考慮到固定導覽列的高度
-            behavior: 'smooth'
-        });
-    }
+    // 取得該標題相對於網頁頂部的座標
+    const topOffset = itinerarySection.getBoundingClientRect().top + window.pageYOffset - 80; 
+    // -80 是為了預留上方固定導覽列 (Nav) 的空間，避免標題被遮住
 
-    // 5. 處理按鈕本身的橫向捲動 (在手機版很有用)
+    // 執行平滑捲動
+    window.scrollTo({
+        top: topOffset,
+        behavior: 'smooth'
+    });
+
+    // 4. 讓按鈕在小螢幕上也能自動置中捲動 (針對橫向滑動列)
     btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 }
+
+
 
         // 倒數計時
         const targetDate = new Date('July 3, 2026 09:45:00').getTime();
