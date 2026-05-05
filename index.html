@@ -587,6 +587,14 @@ header {
 
     </div>
 </div>
+    <div class="tab-container" style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
+        <button class="tab-btn active" onclick="showDay(1, this)">Day 1</button>
+        <button class="tab-btn" onclick="showDay(2, this)">Day 2</button>
+        <button class="tab-btn" onclick="showDay(3, this)">Day 3</button>
+        <button class="tab-btn" onclick="showDay(4, this)">Day 4</button>
+        <button class="tab-btn" onclick="showDay(5, this)">Day 5</button>
+    </div>
+            
         </section>
 
         <!-- 貼心提醒 -->
@@ -614,16 +622,38 @@ header {
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // 行程 Tab 切換
-        function showDay(dayNum, btn) {
-            document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
-            document.getElementById('day' + dayNum).classList.add('active');
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            // 點選後自動微調滾動位置，確保按鈕可見
-            btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      // 修改後的行程 Tab 切換函數
+function showDay(dayNum, btn) {
+    // 1. 切換內容顯示
+    document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('day' + dayNum).classList.add('active');
+    
+    // 2. 同步所有按鈕狀態（包含頂部與底部）
+    document.querySelectorAll('.tab-btn').forEach(b => {
+        // 檢查按鈕文字是否包含對應的 Day 數字
+        if (b.innerText.trim() === 'Day ' + dayNum) {
+            b.classList.add('active');
+        } else {
+            b.classList.remove('active');
         }
+    });
+
+    // 3. 獲取按鈕所在的容器位置
+    const sectionTitle = document.querySelector('.section-title');
+    
+    // 4. 判斷點擊的是否為底部按鈕 (如果點擊時視窗位置較深，則捲回頂部)
+    // 這樣使用者點擊底部 Day 2 時，畫面會自動跳回行程開頭，不用手動往上滑
+    const rect = btn.getBoundingClientRect();
+    if (rect.top > window.innerHeight * 0.8) { 
+        window.scrollTo({
+            top: sectionTitle.offsetTop - 80, // 考慮到固定導覽列的高度
+            behavior: 'smooth'
+        });
+    }
+
+    // 5. 處理按鈕本身的橫向捲動 (在手機版很有用)
+    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+}
 
         // 倒數計時
         const targetDate = new Date('July 3, 2026 09:45:00').getTime();
