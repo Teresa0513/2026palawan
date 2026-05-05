@@ -185,73 +185,90 @@
         .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- 鯨鯊動畫結構修正 --- */
+        /* --- 氣泡效果 --- */
+        .bubbles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: rise 15s infinite ease-in;
+        }
+        @keyframes rise {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 0.5; }
+            100% { transform: translateY(-120vh) translateX(50px); opacity: 0; }
+        }
+
+        /* --- 鯨鯊動畫結構 (修正版) --- */
         .whale-shark-world {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; 
             pointer-events: none;
             overflow: hidden;
-            opacity: 0.3;
+            opacity: 0.35;
         }
 
-        /* 1. 第一層：左右位移路徑 (Move) */
+        /* 位移容器：負責左右游動路徑 */
         .whale-move-container {
             position: absolute;
-            top: 40%;
-            left: -400px;
-            width: 300px;
+            top: 35%;
+            left: -500px;
+            width: 350px;
             animation: whale-path 60s linear infinite;
         }
 
-        /* 2. 第二層：上下輕微漂浮 (Oscillation) */
-        .whale-oscillation {
-            animation: whale-float 8s ease-in-out infinite;
+        /* 轉身與翻轉層 */
+        .whale-flip-layer {
+            width: 100%;
+            animation: whale-flip 60s step-end infinite;
         }
 
-        /* 3. 第三層：身體翻轉與擺尾 (Body) */
+        /* 漂浮與擺尾層 */
         .whale-body {
             width: 100%;
-            /* 支點在右側頭部 */
-            transform-origin: 80% center; 
+            display: block;
+            /* 關鍵：支點設在右邊頭部，讓左邊尾巴動起來 */
+            transform-origin: 85% 50%; 
             animation: 
-                whale-tail-wag 4s ease-in-out infinite,
-                whale-flip 60s step-end infinite;
+                whale-float 6s ease-in-out infinite,
+                whale-wag 3s ease-in-out infinite;
         }
 
-        /* --- 鯨鯊 Keyframes --- */
         @keyframes whale-path {
-            0% { left: -400px; }
+            0% { left: -500px; }
             45% { left: 110%; }
-            50% { left: 110%; } /* 停留一下準備轉身 */
-            95% { left: -400px; }
-            100% { left: -400px; }
-        }
-
-        @keyframes whale-float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(40px); }
-        }
-
-        @keyframes whale-tail-wag {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(4deg); }
-            75% { transform: rotate(-4deg); }
+            50% { left: 110%; }
+            95% { left: -500px; }
+            100% { left: -500px; }
         }
 
         @keyframes whale-flip {
-            0% { transform: scaleX(1); }    /* 向右游（頭部在右） */
-            50% { transform: scaleX(-1); }  /* 向左折返（頭部翻轉向左） */
+            0% { transform: scaleX(1); }    /* 向右游，頭在右 */
+            50% { transform: scaleX(-1); }  /* 向左游，頭翻轉向左 */
+        }
+
+        @keyframes whale-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(30px); }
+        }
+
+        /* 尾巴左右擺動動畫：利用 rotate 與 skew 產生柔軟感 */
+        @keyframes whale-wag {
+            0%, 100% { transform: rotate(-3deg) skewY(-2deg); }
+            50% { transform: rotate(3deg) skewY(2deg); }
         }
 
         /* 手機版微調 */
         @media (max-width: 600px) {
             body::before { background-position: center 80%; background-attachment: scroll; }
-            header {
-                min-height: 65vh;
-                padding-top: 80px;
-                justify-content: flex-start;
-            }
+            header { min-height: 65vh; padding-top: 80px; justify-content: flex-start; }
             header h1 { font-size: 2.3rem; }
             header h2 { font-size: 1.1rem; }
             .container { margin-top: -120px; padding: 0 12px; }
@@ -259,16 +276,17 @@
             .flight-row { flex-direction: row; justify-content: space-between; align-items: center; font-size: 0.88rem; }
             .flight-time { text-align: right; font-size: 0.95rem; min-width: 100px; }
             .info-box { grid-template-columns: 1fr; }
-            .whale-move-container { width: 180px; }
+            .whale-move-container { width: 200px; }
         }
     </style>
 </head>
 <body>
 
-<!-- 鯨鯊三層動畫元件 -->
+<!-- 氣泡與鯨鯊 -->
+<div class="bubbles" id="bubble-container"></div>
 <div class="whale-shark-world">
     <div class="whale-move-container">
-        <div class="whale-oscillation">
+        <div class="whale-flip-layer">
             <img src="whale.png" class="whale-body" alt="Whale Shark">
         </div>
     </div>
@@ -323,7 +341,7 @@
             </div>
         </section>
 
-        <!-- 行程安排區塊（增加 ID 用於平滑捲動） -->
+        <!-- 行程安排 -->
         <section id="itinerary-section" class="glass-card reveal">
             <h2 class="section-title"><i class="fa-solid fa-map-marked-alt"></i> 行程安排</h2>
             <div class="tab-container">
@@ -573,24 +591,35 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // 行程 Tab 切換
+        // 產生泡泡
+        function createBubbles() {
+            const container = document.getElementById('bubble-container');
+            for(let i=0; i<15; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.random() * 40 + 10 + 'px';
+                bubble.style.width = size;
+                bubble.style.height = size;
+                bubble.style.left = Math.random() * 100 + '%';
+                bubble.style.animationDuration = Math.random() * 10 + 10 + 's';
+                bubble.style.animationDelay = Math.random() * 10 + 's';
+                container.appendChild(bubble);
+            }
+        }
+        createBubbles();
+
+        // 行程 Tab 切換 (修正點擊時捲動到標題)
         function showDay(dayNum, btn) {
-            // 1. 切換內容顯示
             document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
             document.getElementById('day' + dayNum).classList.add('active');
-            
-            // 2. 切換按鈕樣式
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
-            // 3. 按鈕水平滾動微調
+            // 捲動按鈕到中間
             btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-
-            // 4. 平滑捲動到行程區塊頂部
-            document.getElementById('itinerary-section').scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
-            });
+            
+            // 平滑捲動到行程區塊
+            document.getElementById('itinerary-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         // 倒數計時
