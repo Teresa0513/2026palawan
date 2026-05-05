@@ -225,17 +225,44 @@ header {
             ul li { font-size: 1.05rem !important; margin-bottom: 12px; }
         }
 
-/* 鯨鯊容器 */
-.whale-shark-container {
+#bubble-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1; /* 放在背景圖之上，文字之下 */
+    z-index: 1; /* 位於背景圖之上，文字內容之下 */
     pointer-events: none;
     overflow: hidden;
-    opacity: 0.25; /* 讓它淡淡的，像在深海裡 */
+}
+
+.bubble {
+    position: absolute;
+    bottom: -50px;
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    animation: rise var(--speed) infinite ease-in;
+    pointer-events: none;
+}
+
+/* 泡泡上升動畫 */
+@keyframes rise {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.5;
+    }
+    50% {
+        /* 增加左右晃動感 */
+        transform: translateY(-50vh) translateX(var(--wobble));
+    }
+    100% {
+        transform: translateY(-120vh) translateX(0);
+        opacity: 0;
+    }
 }
 
 .whale-shark {
@@ -280,11 +307,9 @@ header {
     </style>
 </head>
 <body>
-<!-- 鯨鯊動畫元件 -->
-<div class="whale-shark-container">
-    <!-- 我找了一個比較像鯨鯊的剪影圖，你可以之後換成你自己的去背圖 -->
-    <img src="https://img.icons8.com/ios-filled/500/FFFFFF/whale.png" class="whale-shark" alt="Whale Shark">
-</div>
+<!-- 泡泡背景容器 -->
+<div id="bubble-container"></div>
+    
     <nav>
         <div class="brand">EAGLE PROCESS 基高公司</div>
         <div><img src="logo.png" alt="LOGO"></div>
@@ -617,6 +642,36 @@ header {
         }
         setInterval(updateCountdown, 1000);
         updateCountdown();
+
+        // 自動生成隨機泡泡
+function createBubbles() {
+    const container = document.getElementById('bubble-container');
+    const bubbleCount = 15; // 同時存在的泡泡數量
+
+    for (let i = 0; i < bubbleCount; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        
+        // 隨機屬性
+        const size = Math.random() * 20 + 5 + 'px'; // 5px ~ 25px
+        const left = Math.random() * 100 + '%';
+        const delay = Math.random() * 10 + 's';
+        const speed = Math.random() * 5 + 7 + 's'; // 7s ~ 12s
+        const wobble = (Math.random() * 60 - 30) + 'px'; // 左右晃動幅度
+
+        bubble.style.width = size;
+        bubble.style.height = size;
+        bubble.style.left = left;
+        bubble.style.animationDelay = delay;
+        bubble.style.setProperty('--speed', speed);
+        bubble.style.setProperty('--wobble', wobble);
+
+        container.appendChild(bubble);
+    }
+}
+
+// 網頁載入後啟動
+createBubbles();
     </script>
 </body>
 </html>
