@@ -225,6 +225,11 @@ header {
             ul li { font-size: 1.05rem !important; margin-bottom: 12px; }
         }
 
+        <!-- 鯨鯊容器 -->
+<div id="whale-animation-container">
+    <img src="whale.png" class="whale-shark" alt="Whale Shark">
+</div>
+
 #bubble-container {
     position: fixed;
     top: 0;
@@ -303,6 +308,58 @@ header {
 /* 手機版微調 */
 @media (max-width: 600px) {
     .whale-shark { width: 180px; }
+}
+
+        #whale-animation-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* 在泡泡上方，內容下方 */
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.whale-shark {
+    position: absolute;
+    width: 350px; /* 鯨鯊大小 */
+    opacity: 0.5; /* 半透明效果更有水下感 */
+    filter: blur(1px) drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+    
+    /* 同時執行：游動路徑、身體扭動、上下浮動 */
+    animation: 
+        swim-path 50s linear infinite, 
+        body-wag 4s ease-in-out infinite,
+        gentle-bob 6s ease-in-out infinite;
+}
+
+/* 1. 游動路徑：從左到右，轉身，再從右到左 */
+@keyframes swim-path {
+    0% { left: -400px; top: 20%; transform: scaleX(1); }
+    48% { transform: scaleX(1); }
+    50% { left: 110%; top: 60%; transform: scaleX(-1); } /* 轉身 */
+    98% { transform: scaleX(-1); }
+    100% { left: -400px; top: 20%; transform: scaleX(1); }
+}
+
+/* 2. 核心：擺尾扭動效果 */
+/* 利用 skewY 讓圖片產生如同魚類游泳時的 S 型扭動感 */
+@keyframes body-wag {
+    0%, 100% { transform: skewY(0deg) rotate(0deg); }
+    25% { transform: skewY(6deg) rotate(2deg); }
+    75% { transform: skewY(-6deg) rotate(-2deg); }
+}
+
+/* 3. 輕微的上下浮動 */
+@keyframes gentle-bob {
+    0%, 100% { margin-top: 0px; }
+    50% { margin-top: 40px; }
+}
+
+/* 手機版縮小鯨鯊 */
+@media (max-width: 600px) {
+    .whale-shark { width: 220px; opacity: 0.4; }
 }
     </style>
 </head>
@@ -587,13 +644,13 @@ header {
 
     </div>
 </div>
-    <div class="tab-container" style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
-        <button class="tab-btn active" onclick="showDay(1, this)">Day 1</button>
-        <button class="tab-btn" onclick="showDay(2, this)">Day 2</button>
-        <button class="tab-btn" onclick="showDay(3, this)">Day 3</button>
-        <button class="tab-btn" onclick="showDay(4, this)">Day 4</button>
-        <button class="tab-btn" onclick="showDay(5, this)">Day 5</button>
-    </div>
+<div class="tab-container bottom-tabs" style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+    <button class="tab-btn active" onclick="showDay(1, this)">Day 1</button>
+    <button class="tab-btn" onclick="showDay(2, this)">Day 2</button>
+    <button class="tab-btn" onclick="showDay(3, this)">Day 3</button>
+    <button class="tab-btn" onclick="showDay(4, this)">Day 4</button>
+    <button class="tab-btn" onclick="showDay(5, this)">Day 5</button>
+</div>
             
         </section>
 
@@ -622,15 +679,13 @@ header {
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-      // 修改後的行程 Tab 切換函數
 function showDay(dayNum, btn) {
-    // 1. 切換內容顯示
+    // 1. 隱藏所有內容，顯示選中內容
     document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
     document.getElementById('day' + dayNum).classList.add('active');
-
-    // 2. 同步所有按鈕狀態（讓上方和下方的按鈕同時變色）
+    
+    // 2. 同步所有按鈕狀態（讓上下兩排按鈕顏色一致）
     document.querySelectorAll('.tab-btn').forEach(b => {
-        // 檢查按鈕文字是否包含對應的 Day 數字來確保同步
         if (b.innerText.trim() === 'Day ' + dayNum) {
             b.classList.add('active');
         } else {
@@ -638,21 +693,19 @@ function showDay(dayNum, btn) {
         }
     });
 
-    // 3. 【核心修正】自動捲動回行程區塊的頂部
-    // 找到「行程安排」這個標題的位置
-    const itinerarySection = document.querySelector('.section-title i.fa-map-marked-alt').parentElement;
-    
-    // 取得該標題相對於網頁頂部的座標
-    const topOffset = itinerarySection.getBoundingClientRect().top + window.pageYOffset - 80; 
-    // -80 是為了預留上方固定導覽列 (Nav) 的空間，避免標題被遮住
+    // 3. 【核心功能】自動捲動回行程區塊頂部
+    // 我們抓取行程安排的標題位置
+    const sectionTitle = document.querySelector('.section-title');
+    const headerOffset = 80; // 預留導覽列的高度
+    const elementPosition = sectionTitle.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-    // 執行平滑捲動
     window.scrollTo({
-        top: topOffset,
+        top: offsetPosition,
         behavior: 'smooth'
     });
-
-    // 4. 讓按鈕在小螢幕上也能自動置中捲動 (針對橫向滑動列)
+    
+    // 4. 讓按鈕在橫向捲動列中置中
     btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 }
 
