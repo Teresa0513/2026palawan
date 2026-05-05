@@ -196,9 +196,17 @@
             .container { margin-top: -120px; padding: 0 12px; }
             .glass-card { padding: 20px 15px; }
             
-            /* 文字放大的關鍵設定 */
-            .flight-row { font-size: 0.95rem; flex-direction: column; align-items: flex-start; gap: 4px; }
-            .flight-time { text-align: left; font-size: 1.1rem; }
+.flight-row { 
+    flex-direction: row; 
+    justify-content: space-between; 
+    align-items: center; 
+    font-size: 0.88rem; /* 稍微縮小以確保小手機也能塞下一排 */
+}
+.flight-time { 
+    text-align: right; 
+    font-size: 0.95rem; 
+    min-width: 100px; /* 確保時間寬度固定，排版更整齊 */
+}
             
             .day-content h3 { font-size: 1.25rem; }
             .day-content p { font-size: 1.1rem; line-height: 1.7; }
