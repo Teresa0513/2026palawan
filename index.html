@@ -177,45 +177,66 @@
             100% { transform: translateY(-120vh) translateX(0); opacity: 0; }
         }
 
-        .whale-shark {
-            position: absolute; width: 350px; 
-            opacity: 0.5; filter: blur(1.5px) brightness(0.8);
-            animation: swim-path 50s linear infinite, body-wag 4s ease-in-out infinite, gentle-bob 6s ease-in-out infinite;
-        }
+/* 1. 負責大範圍路徑移動的容器 */
+.whale-path {
+    position: absolute;
+    width: 350px;
+    z-index: 1;
+    animation: swim-path 50s linear infinite;
+}
 
-        @keyframes swim-path {
-            0% { left: -400px; top: 20%; transform: scaleX(1); }
-            48% { transform: scaleX(1); }
-            50% { left: 110%; top: 60%; transform: scaleX(-1); }
-            98% { transform: scaleX(-1); }
-            100% { left: -400px; top: 20%; transform: scaleX(1); }
-        }
+/* 2. 負責身體細節動畫與翻轉的圖片本體 */
+.whale-shark {
+    width: 100%; /* 寬度跟隨父容器 */
+    opacity: 0.5;
+    filter: blur(1.5px) brightness(0.8);
+    /* 這裡負責 擺動、上下漂浮、以及水平翻轉 */
+    animation: body-wag 4s ease-in-out infinite, gentle-bob 6s ease-in-out infinite, flip-direction 50s linear infinite;
+}
 
-        @keyframes body-wag {
-            0%, 100% { transform: skewY(0deg) rotate(0deg); }
-            25% { transform: skewY(5deg) rotate(2deg); }
-            75% { transform: skewY(-5deg) rotate(-2deg); }
-        }
+/* 修正路徑動畫：只管位置 */
+@keyframes swim-path {
+    0% { left: -400px; top: 20%; }
+    50% { left: 110%; top: 60%; }
+    100% { left: -400px; top: 20%; }
+}
 
-        @keyframes gentle-bob {
-            0%, 100% { margin-top: 0px; }
-            50% { margin-top: 30px; }
-        }
+/* 新增翻轉動畫：與路徑動畫時間同步 (50s) */
+/* 假設你的圖片原始方向是「向左」 */
+@keyframes flip-direction {
+    0%, 48% { transform: scaleX(-1); }  /* 向右游時，水平翻轉 (變成向右) */
+    50%, 98% { transform: scaleX(1); }   /* 向左游時，恢復原始 (向左) */
+    100% { transform: scaleX(-1); }
+}
 
-        @media (max-width: 600px) {
-            .whale-shark { width: 220px; }
-            header h1 { font-size: 2.3rem; }
-            .container { margin-top: -120px; }
-        }
+/* 修正擺動動畫：改用內容器或保持單純，這裡我們讓它只影響 skew */
+@keyframes body-wag {
+    0%, 100% { skewY: 0deg; }
+    25% { transform: skewY(5deg); }
+    75% { transform: skewY(-5deg); }
+}
+
+/* 修正上下漂浮 */
+@keyframes gentle-bob {
+    0%, 100% { margin-top: 0px; }
+    50% { margin-top: 30px; }
+}
+
+/* 手機版縮放容器 */
+@media (max-width: 600px) {
+    .whale-path { width: 220px; }
+}
     </style>
 </head>
 <body>
 
     <!-- 背景動畫元件 (必須在 body 內) -->
     <div id="bubble-container"></div>
-    <div id="whale-animation-container">
+<div id="whale-animation-container">
+    <div class="whale-path">
         <img src="whale.png" class="whale-shark" alt="Whale Shark">
     </div>
+</div>
     
     <nav>
         <div class="brand">EAGLE PROCESS 基高公司</div>
