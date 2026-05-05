@@ -224,10 +224,79 @@ header {
 
             ul li { font-size: 1.05rem !important; margin-bottom: 12px; }
         }
+
+        /* 鯨鯊容器層級 */
+.whale-shark-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* 位在背景圖之上，內容文字之下 */
+    pointer-events: none; /* 防止滑鼠點到它，不干擾網頁操作 */
+    overflow: hidden;
+}
+
+.whale-shark {
+    position: absolute;
+    width: 250px; /* 鯨鯊大小 */
+    opacity: 0.3; /* 半透明，像在深海裡 */
+    filter: blur(1px) brightness(1.2); /* 輕微模糊增加景深感 */
+    animation: 
+        swim-path 60s linear infinite, /* 游動路徑 */
+        tail-flick 3s ease-in-out infinite; /* 身體輕微擺動 */
+}
+
+/* 模擬悠游的路徑 */
+@keyframes swim-path {
+    0% {
+        top: 20%;
+        left: -300px;
+        transform: scaleX(1) rotate(5deg);
+    }
+    45% {
+        top: 50%;
+        left: 110%;
+        transform: scaleX(1) rotate(-5deg);
+    }
+    /* 到達右側後翻轉游回來 */
+    50% {
+        top: 50%;
+        left: 110%;
+        transform: scaleX(-1) rotate(-5deg);
+    }
+    95% {
+        top: 80%;
+        left: -300px;
+        transform: scaleX(-1) rotate(5deg);
+    }
+    100% {
+        top: 80%;
+        left: -300px;
+        transform: scaleX(1) rotate(5deg);
+    }
+}
+
+/* 模擬魚類身體的上下輕微晃動 */
+@keyframes tail-flick {
+    0%, 100% { transform: translateY(0px) rotate(5deg); }
+    50% { transform: translateY(15px) rotate(-5deg); }
+}
+
+/* 手機版縮小鯨鯊，避免佔據太多空間 */
+@media (max-width: 600px) {
+    .whale-shark {
+        width: 150px;
+        opacity: 0.2;
+    }
+}
     </style>
 </head>
 <body>
-
+<!-- 鯨鯊動畫元件 -->
+<div class="whale-shark-container">
+    <img src="https://cdn-icons-png.flaticon.com/512/1997/1997380.png" class="whale-shark" alt="Whale Shark">
+</div>
     <nav>
         <div class="brand">EAGLE PROCESS 基高公司</div>
         <div><img src="logo.png" alt="LOGO"></div>
