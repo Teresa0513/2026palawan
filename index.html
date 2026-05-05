@@ -40,7 +40,73 @@
             background-repeat: no-repeat;
         }
 
-        /* 導覽列 */
+        /* --- 鯨鯊動畫區塊 --- */
+        #whale-animation-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: none; overflow: hidden;
+        }
+
+        /* 1. 負責全螢幕路徑移動 (左右穿梭) */
+        .whale-move-path {
+            position: absolute;
+            width: 400px;
+            z-index: 1;
+            animation: swim-path 60s linear infinite;
+        }
+
+        /* 2. 負責生物感的扭動 (支點設在右側頭部) */
+        .whale-body-oscillation {
+            /* 你的圖頭在右邊，所以支點設在約 80% 處 */
+            transform-origin: 80% center; 
+            animation: whale-swim-flow 6s ease-in-out infinite;
+        }
+
+        /* 3. 圖片本體：負責折返時的水平翻轉 */
+        .whale-shark {
+            width: 100%;
+            opacity: 0.4;
+            filter: blur(1px) brightness(0.9);
+            animation: flip-direction 60s linear infinite;
+        }
+
+        /* 路徑動畫 */
+        @keyframes swim-path {
+            0% { left: -450px; top: 20%; }
+            50% { left: 110%; top: 60%; }
+            100% { left: -450px; top: 20%; }
+        }
+
+        /* 扭動動畫：左右撥水感 */
+        @keyframes whale-swim-flow {
+            0%, 100% { transform: rotate(0deg) skewY(0deg); }
+            25% { transform: rotate(3deg) skewY(4deg); }
+            75% { transform: rotate(-3deg) skewY(-4deg); }
+        }
+
+        /* 翻轉邏輯：原圖頭朝右，去程(向右)不翻轉，回程(向左)翻轉 */
+        @keyframes flip-direction {
+            0%, 49.9% { transform: scaleX(1); } 
+            50%, 99.9% { transform: scaleX(-1); }
+        }
+
+        /* 泡泡 */
+        #bubble-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: none;
+        }
+        .bubble {
+            position: absolute; bottom: -50px; background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 50%;
+            animation: rise var(--speed) infinite ease-in;
+        }
+        @keyframes rise {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 0.5; }
+            50% { transform: translateY(-50vh) translateX(var(--wobble)); }
+            100% { transform: translateY(-120vh) translateX(0); opacity: 0; }
+        }
+
+        /* --- 網頁內容樣式 --- */
         nav {
             background: var(--company-navy);
             padding: 10px 5%;
@@ -53,66 +119,38 @@
         nav .brand { font-weight: 700; font-size: 1rem; }
         nav img { height: 35px; width: auto; }
 
-        /* 標題區塊 */
         header {
             min-height: 60vh;
-            display: flex; 
-            flex-direction: column;
-            justify-content: center; 
-            align-items: center;
-            color: white; 
-            text-align: center; 
-            padding: 80px 20px 20px;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            color: white; text-align: center; padding: 80px 20px 20px;
         }
-
-        header h1, header h2, header p { text-shadow: 0px 2px 15px rgba(0,0,0,0.9); }
-        header h1 { font-size: 3.2rem; font-weight: 900; margin: 5px 0; }
-        header h2 { font-size: 1.3rem; font-weight: 400; opacity: 0.9; }
+        header h1 { font-size: 3.2rem; font-weight: 900; margin: 5px 0; text-shadow: 0px 2px 15px rgba(0,0,0,0.9); }
+        header h2 { font-size: 1.3rem; font-weight: 400; opacity: 0.9; text-shadow: 0px 2px 15px rgba(0,0,0,0.9); }
 
         #countdown {
-            font-size: 1rem;
-            background: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(5px);
-            padding: 8px 22px;
-            border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.4);
-            margin-bottom: 15px;
-            font-weight: 600;
+            font-size: 1rem; background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(5px); padding: 8px 22px;
+            border-radius: 50px; border: 1px solid rgba(255,255,255,0.4);
+            margin-bottom: 15px; font-weight: 600;
         }
 
         .download-btn {
-            display: inline-block;
-            padding: 12px 35px;
-            background: var(--accent-cyan);
-            color: var(--company-navy);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 800;
-            border: 2px solid white;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-            margin-top: 10px;
-            transition: 0.3s;
+            display: inline-block; padding: 12px 35px;
+            background: var(--accent-cyan); color: var(--company-navy);
+            text-decoration: none; border-radius: 50px; font-weight: 800;
+            border: 2px solid white; box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            margin-top: 10px; transition: 0.3s;
         }
 
-        /* 波浪 */
         .wave-container { width: 100%; overflow: hidden; line-height: 0; }
         .wave-container svg { width: 150%; height: 60px; }
 
-        /* 內容容器 */
-        .container { 
-            max-width: 850px; 
-            margin: 20px auto 60px; 
-            padding: 0 15px; 
-            position: relative; 
-            z-index: 10; 
-        }
+        .container { max-width: 850px; margin: 20px auto 60px; padding: 0 15px; position: relative; z-index: 10; }
 
         .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 25px;
-            margin-bottom: 25px;
+            background: var(--glass-bg); backdrop-filter: blur(10px);
+            border-radius: 24px; padding: 25px; margin-bottom: 25px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
 
@@ -122,147 +160,52 @@
             display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.4rem;
         }
 
-        /* 航班資訊 */
         .flight-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; border: 1px solid #eee; }
         .flight-row {
             display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
             font-size: 1rem; border-bottom: 1px dashed #f0f0f0; padding-bottom: 6px;
         }
-        .flight-row:last-child { border-bottom: none; }
-        .flight-route { font-weight: 500; color: #333; }
-        .flight-time { font-family: 'Poppins'; font-weight: 700; text-align: right; min-width: 110px; color: var(--ocean-blue); }
+        .flight-time { font-family: 'Poppins'; font-weight: 700; color: var(--ocean-blue); }
 
-        /* 行程 Tab */
-        .tab-container { 
-            display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding: 5px 2px 15px 2px;
-            -webkit-overflow-scrolling: touch;
-        }
+        .tab-container { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; }
         .tab-btn { 
-            flex: 0 0 auto; min-width: 80px; padding: 12px 15px; border-radius: 12px; 
+            flex: 0 0 auto; padding: 10px 20px; border-radius: 12px; 
             border: 2px solid var(--ocean-blue); background: white; cursor: pointer; 
-            font-weight: 700; color: var(--ocean-blue); transition: 0.2s; font-size: 0.95rem;
+            font-weight: 700; color: var(--ocean-blue);
         }
-        .tab-btn.active { background: var(--ocean-blue); color: white; box-shadow: 0 4px 10px rgba(0,119,190,0.3); }
+        .tab-btn.active { background: var(--ocean-blue); color: white; }
 
-        /* 行程內容 */
-        .day-content { display: none; animation: fadeIn 0.4s ease; }
-        .day-content.active { display: block; }
+        .day-content { display: none; }
+        .day-content.active { display: block; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .info-box { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
-        .info-item { background: #f0f7ff; padding: 12px; border-radius: 8px; font-size: 0.95rem; border-left: 4px solid var(--ocean-blue); font-weight: 500; }
+        .info-item { background: #f0f7ff; padding: 12px; border-radius: 8px; font-size: 0.9rem; border-left: 4px solid var(--ocean-blue); }
 
         footer { text-align: center; padding: 50px 20px; color: white; background: var(--company-navy); }
 
-        /* 揭露動畫 */
         .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- 背景動畫特效 --- */
-        #bubble-container, #whale-animation-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; pointer-events: none; overflow: hidden;
+        @media (max-width: 600px) {
+            .whale-move-path { width: 220px; }
+            header h1 { font-size: 2.3rem; }
+            .container { margin-top: -100px; }
         }
-
-        .bubble {
-            position: absolute; bottom: -50px; background: rgba(255, 255, 255, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 50%;
-            animation: rise var(--speed) infinite ease-in;
-        }
-
-        @keyframes rise {
-            0% { transform: translateY(0) translateX(0); opacity: 0; }
-            10% { opacity: 0.5; }
-            50% { transform: translateY(-50vh) translateX(var(--wobble)); }
-            100% { transform: translateY(-120vh) translateX(0); opacity: 0; }
-        }
-
-/* 1. 負責大範圍路徑移動的容器 */
-.whale-path {
-    position: absolute;
-    width: 350px;
-    z-index: 1;
-    animation: swim-path 50s linear infinite;
-}
-
-/* 2. 負責身體細節動畫與翻轉的圖片本體 */
-/* 1. 負責全螢幕路徑移動 (左右穿梭) */
-.whale-move-path {
-    position: absolute;
-    width: 350px;
-    z-index: 1;
-    animation: swim-path 60s linear infinite;
-}
-
-/* 2. 負責生物感的扭動 (扭腰擺尾) */
-.whale-body-oscillation {
-    /* 這裡透過 skewY 產生身體彎曲的視覺感 */
-    animation: bio-swimming 4s ease-in-out infinite;
-    transform-origin: center center;
-}
-
-/* 3. 鯨鯊圖片本體：負責處理鏡像翻轉與半透明濾鏡 */
-.whale-shark {
-    width: 100%;
-    opacity: 0.45;
-    filter: blur(1.2px) brightness(0.8) contrast(1.2);
-    /* 與路徑同步時間，負責在轉頭時翻轉圖片 */
-    animation: flip-direction 60s linear infinite;
-}
-
-/* --- 動畫細節 --- */
-
-/* 路徑：增加一點 y 軸的變化，讓它像是在潛水 */
-@keyframes swim-path {
-    0% { left: -400px; top: 25%; }
-    45% { top: 45%; } /* 中途稍微往下潛 */
-    50% { left: 110%; top: 50%; }
-    95% { top: 30%; } /* 回程稍微往上浮 */
-    100% { left: -400px; top: 25%; }
-}
-
-/* 生物扭動效果：模擬魚類游動時的 S 型擺動 */
-@keyframes bio-swimming {
-    0%, 100% { 
-        transform: rotate(0deg) skewY(0deg) scale(1); 
-    }
-    25% { 
-        transform: rotate(2deg) skewY(5deg) scale(1.02); /* 向上扭且稍微放大一點點(動力感) */
-    }
-    50% { 
-        transform: rotate(0deg) skewY(0deg) scale(1); 
-    }
-    75% { 
-        transform: rotate(-2deg) skewY(-5deg) scale(1.02); /* 向下扭 */
-    }
-}
-
-/* 方向翻轉邏輯：修正「倒退嚕」的問題 */
-/* 假設圖片原始方向是「頭朝左」 */
-@keyframes flip-direction {
-    /* 0% 到 49%：從左游向右，所以要翻轉成頭朝右 */
-    0%, 49.9% { transform: scaleX(-1); } 
-    /* 50% 到 99%：從右游向左，恢復原始頭朝左 */
-    50%, 99.9% { transform: scaleX(1); }
-}
-
-/* 手機版縮放 */
-@media (max-width: 600px) {
-    .whale-move-path { width: 200px; }
-}
     </style>
 </head>
 <body>
 
-    <!-- 背景動畫元件 (必須在 body 內) -->
     <div id="bubble-container"></div>
-<div id="whale-animation-container">
-    <div class="whale-move-path">
-        <div class="whale-body-oscillation">
-            <img src="whale.png" class="whale-shark" alt="Whale Shark">
+    
+    <!-- 鯨鯊動畫結構 -->
+    <div id="whale-animation-container">
+        <div class="whale-move-path">
+            <div class="whale-body-oscillation">
+                <img src="whale.png" class="whale-shark" alt="Whale Shark">
+            </div>
         </div>
     </div>
-</div>
     
     <nav>
         <div class="brand">EAGLE PROCESS 基高公司</div>
@@ -273,7 +216,7 @@
         <div id="countdown">載入中...</div>
         <h2>2026 基高公司巴拉望員工旅遊5日</h2>
         <h1>巴頓秘境 · 與海共舞</h1>
-        <p style="font-size: 1rem; letter-spacing: 2px; margin-bottom: 5px; opacity: 0.9;">PHILIPPINES · PALAWAN</p>
+        <p style="letter-spacing: 2px; opacity: 0.9;">PHILIPPINES · PALAWAN</p>
         <a href="itinerary.pdf" download class="download-btn">
             <i class="fa-solid fa-cloud-arrow-down"></i> 下載完整行程單
         </a>
@@ -299,11 +242,10 @@
             </div>
         </section>
 
-        <!-- 行程安排 (關鍵修正：加上 ID 方便定位) -->
+        <!-- 行程安排 -->
         <section id="itinerary-section" class="glass-card reveal">
             <h2 class="section-title"><i class="fa-solid fa-map-marked-alt"></i> 行程安排</h2>
             
-            <!-- 上方按鈕 -->
             <div class="tab-container">
                 <button class="tab-btn active" onclick="showDay(1, this)">Day 1</button>
                 <button class="tab-btn" onclick="showDay(2, this)">Day 2</button>
@@ -312,46 +254,36 @@
                 <button class="tab-btn" onclick="showDay(5, this)">Day 5</button>
             </div>
 
-            <!-- 行程內容 (簡化示意，內容同您原始代碼) -->
             <div id="day1" class="day-content active">
-                <h3 style="color:var(--ocean-blue); margin-bottom:15px; font-weight:800;">【冒險首章】桃園 ✈ 巴拉望 ➔ 龍蝦盛宴</h3>
-                <p>✈️ 桃園出發，搭乘菲律賓航空飛往公主港...</p>
+                <h3 style="color:var(--ocean-blue); margin-bottom:10px;">【冒險首章】桃園 ✈ 巴拉望 ➔ 龍蝦盛宴</h3>
+                <p>桃園出發，搭乘菲律賓航空飛往公主港，開啟海島度假模式。</p>
                 <div class="info-box"><div class="info-item">🍳 早餐：自理</div><div class="info-item">🏨 住宿：Princesa Garden</div></div>
             </div>
             <div id="day2" class="day-content">
-                <h3 style="color:var(--ocean-blue); margin-bottom:15px; font-weight:800;">【與海中巨人共舞】鯨鯊尋蹤之旅</h3>
-                <p>🐋 乘船深入野生鯨鯊棲息區，近距離目睹海中巨人...</p>
+                <h3 style="color:var(--ocean-blue); margin-bottom:10px;">【與海中巨人共舞】鯨鯊尋蹤之旅</h3>
+                <p>乘船深入野生鯨鯊棲息區，近距離目睹海中溫柔巨人的壯麗身影。</p>
                 <div class="info-box"><div class="info-item">🍱 午餐：海島 BBQ</div><div class="info-item">🏨 住宿：Astoria Palawan</div></div>
             </div>
             <div id="day3" class="day-content">
-                <h3 style="color:var(--ocean-blue); margin-bottom:15px; font-weight:800;">【秘境探索】巴頓港隱世跳島</h3>
-                <p>⛱️ 走訪珊瑚保護區、Luli 島與德國島...</p>
+                <h3 style="color:var(--ocean-blue); margin-bottom:10px;">【秘境探索】巴頓港隱世跳島</h3>
+                <p>走訪珊瑚保護區、Luli 島與德國島，享受最純淨的藍色海洋。</p>
                 <div class="info-box"><div class="info-item">🍴 晚餐：度假村豪華晚宴</div><div class="info-item">🏨 住宿：Astoria Palawan</div></div>
             </div>
             <div id="day4" class="day-content">
-                <h3 style="color:var(--ocean-blue); margin-bottom:15px; font-weight:800;">【奇蹟雙享】地底河流 ‧ 萬點螢河</h3>
-                <p>🌏 世界自然遺產地底河流，夜探螢火蟲燈光秀...</p>
-                <div class="info-box"><div class="info-item">🍱 午餐：地底河流菲式自助餐</div><div class="info-item">🏨 住宿：Princesa Garden</div></div>
+                <h3 style="color:var(--ocean-blue); margin-bottom:10px;">【奇蹟雙享】地底河流 ‧ 萬點螢河</h3>
+                <p>探索世界新七大自然奇景的地底河流，夜晚觀賞震撼的螢火蟲燈光秀。</p>
+                <div class="info-box"><div class="info-item">🍱 午餐：地底河流自助餐</div><div class="info-item">🏨 住宿：Princesa Garden</div></div>
             </div>
             <div id="day5" class="day-content">
-                <h3 style="color:var(--ocean-blue); margin-bottom:15px; font-weight:800;">【珍重再見】帶著回憶啟程</h3>
-                <p>☕ 享用最後的南洋早餐，搭機經馬尼拉返台...</p>
-                <div class="info-box"><div class="info-item">✈️ 抵達：桃園機場</div></div>
-            </div>
-
-            <!-- 下方按鈕 (同步狀態) -->
-            <div class="tab-container" style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
-                <button class="tab-btn active" onclick="showDay(1, this)">Day 1</button>
-                <button class="tab-btn" onclick="showDay(2, this)">Day 2</button>
-                <button class="tab-btn" onclick="showDay(3, this)">Day 3</button>
-                <button class="tab-btn" onclick="showDay(4, this)">Day 4</button>
-                <button class="tab-btn" onclick="showDay(5, this)">Day 5</button>
+                <h3 style="color:var(--ocean-blue); margin-bottom:10px;">【珍重再見】帶著回憶啟程</h3>
+                <p>享用最後的南洋早餐，搭機經馬尼拉返台，結束難忘的巴拉望之旅。</p>
+                <div class="info-box"><div class="info-item">✈️ 抵達：桃園國際機場</div></div>
             </div>
         </section>
 
         <section class="glass-card reveal">
             <h2 class="section-title"><i class="fa-solid fa-circle-exclamation"></i> 貼心提醒</h2>
-            <p>請自備溯溪鞋，禁止塗抹化學防曬乳。</p>
+            <p>1. 請自備長袖防曬衣物與溯溪鞋。<br>2. 為了保護海洋環境，禁止塗抹化學防曬乳。</p>
         </section>
     </div>
 
@@ -360,34 +292,15 @@
     </footer>
 
     <script>
-        // 修正後的 Tab 切換邏輯
+        // Tab 切換
         function showDay(dayNum, btn) {
-            // 1. 切換顯示內容
             document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
             document.getElementById('day' + dayNum).classList.add('active');
-            
-            // 2. 同步上下所有按鈕的狀態
-            document.querySelectorAll('.tab-btn').forEach(b => {
-                if (b.innerText.trim() === 'Day ' + dayNum) {
-                    b.classList.add('active');
-                } else {
-                    b.classList.remove('active');
-                }
-            });
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
-            // 3. 【核心修正】精確捲動到「行程安排」區塊
-            const itinerarySection = document.getElementById('itinerary-section');
-            const headerOffset = 85; 
-            const elementPosition = itinerarySection.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
-            
-            // 4. 按鈕置中滾動
-            btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            const section = document.getElementById('itinerary-section');
+            window.scrollTo({ top: section.offsetTop - 85, behavior: 'smooth' });
         }
 
         // 倒數計時
@@ -411,7 +324,7 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // 泡泡生成
+        // 生成泡泡
         function createBubbles() {
             const container = document.getElementById('bubble-container');
             for (let i = 0; i < 15; i++) {
