@@ -318,15 +318,69 @@
     100% { margin-left: 50px; }
 }
 
-        /* 鯨鯊動畫 */
-        .whale-shark-world { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; overflow: hidden; opacity: 0.35; }
-        .whale-move-container { position: absolute; top: 35%; left: -500px; width: 350px; animation: whale-path 60s linear infinite; }
-        .whale-flip-layer { width: 100%; animation: whale-flip 60s step-end infinite; }
-        .whale-body { width: 100%; display: block; transform-origin: 85% 50%; animation: whale-float 6s ease-in-out infinite, whale-wag 3s ease-in-out infinite; }
-        @keyframes whale-path { 0% { left: -500px; } 45% { left: 110%; } 50% { left: 110%; } 95% { left: -500px; } 100% { left: -500px; } }
-        @keyframes whale-flip { 0% { transform: scaleX(1); } 50% { transform: scaleX(-1); } }
-        @keyframes whale-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(30px); } }
-        @keyframes whale-wag { 0%, 100% { transform: rotate(-3deg) skewY(-2deg); } 50% { transform: rotate(3deg) skewY(2deg); } }
+/* --- 鯨鯊側向游動優化版 --- */
+.whale-shark-world {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1; 
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.35;
+}
+
+/* 位移容器 */
+.whale-move-container {
+    position: absolute;
+    top: 40%; /* 調整在螢幕中的垂直位置 */
+    left: -600px;
+    width: 450px; /* 側向圖通常較長，稍微加大寬度 */
+    animation: whale-path 65s linear infinite;
+}
+
+/* 翻轉與轉身層 */
+.whale-flip-layer {
+    width: 100%;
+    /* 注意：因為新圖頭在左，向右游時需要 scaleX(-1) 翻轉 */
+    animation: whale-flip 65s step-end infinite;
+}
+
+/* 身體擺動與漂浮層 */
+.whale-body {
+    width: 100%;
+    display: block;
+    /* 關鍵：支點設在左側頭部 (15% 處)，讓右側尾巴擺動 */
+    transform-origin: 15% 50%; 
+    animation: 
+        whale-float 7s ease-in-out infinite,
+        whale-wag 4s ease-in-out infinite;
+}
+
+/* 1. 左右穿梭路徑 */
+@keyframes whale-path {
+    0% { left: -600px; }
+    45% { left: 110%; }
+    50% { left: 110%; }
+    95% { left: -600px; }
+    100% { left: -600px; }
+}
+
+/* 2. 轉身邏輯 (根據頭部在左的圖) */
+@keyframes whale-flip {
+    0% { transform: scaleX(-1); }   /* 0-45% 向右游：翻轉讓頭朝右 */
+    50% { transform: scaleX(1); }   /* 50-95% 向左游：維持原圖頭朝左 */
+}
+
+/* 3. 垂直緩慢漂浮 */
+@keyframes whale-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(40px); }
+}
+
+/* 4. 側向擺尾動畫：模擬尾部推動水流 */
+@keyframes whale-wag {
+    0%, 100% { transform: rotate(-2deg) skewY(-1deg); }
+    50% { transform: rotate(2deg) skewY(1deg); }
+}
 
         @media (max-width: 600px) {
             header h1 { font-size: 2.3rem; }
