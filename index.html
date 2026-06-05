@@ -268,17 +268,55 @@
         .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* 氣泡 */
-        .bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        .bubble {
-            position: absolute; bottom: -100px; background: rgba(255, 255, 255, 0.2); border-radius: 50%;
-            animation: rise 15s infinite ease-in;
-        }
-        @keyframes rise {
-            0% { transform: translateY(0) translateX(0); opacity: 0; }
-            10% { opacity: 0.5; }
-            100% { transform: translateY(-120vh) translateX(50px); opacity: 0; }
-        }
+       .bubbles {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bubble {
+    position: absolute;
+    bottom: -150px;
+    /* 真實球體感：使用徑向漸層模擬光澤 */
+    background: radial-gradient(circle at 30% 30%, 
+                rgba(255, 255, 255, 0.5) 0%, 
+                rgba(255, 255, 255, 0.1) 40%, 
+                rgba(255, 255, 255, 0.05) 60%, 
+                rgba(255, 255, 255, 0) 80%);
+    border: 1px solid rgba(255, 255, 255, 0.2); /* 氣泡邊緣邊框 */
+    border-radius: 50%;
+    /* 內陰影增加立體感 */
+    box-shadow: inset -5px -5px 12px rgba(255, 255, 255, 0.2);
+    /* 同時執行上升(rise)與左右搖擺(sway) */
+    animation: bubble-rise var(--rise-time) infinite linear, 
+               bubble-sway var(--sway-time) ease-in-out infinite alternate;
+}
+
+/* 氣泡上的反光點（小白點） */
+.bubble::after {
+    content: "";
+    position: absolute;
+    top: 20%; left: 25%;
+    width: 20%; height: 20%;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    filter: blur(1px);
+}
+
+/* 上升動畫 */
+@keyframes bubble-rise {
+    0% { transform: translateY(0); opacity: 0; }
+    5% { opacity: 0.7; }
+    90% { opacity: 0.4; }
+    100% { transform: translateY(-125vh); opacity: 0; }
+}
+
+/* 左右搖擺動畫：模擬水流阻力 */
+@keyframes bubble-sway {
+    0% { margin-left: 0px; }
+    100% { margin-left: 50px; }
+}
 
         /* 鯨鯊動畫 */
         .whale-shark-world { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; overflow: hidden; opacity: 0.35; }
@@ -844,21 +882,46 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        function createBubbles() {
-            const container = document.getElementById('bubble-container');
-            for(let i=0; i<15; i++) {
-                const bubble = document.createElement('div');
-                bubble.className = 'bubble';
-                const size = Math.random() * 40 + 10 + 'px';
-                bubble.style.width = size;
-                bubble.style.height = size;
-                bubble.style.left = Math.random() * 100 + '%';
-                bubble.style.animationDuration = Math.random() * 10 + 10 + 's';
-                bubble.style.animationDelay = Math.random() * 10 + 's';
-                container.appendChild(bubble);
-            }
+        // --- 優化版產生泡泡函數 ---
+function createBubbles() {
+    const container = document.getElementById('bubble-container');
+    const bubbleCount = 20; // 泡泡數量
+
+    for(let i = 0; i < bubbleCount; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        
+        // 1. 隨機大小 (15px 到 50px)
+        const size = Math.random() * 35 + 15;
+        bubble.style.width = size + 'px';
+        bubble.style.height = size + 'px';
+        
+        // 2. 隨機水平位置
+        bubble.style.left = Math.random() * 100 + '%';
+        
+        // 3. 隨機速度與延遲
+        const riseTime = Math.random() * 8 + 10; // 10-18秒上升完成
+        const swayTime = Math.random() * 2 + 2;  // 2-4秒左右搖擺一次
+        const delay = Math.random() * 15;        // 隨機延遲開始
+        
+        bubble.style.setProperty('--rise-time', riseTime + 's');
+        bubble.style.setProperty('--sway-time', swayTime + 's');
+        bubble.style.animationDelay = delay + 's';
+
+        // 4. 深度感：較大的泡泡清晰，較小的泡泡模糊 (模擬遠近)
+        const blurVal = Math.random() * 2;
+        if (size < 25) {
+            bubble.style.filter = `blur(${blurVal + 1}px)`; // 小氣泡模糊一點
+            bubble.style.opacity = '0.3';
+        } else {
+            bubble.style.filter = `blur(${blurVal}px)`;
         }
-        createBubbles();
+
+        container.appendChild(bubble);
+    }
+}
+// 執行函數
+createBubbles();
 
         // 彈窗開關 (修改為可傳入 ID)
         function toggleModal(modalId, show) {
