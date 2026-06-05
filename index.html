@@ -83,19 +83,75 @@
             font-weight: 600;
         }
 
-        .download-btn {
+        /* 按鈕容器 */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .download-btn, .info-modal-btn {
             display: inline-block;
-            padding: 12px 35px;
-            background: var(--accent-cyan);
-            color: var(--company-navy);
+            padding: 12px 25px;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 800;
             border: 2px solid white;
             box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-            margin-top: 10px;
             transition: 0.3s;
+            cursor: pointer;
         }
+        .download-btn { background: var(--accent-cyan); color: var(--company-navy); }
+        .info-modal-btn { background: rgba(255,255,255,0.2); color: white; backdrop-filter: blur(5px); }
+
+        /* --- 轉機資訊彈窗樣式 --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 600px;
+            max-height: 85vh;
+            border-radius: 20px;
+            overflow-y: auto;
+            position: relative;
+            padding: 30px 20px;
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+        .modal-step {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+        .step-num {
+            background: var(--ocean-blue);
+            color: white;
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; font-weight: 800; font-size: 0.9rem;
+        }
+        .step-text h4 { color: var(--company-navy); margin-bottom: 5px; }
+        .step-text p { font-size: 0.95rem; color: #555; }
+        .transfer-highlight { color: #d35400; font-weight: 700; }
 
         .wave-container { 
             width: 100%; 
@@ -103,10 +159,8 @@
             line-height: 0; 
             margin-top: 0;
         }
-
         .wave-container svg { width: 150%; height: 60px; }
 
-        /* 內容容器 */
         .container { 
             max-width: 850px; 
             margin: 20px auto 60px;
@@ -288,6 +342,8 @@
             .flight-time { text-align: right; font-size: 0.95rem; min-width: 100px; }
             .info-box { grid-template-columns: 1fr; }
             .whale-move-container { width: 200px; }
+            .btn-group { gap: 10px; }
+            .download-btn, .info-modal-btn { padding: 10px 18px; font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -312,10 +368,84 @@
         <h2>2026 基高公司巴拉望員工旅遊5日</h2>
         <h1>巴頓秘境 · 與海共舞</h1>
         <p style="font-size: 1rem; letter-spacing: 2px; margin-bottom: 5px; opacity: 0.9;">PHILIPPINES · PALAWAN</p>
-        <a href="itinerary.pdf" download class="download-btn">
-            <i class="fa-solid fa-cloud-arrow-down"></i> 下載完整行程單
-        </a>
+        
+        <div class="btn-group">
+            <a href="itinerary.pdf" download class="download-btn">
+                <i class="fa-solid fa-cloud-arrow-down"></i> 下載完整行程單
+            </a>
+            <div class="info-modal-btn" onclick="toggleModal(true)">
+                <i class="fa-solid fa-person-walking-luggage"></i> 馬尼拉轉機教學
+            </div>
+        </div>
     </header>
+
+    <!-- 轉機資訊彈窗 -->
+    <div class="modal-overlay" id="transferModal">
+        <div class="modal-content">
+            <i class="fa-solid fa-xmark close-modal" onclick="toggleModal(false)"></i>
+            <h3 style="color:var(--ocean-blue); margin-bottom:20px; text-align:center; font-weight:900;">
+                <i class="fa-solid fa-route"></i> T1 ➔ T2 轉機流程圖解
+            </h3>
+            
+            <div class="modal-step">
+                <div class="step-num">1</div>
+                <div class="step-text">
+                    <h4>抵達與查驗</h4>
+                    <p>下機後跟隨指標前往 <span class="transfer-highlight">Immigration (證照查驗櫃檯)</span>。請準備好護照與簽證供移民局官員查驗。</p>
+                </div>
+            </div>
+
+            <div class="modal-step">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                    <h4>領取行李</h4>
+                    <p>通過查驗後，前往行李轉盤區找到所屬航班轉盤，領取您的個人行李。</p>
+                </div>
+            </div>
+
+            <div class="modal-step">
+                <div class="step-num">3</div>
+                <div class="step-text">
+                    <h4>國內線行李轉運 (重要!)</h4>
+                    <p>領完行李後，尋找 <span class="transfer-highlight">位在 6 號行李轉盤旁</span> 的「菲航國內線轉機行李櫃檯 (Baggage Assistance Courier)」。</p>
+                </div>
+            </div>
+
+            <div class="modal-step">
+                <div class="step-num">4</div>
+                <div class="step-text">
+                    <h4>出示登機證與託運</h4>
+                    <p>在此櫃檯出示您 <span class="transfer-highlight">第二段（國內線）的登機證</span> 給工作人員，直接辦理行李再託運。</p>
+                </div>
+            </div>
+
+            <div class="modal-step">
+                <div class="step-num">5</div>
+                <div class="step-text">
+                    <h4>海關申報</h4>
+                    <p>通過海關 (Customs) 檢查，需出示行李海關申報 QR-CODE。</p>
+                </div>
+            </div>
+
+            <div class="modal-step">
+                <div class="step-num">6</div>
+                <div class="step-text">
+                    <h4>搭乘接駁車</h4>
+                    <p>跟隨 <span class="transfer-highlight">Terminal Transfer Bus</span> 指標前往出口，搭乘 PAL 專用接駁巴士前往第二航廈 (Terminal 2)。</p>
+                </div>
+            </div>
+
+            <div class="modal-step" style="border-bottom:none;">
+                <div class="step-num">7</div>
+                <div class="step-text">
+                    <h4>抵達 T2 國內線</h4>
+                    <p>抵達 T2 後，通過安檢前往登機門候機，準備飛往公主港！</p>
+                </div>
+            </div>
+
+            <button onclick="toggleModal(false)" style="width:100%; padding:12px; background:var(--company-navy); color:white; border:none; border-radius:10px; font-weight:700; margin-top:10px;">我了解了</button>
+        </div>
+    </div>
 
     <div class="wave-container">
         <svg viewBox="0 0 500 150" preserveAspectRatio="none"><path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="stroke: none; fill: rgba(0, 51, 102, 1);"></path></svg>
@@ -345,7 +475,7 @@
                     <span class="flight-time">08:30 - 09:50</span>
                 </div>
                 <div class="flight-row">
-                    <span class="flight-route">PR896 馬尼拉 ➔ 台北</span>
+                    <span class="flight-route">PR894 馬尼拉 ➔ 台北</span>
                     <span class="flight-time">12:35 - 15:05</span>
                 </div>
             </div>
@@ -659,25 +789,35 @@
         }
         createBubbles();
 
-        // 行程 Tab 切換 (改良版：統一同步上方按鈕狀態)
+        // 彈窗開關
+        function toggleModal(show) {
+            const modal = document.getElementById('transferModal');
+            modal.style.display = show ? 'flex' : 'none';
+            // 防止背景滾動
+            document.body.style.overflow = show ? 'hidden' : 'auto';
+        }
+
+        // 點擊背景關閉彈窗
+        window.onclick = function(event) {
+            const modal = document.getElementById('transferModal');
+            if (event.target == modal) {
+                toggleModal(false);
+            }
+        }
+
+        // 行程 Tab 切換
         function showDay(dayNum) {
-            // 1. 切換內容
             document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
             document.getElementById('day' + dayNum).classList.add('active');
-            
-            // 2. 更新上方按鈕樣式
             const topBtns = document.querySelectorAll('#top-tab-container .tab-btn');
             topBtns.forEach((btn, index) => {
                 if (index + 1 === dayNum) {
                     btn.classList.add('active');
-                    // 捲動上方按鈕到可視範圍中間
                     btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 } else {
                     btn.classList.remove('active');
                 }
             });
-            
-            // 3. 平滑捲動到行程區塊頂部
             document.getElementById('itinerary-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
