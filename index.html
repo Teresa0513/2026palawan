@@ -318,85 +318,121 @@
     100% { margin-left: 50px; }
 }
 
-/* --- 鯨鯊側向游動優化版 --- */
+/* --- 鯨鯊世界優化版 --- */
 .whale-shark-world {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     z-index: 1; 
     pointer-events: none;
     overflow: hidden;
-    opacity: 0.35;
+    opacity: 0.3; /* 整體透明度 */
 }
 
-/* 位移容器 */
-.whale-move-container {
+.whale-container {
     position: absolute;
-    top: 40%; /* 調整在螢幕中的垂直位置 */
-    left: -600px;
-    width: 450px; /* 側向圖通常較長，稍微加大寬度 */
-    animation: whale-path 65s linear infinite;
+    width: 400px; /* 基準寬度 */
+    will-change: transform, left;
 }
 
-/* 翻轉與轉身層 */
-.whale-flip-layer {
-    width: 100%;
-    /* 注意：因為新圖頭在左，向右游時需要 scaleX(-1) 翻轉 */
-    animation: whale-flip 65s step-end infinite;
-}
-
-/* 身體擺動與漂浮層 */
 .whale-body {
     width: 100%;
     display: block;
-    /* 關鍵：支點設在左側頭部 (15% 處)，讓右側尾巴擺動 */
-    transform-origin: 15% 50%; 
-    animation: 
-        whale-float 7s ease-in-out infinite,
-        whale-wag 4s ease-in-out infinite;
+    transform-origin: 20% 50%; /* 以頭部附近為旋轉支點 */
 }
 
-/* 1. 左右穿梭路徑 */
-@keyframes whale-path {
-    0% { left: -600px; }
-    45% { left: 110%; }
-    50% { left: 110%; }
-    95% { left: -600px; }
-    100% { left: -600px; }
+/* 共通動畫：身體擺動 (模擬水流) */
+@keyframes whale-wag {
+    0%, 100% { transform: rotate(-3deg) skewY(-1deg); }
+    50% { transform: rotate(3deg) skewY(1deg); }
 }
 
-/* 2. 轉身邏輯 (根據頭部在左的圖) */
-@keyframes whale-flip {
-    0% { transform: scaleX(-1); }   /* 0-45% 向右游：翻轉讓頭朝右 */
-    50% { transform: scaleX(1); }   /* 50-95% 向左游：維持原圖頭朝左 */
-}
-
-/* 3. 垂直緩慢漂浮 */
+/* 共通動畫：上下漂浮 */
 @keyframes whale-float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(40px); }
+    50% { transform: translateY(30px); }
 }
 
-/* 4. 側向擺尾動畫：模擬尾部推動水流 */
-@keyframes whale-wag {
-    0%, 100% { transform: rotate(-2deg) skewY(-1deg); }
-    50% { transform: rotate(2deg) skewY(1deg); }
+/* --- 第一隻：大鯨鯊 (深層、慢速、從左向右) --- */
+.shark-1 {
+    top: 20%;
+    left: -500px;
+    width: 550px; /* 體型最大 */
+    filter: blur(1px); /* 稍微模糊增加深度感 */
+    animation: path-left-to-right 80s linear infinite;
+}
+.shark-1 .whale-flip { transform: scaleX(-1); } /* 翻轉讓頭朝右 */
+.shark-1 .whale-body {
+    animation: whale-wag 6s ease-in-out infinite, whale-float 10s ease-in-out infinite;
 }
 
-        @media (max-width: 600px) {
-            header h1 { font-size: 2.3rem; }
-            .container { margin-top: -120px; padding: 0 12px; }
-            .info-box { grid-template-columns: 1fr; }
-            .whale-move-container { width: 200px; }
-            .step-img-container { grid-template-columns: 1fr; }
-        }
+/* --- 第二隻：中鯨鯊 (從右向左) --- */
+.shark-2 {
+    top: 55%;
+    right: -500px;
+    width: 380px;
+    animation: path-right-to-left 60s linear infinite;
+    animation-delay: 15s; /* 延遲出現 */
+}
+.shark-2 .whale-flip { transform: scaleX(1); } /* 原圖頭朝左，不用翻轉 */
+.shark-2 .whale-body {
+    animation: whale-wag 4.5s ease-in-out infinite, whale-float 8s ease-in-out infinite;
+}
+
+/* --- 第三隻：小鯨鯊 (淺層、快速) --- */
+.shark-3 {
+    top: 75%;
+    left: -500px;
+    width: 220px; /* 體型最小 */
+    animation: path-left-to-right 45s linear infinite;
+    animation-delay: 5s;
+}
+.shark-3 .whale-flip { transform: scaleX(-1); } 
+.shark-3 .whale-body {
+    animation: whale-wag 3s ease-in-out infinite, whale-float 5s ease-in-out infinite;
+}
+
+/* 航線：從左到右 */
+@keyframes path-left-to-right {
+    0% { left: -600px; }
+    100% { left: 110%; }
+}
+
+/* 航線：從右到左 */
+@keyframes path-right-to-left {
+    0% { right: -600px; }
+    100% { right: 110%; }
+}
+
+/* 手機版縮放 */
+@media (max-width: 600px) {
+    .whale-container { width: 180px; }
+    .shark-1 { width: 280px; }
+    .shark-3 { width: 120px; }
+}
     </style>
 </head>
 <body>
 
 <div class="bubbles" id="bubble-container"></div>
+<!-- 鯨鯊世界：三隻鯨鯊 -->
 <div class="whale-shark-world">
-    <div class="whale-move-container">
-        <div class="whale-flip-layer">
+    <!-- 第一隻：大鯨鯊 (從左到右，慢速) -->
+    <div class="whale-container shark-1">
+        <div class="whale-flip">
+            <img src="whale.png" class="whale-body" alt="Whale Shark">
+        </div>
+    </div>
+
+    <!-- 第二隻：中鯨鯊 (從右到左，中速) -->
+    <div class="whale-container shark-2">
+        <div class="whale-flip">
+            <img src="whale.png" class="whale-body" alt="Whale Shark">
+        </div>
+    </div>
+
+    <!-- 第三隻：小鯨鯊 (從左到右，較快且有起伏) -->
+    <div class="whale-container shark-3">
+        <div class="whale-flip">
             <img src="whale.png" class="whale-body" alt="Whale Shark">
         </div>
     </div>
