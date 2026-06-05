@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    < charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>2026 基高公司巴拉望之旅</title>
     
@@ -16,6 +16,7 @@
             --ocean-blue: #0077be;
             --accent-cyan: #00d2ff;
             --glass-bg: rgba(255, 255, 255, 0.96);
+            --etravel-green: #27ae60; /* eTravel 使用綠色區分 */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -107,7 +108,7 @@
         .download-btn { background: var(--accent-cyan); color: var(--company-navy); }
         .info-modal-btn { background: rgba(255,255,255,0.2); color: white; backdrop-filter: blur(5px); }
 
-        /* --- 轉機資訊彈窗樣式 --- */
+        /* --- 彈窗樣式 --- */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -215,9 +216,6 @@
             -webkit-overflow-scrolling: touch;
             scrollbar-width: thin;
         }
-        .tab-container::-webkit-scrollbar { height: 6px; }
-        .tab-container::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
-
         .tab-btn { 
             flex: 0 0 auto;
             min-width: 80px; 
@@ -327,16 +325,20 @@
             <a href="itinerary.pdf" download class="download-btn">
                 <i class="fa-solid fa-cloud-arrow-down"></i> 下載完整行程單
             </a>
-            <div class="info-modal-btn" onclick="toggleModal(true)">
-                <i class="fa-solid fa-person-walking-luggage"></i> 馬尼拉轉機教學
+            <div class="info-modal-btn" onclick="toggleModal('transferModal', true)">
+                <i class="fa-solid fa-person-walking-luggage"></i> 轉機教學
+            </div>
+            <!-- eTravel 按鈕 -->
+            <div class="info-modal-btn" style="background: rgba(39, 174, 96, 0.4);" onclick="toggleModal('etravelModal', true)">
+                <i class="fa-solid fa-mobile-screen-button"></i> eTravel 教學
             </div>
         </div>
     </header>
 
-    <!-- 轉機資訊彈窗 -->
+    <!-- 轉機教學彈窗 -->
     <div class="modal-overlay" id="transferModal">
         <div class="modal-content">
-            <i class="fa-solid fa-xmark close-modal" onclick="toggleModal(false)"></i>
+            <i class="fa-solid fa-xmark close-modal" onclick="toggleModal('transferModal', false)"></i>
             <h3 style="color:var(--ocean-blue); margin-bottom:25px; text-align:center; font-weight:900; font-size:1.4rem;">
                 馬尼拉 T1 ➔ T2 轉機流程
             </h3>
@@ -448,7 +450,74 @@
                 </div>
             </div>
 
-            <button onclick="toggleModal(false)" style="width:100%; padding:14px; background:var(--company-navy); color:white; border:none; border-radius:12px; font-weight:700; margin-top:10px; cursor:pointer;">我了解了</button>
+            <button onclick="toggleModal('transferModal', false)" style="width:100%; padding:14px; background:var(--company-navy); color:white; border:none; border-radius:12px; font-weight:700; margin-top:10px; cursor:pointer;">我了解了</button>
+        </div>
+    </div>
+
+    <!-- eTravel 教學彈窗 -->
+    <div class="modal-overlay" id="etravelModal">
+        <div class="modal-content" style="border-top: 8px solid var(--etravel-green);">
+            <i class="fa-solid fa-xmark close-modal" onclick="toggleModal('etravelModal', false)"></i>
+            <h3 style="color:var(--etravel-green); margin-bottom:25px; text-align:center; font-weight:900; font-size:1.4rem;">
+                eTravel 入境申報教學
+            </h3>
+            
+            <div style="background: #eafaf1; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-size: 0.95rem; color: #1e8449;">
+                <i class="fa-solid fa-circle-info"></i> <strong>重要規範：</strong> 所有入境菲律賓旅客必須在「抵達前 72 小時內」完成填寫。
+            </div>
+
+            <div class="modal-step">
+                <div class="step-header">
+                    <div class="step-num" style="background:var(--etravel-green);">1</div>
+                    <h4>進入官方網站</h4>
+                </div>
+                <div class="step-body">
+                    <p>使用手機或電腦前往：<br>
+                    <a href="https://etravel.gov.ph/" target="_blank" style="color:var(--etravel-green); font-weight:700;">https://etravel.gov.ph/</a></p>
+                </div>
+            </div>
+
+            <div class="modal-step">
+                <div class="step-header">
+                    <div class="step-num" style="background:var(--etravel-green);">2</div>
+                    <h4>註冊帳號/登入</h4>
+                </div>
+                <div class="step-body">
+                    <p>選擇「FOREIGN PASSPORT HOLDER」，輸入您的 Email 並完成驗證。</p>
+                </div>
+            </div>
+
+            <div class="modal-step">
+                <div class="step-header">
+                    <div class="step-num" style="background:var(--etravel-green);">3</div>
+                    <h4>填寫個人與航程資訊</h4>
+                </div>
+                <div class="step-body">
+                    <p>依序輸入護照資訊、班機編號（去程：PR891）以及在菲住宿飯店名稱。</p>
+                </div>
+            </div>
+
+            <div class="modal-step">
+                <div class="step-header">
+                    <div class="step-num" style="background:var(--etravel-green);">4</div>
+                    <h4>健康狀況申報</h4>
+                </div>
+                <div class="step-body">
+                    <p>勾選過去 30 天的旅遊史與目前的健康狀態。</p>
+                </div>
+            </div>
+
+            <div class="modal-step" style="border-bottom:none; margin-bottom:0;">
+                <div class="step-header">
+                    <div class="step-num" style="background:var(--etravel-green);">5</div>
+                    <h4>獲取 QR Code</h4>
+                </div>
+                <div class="step-body">
+                    <p><span class="transfer-highlight">最重要的一步：</span> 完成後系統會產生綠色 QR Code，請務必<strong>截圖存檔</strong>。辦理登機與入境查驗時皆需出示。</p>
+                </div>
+            </div>
+
+            <button onclick="toggleModal('etravelModal', false)" style="width:100%; padding:14px; background:var(--etravel-green); color:white; border:none; border-radius:12px; font-weight:700; margin-top:10px; cursor:pointer;">我了解了</button>
         </div>
     </div>
 
@@ -458,7 +527,7 @@
 
     <div class="container">
 
-        <!-- 集合與人員資訊 (新加入) -->
+        <!-- 集合與人員資訊 -->
         <section class="glass-card reveal">
             <h2 class="section-title"><i class="fa-solid fa-clock"></i> 集合資訊</h2>
             <div style="background: white; padding: 15px; border-radius: 12px; border-left: 5px solid #d35400;">
@@ -485,7 +554,6 @@
         <!-- 航班資訊 -->
         <section class="glass-card reveal">
             <h2 class="section-title"><i class="fa-solid fa-plane"></i> 航班資訊</h2>
-            
             <div class="flight-card">
                 <p style="font-weight:800; color:var(--ocean-blue); margin-bottom:10px; font-size:1.1rem;">07/03 (五) 去程</p>
                 <div class="flight-row">
@@ -497,7 +565,6 @@
                     <span class="flight-time">16:35 - 17:55</span>
                 </div>
             </div>
-
             <div class="flight-card">
                 <p style="font-weight:800; color:#d35400; margin-bottom:10px; font-size:1.1rem;">07/07 (二) 回程</p>
                 <div class="flight-row">
@@ -505,7 +572,7 @@
                     <span class="flight-time">08:30 - 09:50</span>
                 </div>
                 <div class="flight-row">
-                    <span class="flight-route">PR896 馬尼拉 ➔ 台北</span> <!-- 已修正為 PR896 -->
+                    <span class="flight-route">PR896 馬尼拉 ➔ 台北</span>
                     <span class="flight-time">12:35 - 15:05</span>
                 </div>
             </div>
@@ -522,11 +589,11 @@
                 <button class="tab-btn" onclick="showDay(5)">Day 5</button>
             </div>
 
+            <!-- 以下 day1-day5 內容完全保留您的文字 -->
            <div id="day1" class="day-content active">
     <h3 style="color:var(--ocean-blue); margin-bottom:15px; font-weight:800; font-size:1.3rem;">
         【冒險首章】桃園 ✈ 巴拉望 ➔ 龍蝦盛宴 ➔ 微醺音樂之夜
     </h3>
-
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-plane-departure"></i> 桃園 - 馬尼拉 - 巴拉望公主港
@@ -536,7 +603,6 @@
             <li style="margin-bottom: 8px;">🏝️ <strong>初見：</strong> 感受巴拉望純淨的海域與寧靜的街道，開啟五天四夜的驚奇之旅。</li>
         </ul>
     </div>
-
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-utensils"></i> 【奢華海鮮晚宴】
@@ -546,7 +612,6 @@
             <li style="margin-bottom: 8px;">🦞 <strong>獨家標配：</strong> 每人一份龍蝦 (約 200g) + 海戰車，搭配鋪滿螃蟹、鮮蝦、小卷與淡菜的牛/豬肉鍋底，挑戰痛風餐極限！</li>
         </ul>
     </div>
-
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-guitar"></i> 【微醺 Live Band】
@@ -556,14 +621,12 @@
             <li style="margin-bottom: 8px;">🍺 <strong>釋放壓力：</strong> 在熱血的搖滾演奏中，暢飲菲律賓國民美食「生力啤酒」，徹底切換為度假模式。(每人含一瓶啤酒或飲料)</li>
         </ul>
     </div>
-
     <div class="info-box">
         <div class="info-item">🍳 早餐：敬請自理</div>
         <div class="info-item">🍱 午餐：機上套餐</div>
         <div class="info-item">🍴 晚餐：韓式生猛龍蝦火鍋</div>
         <div class="info-item">🏨 住宿：Princesa Garden Resort</div>
     </div>
-
     <div class="bottom-nav">
         <span style="width:100%; text-align:center; font-size:0.8rem; color:#999; margin-bottom:5px;">快速切換天數</span>
         <button class="btn-small" onclick="showDay(1)">Day 1</button>
@@ -578,7 +641,6 @@
     <h3 style="color:var(--ocean-blue); margin-bottom:15px; font-weight:800; font-size:1.3rem;">
         【與海中巨人共舞】鯨鯊尋蹤之旅
     </h3>
-
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-sun"></i> 上午：追逐海中巨影
@@ -590,7 +652,6 @@
             <li style="margin-bottom: 8px;">🤿 <strong>共舞體驗：</strong> 戴上蛙鏡跳入湛藍，在靜謐的海下聽著鯨鯊的吐氣聲，感受空前絕後的感官衝擊。</li>
         </ul>
     </div>
-
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-umbrella-beach"></i> 下午：蘇祿海畔的度假時光
@@ -600,14 +661,12 @@
             <li style="margin-bottom: 8px;">🌊 <strong>海景饗宴：</strong> 在緊鄰蘇祿海的餐廳，一邊享用全景視野，一邊平復早晨激動的心情。</li>
         </ul>
     </div>
-
     <div class="info-box">
         <div class="info-item">🍳 早餐：飯店外帶餐盒</div>
         <div class="info-item">🍱 午餐：海島野宴 BBQ</div>
         <div class="info-item">🍴 晚餐：度假村內精緻晚餐</div>
         <div class="info-item">🏨 住宿：Astoria Palawan Resort</div>
     </div>
-
     <div class="bottom-nav">
         <span style="width:100%; text-align:center; font-size:0.8rem; color:#999; margin-bottom:5px;">快速切換天數</span>
         <button class="btn-small" onclick="showDay(1)">Day 1</button>
@@ -622,14 +681,12 @@
     <h3 style="color:var(--ocean-blue); margin-bottom:15px; font-weight:800; font-size:1.3rem;">
         【秘境探索】巴頓港隱世跳島之旅
     </h3>
-
     <div style="margin-bottom: 20px; background: #f9f9f9; padding: 15px; border-radius: 12px; border-left: 5px solid var(--accent-cyan);">
         <h4 style="color:var(--ocean-blue); font-size:1.1rem; margin-bottom:8px;">【小愛妮島的純淨海域】</h4>
         <p style="color: #555; line-height: 1.7; font-size: 1.05rem; margin: 0;">
             拋開繁瑣，帶上書與愉悅的心，深入未受破壞的自然天堂。這裡沒有喧囂，只有藍天、白沙與極致的私人空間。
         </p>
     </div>
-
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-mask-snorkel"></i> 全日：夢幻跳島清單
@@ -642,7 +699,6 @@
             <li style="margin-bottom: 10px;">🏝️ <strong>德國島海岸：</strong> 離開前的最後巡禮，橫越雙島海道，完成巴頓港最完整的跳島清單。</li>
         </ul>
     </div>
-
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-van-shuttle"></i> 下午：賦歸
@@ -651,14 +707,12 @@
             <li style="margin-bottom: 8px;">🚐 <strong>歸途：</strong> 帶著滿載的寧靜與海島回憶，搭專車返回公主港市區。</li>
         </ul>
     </div>
-
     <div class="info-box">
         <div class="info-item">🍳 早餐：飯店內享用</div>
         <div class="info-item">🍱 午餐：跳島海味 B.B.Q</div>
         <div class="info-item">🍴 晚餐：度假村豪華晚宴</div>
         <div class="info-item">🏨 住宿：Astoria Palawan Resort</div>
     </div>
-
     <div class="bottom-nav">
         <span style="width:100%; text-align:center; font-size:0.8rem; color:#999; margin-bottom:5px;">快速切換天數</span>
         <button class="btn-small" onclick="showDay(1)">Day 1</button>
@@ -673,7 +727,6 @@
     <h3 style="color:var(--ocean-blue); margin-bottom:15px; font-weight:800; font-size:1.3rem;">
         【奇蹟雙享】世界地底奇觀 ‧ 萬點螢河夜探之旅
     </h3>
-
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-earth-asia"></i> 【世界級奇蹟：地底河流驚奇之旅】
@@ -684,7 +737,6 @@
             <li style="margin-bottom: 8px;">🎧 <strong>貼心導覽：</strong> 現場提供 <strong>二人一台中文解說翻譯機</strong>，深度了解地底傳說與生態。</li>
         </ul>
     </div>
-
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-mountain-sun"></i> 【刺激挑戰：Ugong Rock 鐘乳石洞 & 空中飛人】
@@ -694,7 +746,6 @@
             <li style="margin-bottom: 8px;">🦅 <strong>極限滑索：</strong> 登頂後挑戰 <strong>Zip Line 空中飛人</strong>，從山頂俯衝 380 公尺直達農田，釋放尖叫！</li>
         </ul>
     </div>
-
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-wand-magic-sparkles"></i> 【奇幻之夜：夜探螢火蟲燈光秀】
@@ -704,14 +755,12 @@
             <li style="margin-bottom: 8px;">🌌 <strong>燈光饗宴：</strong> 用雙眼見證萬千螢火蟲閃爍在樹叢間的浪漫光景，為之旅留下最美回憶。</li>
         </ul>
     </div>
-
     <div class="info-box">
         <div class="info-item">🍳 早餐：飯店內享用</div>
         <div class="info-item">🍱 午餐：地底河流菲式自助餐</div>
         <div class="info-item">🍴 晚餐：Kalui 藝術家餐廳</div>
         <div class="info-item">🏨 住宿：Princesa Garden Resort</div>
     </div>
-
     <div class="bottom-nav">
         <span style="width:100%; text-align:center; font-size:0.8rem; color:#999; margin-bottom:5px;">快速切換天數</span>
         <button class="btn-small" onclick="showDay(1)">Day 1</button>
@@ -726,7 +775,6 @@
     <h3 style="color:var(--ocean-blue); margin-bottom:15px; font-weight:800; font-size:1.3rem;">
         【珍重再見】帶著南洋回憶啟程返家
     </h3>
-
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-mug-hot"></i> 【悠閒晨光：最後的南洋時光】
@@ -736,7 +784,6 @@
             <li style="margin-bottom: 8px;">💼 <strong>整理心情：</strong> 整理行李的同時也梳理五天來的感動，讓南洋海風帶走工作的疲憊。</li>
         </ul>
     </div>
-
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-plane-arrival"></i> 【啟程返台：驚奇之旅畫下句點】
@@ -746,12 +793,10 @@
             <li style="margin-bottom: 8px;">✈️ <strong>轉機返台：</strong> 經由馬尼拉機場轉機，帶著相機裡滿滿的照片與心中難忘的驚奇，飛向溫暖的家。</li>
         </ul>
     </div>
-
     <div class="info-box">
         <div class="info-item">🍳 早餐：飯店內享用</div>
         <div class="info-item">🍱 午餐：機場自理 (推薦風味餐點)</div>
     </div>
-
     <div class="bottom-nav">
         <span style="width:100%; text-align:center; font-size:0.8rem; color:#999; margin-bottom:5px;">快速切換天數</span>
         <button class="btn-small" onclick="showDay(1)">Day 1</button>
@@ -763,7 +808,7 @@
 </div>
         </section>
 
-        <!-- 貼心提醒 (根據 PDF 修訂小費與鯨鯊規則) -->
+        <!-- 貼心提醒 -->
         <section class="glass-card reveal">
             <h2 class="section-title"><i class="fa-solid fa-circle-exclamation"></i> 貼心提醒</h2>
             <ul style="list-style: none; font-size: 1rem; line-height: 1.8;">
@@ -774,7 +819,6 @@
                         <li>房間清潔費：一間房約 P50</li>
                         <li>出海活動船家：每人約 P50-100</li>
                         <li>按摩服務小費：每人約 P100</li>
-                        <li>匯率：1台幣:1.5披索(PHP)</li>
                     </ul>
                 </li>
                 <li style="margin-bottom: 12px;">
@@ -816,10 +860,19 @@
         }
         createBubbles();
 
-        function toggleModal(show) {
-            const modal = document.getElementById('transferModal');
+        // 彈窗開關 (修改為可傳入 ID)
+        function toggleModal(modalId, show) {
+            const modal = document.getElementById(modalId);
             modal.style.display = show ? 'flex' : 'none';
             document.body.style.overflow = show ? 'hidden' : 'auto';
+        }
+
+        // 點擊背景關閉所有彈窗
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
         }
 
         function showDay(dayNum) {
