@@ -86,7 +86,7 @@
         /* 按鈕容器 */
         .btn-group {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             margin-top: 15px;
             flex-wrap: wrap;
             justify-content: center;
@@ -94,7 +94,7 @@
 
         .download-btn, .info-modal-btn {
             display: inline-block;
-            padding: 12px 25px;
+            padding: 12px 22px;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 800;
@@ -102,6 +102,7 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.4);
             transition: 0.3s;
             cursor: pointer;
+            font-size: 0.95rem;
         }
         .download-btn { background: var(--accent-cyan); color: var(--company-navy); }
         .info-modal-btn { background: rgba(255,255,255,0.2); color: white; backdrop-filter: blur(5px); }
@@ -110,57 +111,70 @@
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             z-index: 2000;
             display: none;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 15px;
         }
         .modal-content {
-            background: white;
+            background: #f8f9fa;
             width: 100%;
-            max-width: 600px;
-            max-height: 85vh;
-            border-radius: 20px;
+            max-width: 650px;
+            max-height: 90vh;
+            border-radius: 24px;
             overflow-y: auto;
             position: relative;
-            padding: 30px 20px;
+            padding: 40px 20px 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
         .close-modal {
             position: absolute;
-            top: 15px; right: 15px;
-            font-size: 1.5rem;
+            top: 15px; right: 20px;
+            font-size: 1.8rem;
             cursor: pointer;
-            color: #999;
+            color: #333;
+            z-index: 10;
         }
         .modal-step {
-            display: flex;
-            gap: 15px;
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
             margin-bottom: 20px;
-            border-bottom: 1px solid #f0f0f0;
-            padding-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
+        .step-header { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
         .step-num {
             background: var(--ocean-blue);
             color: white;
-            width: 28px; height: 28px;
+            width: 30px; height: 30px;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; font-weight: 800; font-size: 0.9rem;
+            flex-shrink: 0; font-weight: 800;
         }
-        .step-text h4 { color: var(--company-navy); margin-bottom: 5px; }
-        .step-text p { font-size: 0.95rem; color: #555; }
+        .step-header h4 { color: var(--company-navy); font-size: 1.1rem; font-weight: 900; }
+        .step-body p { font-size: 1rem; color: #555; margin-bottom: 12px; line-height: 1.5; }
+        
+        /* 圖片排版 */
+        .step-img-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .step-img-container.single { grid-template-columns: 1fr; }
+        .step-img {
+            width: 100%;
+            border-radius: 10px;
+            cursor: zoom-in;
+            border: 1px solid #eee;
+            transition: 0.3s;
+        }
+        .step-img:hover { transform: scale(1.02); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+
         .transfer-highlight { color: #d35400; font-weight: 700; }
 
-        .wave-container { 
-            width: 100%; 
-            overflow: hidden; 
-            line-height: 0; 
-            margin-top: 0;
-        }
+        /* 波浪 */
+        .wave-container { width: 100%; overflow: hidden; line-height: 0; margin-top: 0; }
         .wave-container svg { width: 150%; height: 60px; }
 
+        /* 內容容器 */
         .container { 
             max-width: 850px; 
             margin: 20px auto 60px;
@@ -204,7 +218,6 @@
             -webkit-overflow-scrolling: touch;
             scrollbar-width: thin;
         }
-        
         .tab-container::-webkit-scrollbar { height: 6px; }
         .tab-container::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
 
@@ -223,7 +236,7 @@
         }
         .tab-btn.active { background: var(--ocean-blue); color: white; box-shadow: 0 4px 10px rgba(0,119,190,0.3); }
 
-        /* 下方跳轉按鈕容器 */
+        /* 下方跳轉按鈕 */
         .bottom-nav {
             display: flex;
             justify-content: center;
@@ -243,11 +256,8 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            transition: 0.2s;
         }
-        .btn-small:hover { background: #f0f7ff; }
 
-        /* 行程內容 */
         .day-content { display: none; animation: fadeIn 0.4s ease; }
         .day-content.active { display: block; }
         .day-content p { font-size: 1.05rem; color: #444; margin-bottom: 15px; }
@@ -263,18 +273,10 @@
         .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- 氣泡效果 --- */
-        .bubbles {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
+        /* 氣泡 */
+        .bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .bubble {
-            position: absolute;
-            bottom: -100px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
+            position: absolute; bottom: -100px; background: rgba(255, 255, 255, 0.2); border-radius: 50%;
             animation: rise 15s infinite ease-in;
         }
         @keyframes rise {
@@ -283,67 +285,22 @@
             100% { transform: translateY(-120vh) translateX(50px); opacity: 0; }
         }
 
-        /* --- 鯨鯊動畫結構 --- */
-        .whale-shark-world {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; 
-            pointer-events: none;
-            overflow: hidden;
-            opacity: 0.35;
-        }
-        .whale-move-container {
-            position: absolute;
-            top: 35%;
-            left: -500px;
-            width: 350px;
-            animation: whale-path 60s linear infinite;
-        }
-        .whale-flip-layer {
-            width: 100%;
-            animation: whale-flip 60s step-end infinite;
-        }
-        .whale-body {
-            width: 100%;
-            display: block;
-            transform-origin: 85% 50%; 
-            animation: 
-                whale-float 6s ease-in-out infinite,
-                whale-wag 3s ease-in-out infinite;
-        }
-        @keyframes whale-path {
-            0% { left: -500px; }
-            45% { left: 110%; }
-            50% { left: 110%; }
-            95% { left: -500px; }
-            100% { left: -500px; }
-        }
-        @keyframes whale-flip {
-            0% { transform: scaleX(1); }
-            50% { transform: scaleX(-1); }
-        }
-        @keyframes whale-float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(30px); }
-        }
-        @keyframes whale-wag {
-            0%, 100% { transform: rotate(-3deg) skewY(-2deg); }
-            50% { transform: rotate(3deg) skewY(2deg); }
-        }
+        /* 鯨鯊動畫 */
+        .whale-shark-world { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; overflow: hidden; opacity: 0.35; }
+        .whale-move-container { position: absolute; top: 35%; left: -500px; width: 350px; animation: whale-path 60s linear infinite; }
+        .whale-flip-layer { width: 100%; animation: whale-flip 60s step-end infinite; }
+        .whale-body { width: 100%; display: block; transform-origin: 85% 50%; animation: whale-float 6s ease-in-out infinite, whale-wag 3s ease-in-out infinite; }
+        @keyframes whale-path { 0% { left: -500px; } 45% { left: 110%; } 50% { left: 110%; } 95% { left: -500px; } 100% { left: -500px; } }
+        @keyframes whale-flip { 0% { transform: scaleX(1); } 50% { transform: scaleX(-1); } }
+        @keyframes whale-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(30px); } }
+        @keyframes whale-wag { 0%, 100% { transform: rotate(-3deg) skewY(-2deg); } 50% { transform: rotate(3deg) skewY(2deg); } }
 
         @media (max-width: 600px) {
-            body::before { background-position: center 80%; background-attachment: scroll; }
-            header { min-height: 65vh; padding-top: 80px; justify-content: flex-start; }
             header h1 { font-size: 2.3rem; }
-            header h2 { font-size: 1.1rem; }
             .container { margin-top: -120px; padding: 0 12px; }
-            .glass-card { padding: 20px 15px; }
-            .flight-row { flex-direction: row; justify-content: space-between; align-items: center; font-size: 0.88rem; }
-            .flight-time { text-align: right; font-size: 0.95rem; min-width: 100px; }
             .info-box { grid-template-columns: 1fr; }
             .whale-move-container { width: 200px; }
-            .btn-group { gap: 10px; }
-            .download-btn, .info-modal-btn { padding: 10px 18px; font-size: 0.9rem; }
+            .step-img-container { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -383,67 +340,113 @@
     <div class="modal-overlay" id="transferModal">
         <div class="modal-content">
             <i class="fa-solid fa-xmark close-modal" onclick="toggleModal(false)"></i>
-            <h3 style="color:var(--ocean-blue); margin-bottom:20px; text-align:center; font-weight:900;">
-                <i class="fa-solid fa-route"></i> T1 ➔ T2 轉機流程圖解
+            <h3 style="color:var(--ocean-blue); margin-bottom:25px; text-align:center; font-weight:900; font-size:1.4rem;">
+                馬尼拉 T1 ➔ T2 轉機流程
             </h3>
             
+            <!-- Step 1 -->
             <div class="modal-step">
-                <div class="step-num">1</div>
-                <div class="step-text">
-                    <h4>抵達與查驗</h4>
-                    <p>下機後跟隨指標前往 <span class="transfer-highlight">Immigration (證照查驗櫃檯)</span>。請準備好護照與簽證供移民局官員查驗。</p>
+                <div class="step-header">
+                    <div class="step-num">1</div>
+                    <h4>抵達與證照查驗</h4>
+                </div>
+                <div class="step-body">
+                    <p>旅客下機後，跟隨指標前往 <span class="transfer-highlight">Immigration (證照查驗櫃檯)</span>。請準備好護照與簽證供官員查驗。</p>
+                    <div class="step-img-container">
+                        <img src="step1.jpg" class="step-img" alt="Step 1" onclick="window.open(this.src)">
+                        <img src="step2.jpg" class="step-img" alt="Step 2" onclick="window.open(this.src)">
+                    </div>
                 </div>
             </div>
 
+            <!-- Step 2 -->
             <div class="modal-step">
-                <div class="step-num">2</div>
-                <div class="step-text">
-                    <h4>領取行李</h4>
-                    <p>通過查驗後，前往行李轉盤區找到所屬航班轉盤，領取您的個人行李。</p>
+                <div class="step-header">
+                    <div class="step-num">2</div>
+                    <h4>行李提領</h4>
+                </div>
+                <div class="step-body">
+                    <p>通過查驗後，查看螢幕確認航班轉盤編號，前往領取個人託運行李。</p>
+                    <div class="step-img-container">
+                        <img src="step3.jpg" class="step-img" alt="Step 3" onclick="window.open(this.src)">
+                        <img src="step4.jpg" class="step-img" alt="Step 4" onclick="window.open(this.src)">
+                    </div>
                 </div>
             </div>
 
+            <!-- Step 3 -->
             <div class="modal-step">
-                <div class="step-num">3</div>
-                <div class="step-text">
-                    <h4>國內線行李轉運 (重要!)</h4>
-                    <p>領完行李後，尋找 <span class="transfer-highlight">位在 6 號行李轉盤旁</span> 的「菲航國內線轉機行李櫃檯 (Baggage Assistance Courier)」。</p>
+                <div class="step-header">
+                    <div class="step-num">3</div>
+                    <h4>國內線轉機行李櫃檯</h4>
+                </div>
+                <div class="step-body">
+                    <p>領完行李後，請尋找 <span class="transfer-highlight">位於 6 號行李轉盤旁</span> 的「菲航行李櫃檯 (Baggage Assistance Counter)」。</p>
+                    <div class="step-img-container">
+                        <img src="step5.jpg" class="step-img" alt="Step 5" onclick="window.open(this.src)">
+                        <img src="step5-1.jpg" class="step-img" alt="Step 5-1" onclick="window.open(this.src)">
+                    </div>
                 </div>
             </div>
 
+            <!-- Step 4 -->
             <div class="modal-step">
-                <div class="step-num">4</div>
-                <div class="step-text">
-                    <h4>出示登機證與託運</h4>
-                    <p>在此櫃檯出示您 <span class="transfer-highlight">第二段（國內線）的登機證</span> 給工作人員，直接辦理行李再託運。</p>
+                <div class="step-header">
+                    <div class="step-num">4</div>
+                    <h4>行李託運與海關</h4>
+                </div>
+                <div class="step-body">
+                    <p>在此出示國內線登機證辦理託運，隨後通過海關申報櫃檯（請準備好 QR-Code）。</p>
+                    <div class="step-img-container single">
+                        <img src="step7.jpg" class="step-img" alt="Step 7" onclick="window.open(this.src)">
+                    </div>
                 </div>
             </div>
 
+            <!-- Step 5 -->
             <div class="modal-step">
-                <div class="step-num">5</div>
-                <div class="step-text">
-                    <h4>海關申報</h4>
-                    <p>通過海關 (Customs) 檢查，需出示行李海關申報 QR-CODE。</p>
+                <div class="step-header">
+                    <div class="step-num">5</div>
+                    <h4>前往接駁車搭乘處</h4>
+                </div>
+                <div class="step-body">
+                    <p>跟隨 <span class="transfer-highlight">Terminal Transfer Bus</span> 指標前往出口，準備搭乘接駁巴士。</p>
+                    <div class="step-img-container single">
+                        <img src="step6.jpg" class="step-img" alt="Step 6" onclick="window.open(this.src)">
+                    </div>
                 </div>
             </div>
 
+            <!-- Step 6 -->
             <div class="modal-step">
-                <div class="step-num">6</div>
-                <div class="step-text">
-                    <h4>搭乘接駁車</h4>
-                    <p>跟隨 <span class="transfer-highlight">Terminal Transfer Bus</span> 指標前往出口，搭乘 PAL 專用接駁巴士前往第二航廈 (Terminal 2)。</p>
+                <div class="step-header">
+                    <div class="step-num">6</div>
+                    <h4>搭乘 PAL 接駁巴士</h4>
+                </div>
+                <div class="step-body">
+                    <p>於指定候車區搭乘菲航專用中巴前往第二航廈 (Terminal 2)。</p>
+                    <div class="step-img-container">
+                        <img src="step8.jpg" class="step-img" alt="Step 8" onclick="window.open(this.src)">
+                        <img src="step8-1.jpg" class="step-img" alt="Step 8-1" onclick="window.open(this.src)">
+                    </div>
                 </div>
             </div>
 
+            <!-- Step 7 -->
             <div class="modal-step" style="border-bottom:none;">
-                <div class="step-num">7</div>
-                <div class="step-text">
-                    <h4>抵達 T2 國內線</h4>
-                    <p>抵達 T2 後，通過安檢前往登機門候機，準備飛往公主港！</p>
+                <div class="step-header">
+                    <div class="step-num">7</div>
+                    <h4>抵達 T2 國內線航廈</h4>
+                </div>
+                <div class="step-body">
+                    <p>抵達 T2 後直接前往登機門，開啟您的巴拉望旅程！</p>
+                    <div class="step-img-container single">
+                        <img src="step9.jpg" class="step-img" alt="Step 9" onclick="window.open(this.src)">
+                    </div>
                 </div>
             </div>
 
-            <button onclick="toggleModal(false)" style="width:100%; padding:12px; background:var(--company-navy); color:white; border:none; border-radius:10px; font-weight:700; margin-top:10px;">我了解了</button>
+            <button onclick="toggleModal(false)" style="width:100%; padding:14px; background:var(--company-navy); color:white; border:none; border-radius:12px; font-weight:700; margin-top:10px; cursor:pointer;">我了解了</button>
         </div>
     </div>
 
@@ -475,7 +478,7 @@
                     <span class="flight-time">08:30 - 09:50</span>
                 </div>
                 <div class="flight-row">
-                    <span class="flight-route">PR896 馬尼拉 ➔ 台北</span>
+                    <span class="flight-route">PR894 馬尼拉 ➔ 台北</span>
                     <span class="flight-time">12:35 - 15:05</span>
                 </div>
             </div>
@@ -497,7 +500,6 @@
         【冒險首章】桃園 ✈ 巴拉望 ➔ 龍蝦盛宴 ➔ 微醺音樂之夜
     </h3>
 
-    <!-- 交通與抵達區塊 -->
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-plane-departure"></i> 桃園 - 馬尼拉 - 巴拉望公主港
@@ -508,7 +510,6 @@
         </ul>
     </div>
 
-    <!-- 晚餐區塊 -->
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-utensils"></i> 【奢華海鮮晚宴】
@@ -519,7 +520,6 @@
         </ul>
     </div>
 
-    <!-- 夜生活區塊 -->
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-guitar"></i> 【微醺 Live Band】
@@ -537,7 +537,6 @@
         <div class="info-item">🏨 住宿：Princesa Garden Resort</div>
     </div>
 
-    <!-- 下方跳轉按鈕 -->
     <div class="bottom-nav">
         <span style="width:100%; text-align:center; font-size:0.8rem; color:#999; margin-bottom:5px;">快速切換天數</span>
         <button class="btn-small" onclick="showDay(1)">Day 1</button>
@@ -553,7 +552,6 @@
         【與海中巨人共舞】鯨鯊尋蹤之旅
     </h3>
 
-    <!-- 上午區塊 -->
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-sun"></i> 上午：追逐海中巨影
@@ -566,7 +564,6 @@
         </ul>
     </div>
 
-    <!-- 下午區塊 -->
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-umbrella-beach"></i> 下午：蘇祿海畔的度假時光
@@ -599,7 +596,6 @@
         【秘境探索】巴頓港隱世跳島之旅
     </h3>
 
-    <!-- 介紹區塊 -->
     <div style="margin-bottom: 20px; background: #f9f9f9; padding: 15px; border-radius: 12px; border-left: 5px solid var(--accent-cyan);">
         <h4 style="color:var(--ocean-blue); font-size:1.1rem; margin-bottom:8px;">【小愛妮島的純淨海域】</h4>
         <p style="color: #555; line-height: 1.7; font-size: 1.05rem; margin: 0;">
@@ -607,7 +603,6 @@
         </p>
     </div>
 
-    <!-- 跳島亮點區塊 -->
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-mask-snorkel"></i> 全日：夢幻跳島清單
@@ -621,7 +616,6 @@
         </ul>
     </div>
 
-    <!-- 歸途區塊 -->
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-van-shuttle"></i> 下午：賦歸
@@ -653,7 +647,6 @@
         【奇蹟雙享】世界地底奇觀 ‧ 萬點螢河夜探之旅
     </h3>
 
-    <!-- 世界遺產區塊 -->
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-earth-asia"></i> 【世界級奇蹟：地底河流驚奇之旅】
@@ -665,7 +658,6 @@
         </ul>
     </div>
 
-    <!-- 鐘乳石洞與滑索區塊 -->
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-mountain-sun"></i> 【刺激挑戰：Ugong Rock 鐘乳石洞 & 空中飛人】
@@ -676,7 +668,6 @@
         </ul>
     </div>
 
-    <!-- 螢火蟲區塊 -->
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-wand-magic-sparkles"></i> 【奇幻之夜：夜探螢火蟲燈光秀】
@@ -709,7 +700,6 @@
         【珍重再見】帶著南洋回憶啟程返家
     </h3>
 
-    <!-- 悠閒晨光區塊 -->
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-mug-hot"></i> 【悠閒晨光：最後的南洋時光】
@@ -720,7 +710,6 @@
         </ul>
     </div>
 
-    <!-- 歸途區塊 -->
     <div style="margin-bottom: 20px; border-left: 3px solid #eee; padding-left: 15px;">
         <h4 style="color:#d35400; font-size:1.1rem; margin-bottom:10px;">
             <i class="fa-solid fa-plane-arrival"></i> 【啟程返台：驚奇之旅畫下句點】
@@ -793,16 +782,7 @@
         function toggleModal(show) {
             const modal = document.getElementById('transferModal');
             modal.style.display = show ? 'flex' : 'none';
-            // 防止背景滾動
             document.body.style.overflow = show ? 'hidden' : 'auto';
-        }
-
-        // 點擊背景關閉彈窗
-        window.onclick = function(event) {
-            const modal = document.getElementById('transferModal');
-            if (event.target == modal) {
-                toggleModal(false);
-            }
         }
 
         // 行程 Tab 切換
