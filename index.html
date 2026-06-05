@@ -156,7 +156,6 @@
         .step-header h4 { color: var(--company-navy); font-size: 1.1rem; font-weight: 900; }
         .step-body p { font-size: 1rem; color: #555; margin-bottom: 12px; line-height: 1.5; }
         
-        /* 圖片排版 */
         .step-img-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .step-img-container.single { grid-template-columns: 1fr; }
         .step-img {
@@ -170,11 +169,9 @@
 
         .transfer-highlight { color: #d35400; font-weight: 700; }
 
-        /* 波浪 */
         .wave-container { width: 100%; overflow: hidden; line-height: 0; margin-top: 0; }
         .wave-container svg { width: 150%; height: 60px; }
 
-        /* 內容容器 */
         .container { 
             max-width: 850px; 
             margin: 20px auto 60px;
@@ -344,14 +341,13 @@
                 馬尼拉 T1 ➔ T2 轉機流程
             </h3>
             
-            <!-- Step 1 -->
             <div class="modal-step">
                 <div class="step-header">
                     <div class="step-num">1</div>
                     <h4>抵達與證照查驗</h4>
                 </div>
                 <div class="step-body">
-                    <p>旅客下機後，跟隨指標前往 <span class="transfer-highlight">Immigration (證照查驗櫃檯)</span>。請準備好護照與簽證供官員查驗。</p>
+                    <p>旅客下機後，跟隨指標前往 Immigration。請準備好護照與簽證供官員查驗。</p>
                     <div class="step-img-container">
                         <img src="step1.jpg" class="step-img" alt="Step 1" onclick="window.open(this.src)">
                         <img src="step2.jpg" class="step-img" alt="Step 2" onclick="window.open(this.src)">
@@ -359,22 +355,6 @@
                 </div>
             </div>
 
-            <!-- Step 2 -->
-            <div class="modal-step">
-                <div class="step-header">
-                    <div class="step-num">2</div>
-                    <h4>行李提領</h4>
-                </div>
-                <div class="step-body">
-                    <p>通過查驗後，查看螢幕確認航班轉盤編號，前往領取個人託運行李。</p>
-                    <div class="step-img-container">
-                        <img src="step3.jpg" class="step-img" alt="Step 3" onclick="window.open(this.src)">
-                        <img src="step4.jpg" class="step-img" alt="Step 4" onclick="window.open(this.src)">
-                    </div>
-                </div>
-            </div>
-
-              <!-- 修正後的 Step 3 -->
             <div class="modal-step">
                 <div class="step-header">
                     <div class="step-num">3</div>
@@ -388,7 +368,6 @@
                 </div>
             </div>
 
-            <!-- 修正後的 Step 4 -->
             <div class="modal-step">
                 <div class="step-header">
                     <div class="step-num">4</div>
@@ -402,7 +381,6 @@
                 </div>
             </div>
 
-            <!-- 修正後的 Step 5 -->
             <div class="modal-step">
                 <div class="step-header">
                     <div class="step-num">5</div>
@@ -417,7 +395,6 @@
                 </div>
             </div>
 
-         <!-- Step 6: 航廈出口指標 (補回內容) -->
             <div class="modal-step">
                 <div class="step-header">
                     <div class="step-num">6</div>
@@ -431,7 +408,6 @@
                 </div>
             </div>
 
-            <!-- Step 7: 海關查驗 (編號順延) -->
             <div class="modal-step">
                 <div class="step-header">
                     <div class="step-num">7</div>
@@ -445,7 +421,6 @@
                 </div>
             </div>
 
-            <!-- Step 8: 接駁巴士候車區 (編號順延) -->
             <div class="modal-step">
                 <div class="step-header">
                     <div class="step-num">8</div>
@@ -460,7 +435,6 @@
                 </div>
             </div>
 
-            <!-- Step 9: 抵達 T2 (編號順延) -->
             <div class="modal-step" style="border-bottom:none; margin-bottom:0;">
                 <div class="step-header">
                     <div class="step-num">9</div>
@@ -483,6 +457,31 @@
     </div>
 
     <div class="container">
+
+        <!-- 集合與人員資訊 (新加入) -->
+        <section class="glass-card reveal">
+            <h2 class="section-title"><i class="fa-solid fa-clock"></i> 集合資訊</h2>
+            <div style="background: white; padding: 15px; border-radius: 12px; border-left: 5px solid #d35400;">
+                <p style="font-weight:800; font-size:1.15rem; color:#d35400; margin-bottom:8px;">
+                    <i class="fa-solid fa-calendar-day"></i> 07/03 (五) 上午 07:45
+                </p>
+                <p style="font-size:1.05rem; margin-bottom:12px; line-height:1.5;">
+                    📍 <strong>桃園國際機場 第一航廈</strong><br>
+                    菲律賓航空櫃檯集合
+                </p>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; border-top:1px solid #eee; padding-top:12px;">
+                    <div style="font-size:0.95rem;">
+                        <strong>領隊：羅尉峻先生</strong><br>
+                        <a href="tel:0911735543" style="color:var(--ocean-blue); text-decoration:none;">0911-735543</a>
+                    </div>
+                    <div style="font-size:0.95rem;">
+                        <strong>送機：蕭普軒先生</strong><br>
+                        <a href="tel:0928251747" style="color:var(--ocean-blue); text-decoration:none;">0928-251-747</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- 航班資訊 -->
         <section class="glass-card reveal">
             <h2 class="section-title"><i class="fa-solid fa-plane"></i> 航班資訊</h2>
@@ -506,22 +505,12 @@
                     <span class="flight-time">08:30 - 09:50</span>
                 </div>
                 <div class="flight-row">
-                    <span class="flight-route">PR894 馬尼拉 ➔ 台北</span>
+                    <span class="flight-route">PR896 馬尼拉 ➔ 台北</span> <!-- 已修正為 PR896 -->
                     <span class="flight-time">12:35 - 15:05</span>
                 </div>
             </div>
         </section>
-<!-- 2. 入境規範提醒 (加在行程安排上方) -->
-<section class="glass-card reveal" style="background: #fff5f0;">
-    <h2 class="section-title" style="color: #d35400; border-left-color: #d35400;">
-        <i class="fa-solid fa-passport"></i> 行前必辦事項
-    </h2>
-    <ul style="list-style: none; font-size: 0.95rem; line-height: 1.8;">
-        <li><i class="fa-solid fa-circle-check"></i> <strong>eTravel 登錄：</strong> 請於登機前完成 <a href="https://etravel.gov.ph/" target="_blank">官方網頁註冊</a>。</li>
-        <li><i class="fa-solid fa-circle-check"></i> <strong>簽證申請：</strong> 需確認辦妥電子旅遊憑證 (ETA)。</li>
-        <li><i class="fa-solid fa-circle-check"></i> <strong>領隊資訊：</strong> 羅尉峻先生 (0911-735543) / 機場送機：蕭普軒先生 (0928-251-747)。</li>
-    </ul>
-</section>
+
         <!-- 行程安排 -->
         <section id="itinerary-section" class="glass-card reveal">
             <h2 class="section-title"><i class="fa-solid fa-map-marked-alt"></i> 行程安排</h2>
@@ -774,25 +763,27 @@
 </div>
         </section>
 
-        <!-- 貼心提醒 -->
-       <section class="glass-card reveal">
-    <h2 class="section-title"><i class="fa-solid fa-circle-exclamation"></i> 旅遊須知與規範</h2>
-    
-    <p style="font-weight: 800; color: var(--ocean-blue); margin-bottom: 10px;">🐋 鯨鯊共舞守則 (違規者恐面臨刑責與罰金)</p>
-    <ul style="list-style: none; font-size: 0.95rem; line-height: 1.8; margin-bottom: 20px;">
-        <li><i class="fa-solid fa-ban" style="color:red"></i> 嚴禁跳水及觸碰鯨鯊，並保持 4 公尺以上距離。</li>
-        <li><i class="fa-solid fa-ban" style="color:red"></i> 嚴禁使用閃光燈攝影，嚴禁往海中丟棄垃圾或餵食。</li>
-        <li><i class="fa-solid fa-ban" style="color:red"></i> 嚴禁塗抹防曬乳（因鯨鯊為濾食性生物，化學成分會影響其進食）。</li>
-    </ul>
-
-    <p style="font-weight: 800; color: var(--ocean-blue); margin-bottom: 10px;">💡 一般旅遊資訊</p>
-    <ul style="list-style: none; font-size: 0.95rem; line-height: 1.8;">
-        <li><i class="fa-solid fa-sun"></i> <strong>氣候：</strong> 氣溫約 25-35 度，請準備遮陽用品與輕便長袖外套。</li>
-        <li><i class="fa-solid fa-money-bill-transfer"></i> <strong>匯率：</strong> 1 台幣約等於 1.5 披索 (PHP)。</li>
-        <li><i class="fa-solid fa-bolt"></i> <strong>電壓：</strong> 220V，插座與台灣通用，但需注意電器電壓。</li>
-        <li><i class="fa-solid fa-suitcase"></i> <strong>行李：</strong> 託運限重 20kg，手提限重 7kg。</li>
-    </ul>
-</section>
+        <!-- 貼心提醒 (根據 PDF 修訂小費與鯨鯊規則) -->
+        <section class="glass-card reveal">
+            <h2 class="section-title"><i class="fa-solid fa-circle-exclamation"></i> 貼心提醒</h2>
+            <ul style="list-style: none; font-size: 1rem; line-height: 1.8;">
+                <li style="margin-bottom: 12px;">
+                    <i class="fa-solid fa-hand-holding-dollar" style="color:var(--ocean-blue)"></i> <strong>建議小費清單：</strong>
+                    <ul style="margin-left: 25px; font-size: 0.95rem; color: #555; list-style: circle;">
+                        <li>行李服務費：一件約 P50</li>
+                        <li>房間清潔費：一間房約 P50</li>
+                        <li>出海活動船家：每人約 P50-100</li>
+                        <li>按摩服務小費：每人約 P100</li>
+                    </ul>
+                </li>
+                <li style="margin-bottom: 12px;">
+                    <i class="fa-solid fa-triangle-exclamation" style="color:#d35400"></i> <strong>鯨鯊共舞嚴格規範：</strong><br>
+                    請保持 4 公尺以上距離，嚴禁觸摸或跳水，嚴禁使用閃光燈，且不可塗抹防曬乳以免影響鯨鯊進食（違者恐面臨高額罰金與刑責）。
+                </li>
+                <li style="margin-bottom: 12px;"><i class="fa-solid fa-check" style="color:var(--ocean-blue)"></i> 請自備溯溪鞋，保護足部不被礁石割傷。</li>
+                <li style="margin-bottom: 12px;"><i class="fa-solid fa-check" style="color:var(--ocean-blue)"></i> 巴拉望電壓為 220V，插座與台灣通用但需注意電壓。</li>
+            </ul>
+        </section>
     </div>
 
     <footer>
@@ -801,7 +792,6 @@
     </footer>
 
     <script>
-        // 滑動進入效果
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('active');
@@ -809,7 +799,6 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // 產生泡泡
         function createBubbles() {
             const container = document.getElementById('bubble-container');
             for(let i=0; i<15; i++) {
@@ -826,14 +815,12 @@
         }
         createBubbles();
 
-        // 彈窗開關
         function toggleModal(show) {
             const modal = document.getElementById('transferModal');
             modal.style.display = show ? 'flex' : 'none';
             document.body.style.overflow = show ? 'hidden' : 'auto';
         }
 
-        // 行程 Tab 切換
         function showDay(dayNum) {
             document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
             document.getElementById('day' + dayNum).classList.add('active');
@@ -849,7 +836,6 @@
             document.getElementById('itinerary-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // 倒數計時
         const targetDate = new Date('July 3, 2026 09:45:00').getTime();
         function updateCountdown() {
             const now = new Date().getTime();
