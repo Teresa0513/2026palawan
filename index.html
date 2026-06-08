@@ -318,8 +318,7 @@
     100% { margin-left: 50px; }
 }
 
- /* --- 鯨鯊世界：深度優化版 --- */
-   /* --- 鯨鯊世界：修正版 --- */
+/* --- 鯨鯊世界：修正轉向版 --- */
     .whale-shark-world {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -333,14 +332,12 @@
         will-change: transform;
     }
 
-    /* 游泳動作：增加平滑感 */
     @keyframes whale-swim-action {
         0% { transform: rotate(-2deg) translateY(0); }
         50% { transform: rotate(3deg) translateY(-5px); }
         100% { transform: rotate(-2deg) translateY(0); }
     }
 
-    /* 修正消失問題：統一使用 translateX 並拉長緩衝範圍 */
     @keyframes path-L-to-R {
         0% { transform: translateX(-100vw); opacity: 0; }
         10% { opacity: 0.4; }
@@ -355,7 +352,7 @@
         100% { transform: translateX(-100vw); opacity: 0; }
     }
 
-    /* --- 第一隻：大鯨鯊 (左往右) --- */
+    /* --- 第一隻：大鯨鯊 (左往右游，頭要朝右) --- */
     .shark-1 {
         top: 15%;
         width: 500px;
@@ -363,34 +360,34 @@
         animation: path-L-to-R 90s linear infinite;
     }
     .shark-1 .whale-body {
-        /* 如果原圖頭朝左，左往右游需要水平翻轉 */
-        transform: scaleX(-1); 
+        /* 如果原本倒著游，就把 1 改成 -1，或 -1 改成 1 */
+        transform: scaleX(1); 
         animation: whale-swim-action 8s ease-in-out infinite;
     }
 
-    /* --- 第二隻：中鯨鯊 (右往左) --- */
+    /* --- 第二隻：中鯨鯊 (右往左游，頭要朝左) --- */
     .shark-2 {
         top: 45%;
         width: 350px;
-        /* 修正動畫消失：使用 path-R-to-L */
         animation: path-R-to-L 65s linear infinite;
     }
     .shark-2 .whale-body {
-        /* 右往左游，不需翻轉 (維持原圖朝左) */
-        transform: scaleX(1);
+        /* 如果原本倒著游，就把 1 改成 -1，或 -1 改成 1 */
+        transform: scaleX(-1);
         animation: whale-swim-action 6s ease-in-out infinite;
     }
 
-    /* --- 第三隻：小鯨鯊 (左往右) --- */
+    /* --- 第三隻：小鯨鯊 (左往右游，頭要朝右) --- */
     .shark-3 {
         top: 70%;
         width: 220px;
         filter: brightness(1.2);
         animation: path-L-to-R 50s linear infinite;
-        animation-delay: -25s; /* 負延遲讓它一開始就在螢幕中間，避免等待 */
+        animation-delay: -25s;
     }
     .shark-3 .whale-body {
-        transform: scaleX(-1); 
+        /* 如果原本倒著游，就把 1 改成 -1，或 -1 改成 1 */
+        transform: scaleX(1); 
         animation: whale-swim-action 4s ease-in-out infinite;
     }
 
