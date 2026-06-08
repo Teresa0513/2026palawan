@@ -319,83 +319,79 @@
 }
 
  /* --- 鯨鯊世界：深度優化版 --- */
+   /* --- 鯨鯊世界：修正版 --- */
     .whale-shark-world {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
-        z-index: 0; /* 放在背景泡泡之上，內容之下 */
+        z-index: 0;
         pointer-events: none;
         overflow: hidden;
     }
 
     .whale-container {
         position: absolute;
-        will-change: transform, left, right;
+        will-change: transform;
     }
 
-    /* 模擬身體游動的複合動畫 */
+    /* 游泳動作：增加平滑感 */
     @keyframes whale-swim-action {
-        0% { transform: rotate(-2deg) skewX(-1deg) scaleY(1); }
-        50% { transform: rotate(3deg) skewX(2deg) scaleY(0.98); }
-        100% { transform: rotate(-2deg) skewX(-1deg) scaleY(1); }
+        0% { transform: rotate(-2deg) translateY(0); }
+        50% { transform: rotate(3deg) translateY(-5px); }
+        100% { transform: rotate(-2deg) translateY(0); }
     }
 
-    /* 模擬水中上下漂浮 */
-    @keyframes whale-drift {
-        0%, 100% { margin-top: 0px; }
-        50% { margin-top: 40px; }
-    }
-
-    /* 航線 1: 從左到右 (慢速、深層) */
+    /* 修正消失問題：統一使用 translateX 並拉長緩衝範圍 */
     @keyframes path-L-to-R {
-        0% { left: -600px; opacity: 0; }
+        0% { transform: translateX(-100vw); opacity: 0; }
         10% { opacity: 0.4; }
         90% { opacity: 0.4; }
-        100% { left: 110%; opacity: 0; }
+        100% { transform: translateX(110vw); opacity: 0; }
     }
 
-    /* 航線 2: 從右到左 (中速) */
     @keyframes path-R-to-L {
-        0% { right: -600px; opacity: 0; }
+        0% { transform: translateX(110vw); opacity: 0; }
         10% { opacity: 0.5; }
         90% { opacity: 0.5; }
-        100% { right: 110%; opacity: 0; }
+        100% { transform: translateX(-100vw); opacity: 0; }
     }
 
-    /* --- 第一隻：大鯨鯊 (底層、左往右) --- */
+    /* --- 第一隻：大鯨鯊 (左往右) --- */
     .shark-1 {
         top: 15%;
         width: 500px;
         filter: blur(2px);
-        animation: path-L-to-R 90s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+        animation: path-L-to-R 90s linear infinite;
     }
     .shark-1 .whale-body {
-        transform: scaleX(-1); /* 轉向右 */
+        /* 如果原圖頭朝左，左往右游需要水平翻轉 */
+        transform: scaleX(-1); 
         animation: whale-swim-action 8s ease-in-out infinite;
     }
 
-    /* --- 第二隻：中鯨鯊 (中層、右往左) --- */
+    /* --- 第二隻：中鯨鯊 (右往左) --- */
     .shark-2 {
         top: 45%;
         width: 350px;
-        animation: path-R-to-L 65s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-        animation-delay: 10s;
+        /* 修正動畫消失：使用 path-R-to-L */
+        animation: path-R-to-L 65s linear infinite;
     }
     .shark-2 .whale-body {
-        /* 預設頭朝左，不需 scaleX */
-        animation: whale-swim-action 6s ease-in-out infinite, whale-drift 12s ease-in-out infinite;
+        /* 右往左游，不需翻轉 (維持原圖朝左) */
+        transform: scaleX(1);
+        animation: whale-swim-action 6s ease-in-out infinite;
     }
 
-    /* --- 第三隻：小鯨鯊 (淺層、左往右、上下擺動大) --- */
+    /* --- 第三隻：小鯨鯊 (左往右) --- */
     .shark-3 {
         top: 70%;
         width: 220px;
         filter: brightness(1.2);
-        animation: path-L-to-R 50s ease-in-out infinite;
-        animation-delay: -15s; /* 讓它提早出現 */
+        animation: path-L-to-R 50s linear infinite;
+        animation-delay: -25s; /* 負延遲讓它一開始就在螢幕中間，避免等待 */
     }
     .shark-3 .whale-body {
         transform: scaleX(-1); 
-        animation: whale-swim-action 4s ease-in-out infinite, whale-drift 7s ease-in-out infinite;
+        animation: whale-swim-action 4s ease-in-out infinite;
     }
 
     .whale-body img {
@@ -405,9 +401,9 @@
 
     /* 手機版縮放優化 */
     @media (max-width: 600px) {
-        .shark-1 { width: 300px; top: 10%; }
-        .shark-2 { width: 200px; top: 50%; }
-        .shark-3 { width: 150px; top: 80%; }
+        .shark-1 { width: 280px; }
+        .shark-2 { width: 180px; }
+        .shark-3 { width: 120px; }
     }
     </style>
 </head>
