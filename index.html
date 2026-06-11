@@ -72,7 +72,32 @@
 
         header h1 { font-size: 3.2rem; font-weight: 900; margin: 5px 0; }
         header h2 { font-size: 1.3rem; font-weight: 400; opacity: 0.9; }
+/* --- 1. 基本設定（包含原本的陰影） --- */
+header h1 {
+    font-weight: 900;
+    margin: 5px 0;
+    text-shadow: 0px 2px 15px rgba(0,0,0,0.9);
+    white-space: nowrap;      /* 最關鍵：強制文字不換行 */
+    display: block;           /* 確保它是整塊顯示 */
+}
 
+/* --- 2. 手機版設定 (螢幕小於 768px) --- */
+@media (max-width: 767px) {
+    header h1 {
+        /* 使用 vw 單位，字體會隨手機螢幕寬度自動變大縮小 */
+        /* 11.5vw 可以保證在大多數手機上剛好撐滿不換行 */
+        font-size: 11.5vw !important; 
+    }
+}
+
+/* --- 3. 電腦版設定 (螢幕大於 1024px) --- */
+@media (min-width: 1024px) {
+    header h1 {
+        /* 原本是 3.2rem，這裡把它拉大到 5.5rem 或是 6rem */
+        font-size: 6rem !important; 
+        letter-spacing: 5px; /* 稍微拉開字距，網頁版會更好看 */
+    }
+}
         #countdown {
             font-size: 1rem;
             background: rgba(0, 0, 0, 0.65);
