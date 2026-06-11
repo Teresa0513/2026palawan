@@ -395,6 +395,11 @@
         width: 100%;
         display: block;
     }
+        /* 讓外層盒子負責轉向 */
+.shark-3 .flip-box {
+    display: block;
+    transform: scaleX(-1); /* 這裡設定 -1 或 1 來轉頭 */
+}
 
     /* 手機版縮放優化 */
     @media (max-width: 600px) {
@@ -419,8 +424,10 @@
     </div>
  <!-- 第三隻：小鯨鯊 -->
     <div class="whale-container shark-3">
+        <div class="flip-box">
         <div class="whale-body">
             <img src="whale.png" alt="Whale Shark">
+        </div>
         </div>
     </div>
    
